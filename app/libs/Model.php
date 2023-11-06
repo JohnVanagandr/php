@@ -112,23 +112,6 @@ public function getDataById($tabla = "", $columnas = [])
         $params = $value;
     }
 
-<<<<<<< HEAD
-    public function getRowsById( $tabla = "", $columnas = [] ){
-        $columns = "";
-        $params = "";
-        foreach ($columnas as $key => $value) {
-            $columns = $key;
-            $params = $value;
-        }
-        $sql = "SELECT * FROM $tabla WHERE $columns = $params";
-
-        $stm = $this -> connection -> prepare($sql);
-        
-        $stm -> execute();
-
-        return $stm -> fetchAll();
-    }
-=======
     // Construye la consulta SQL final.
     $sql = "SELECT * FROM $tabla WHERE $columns = $params";
 
@@ -141,7 +124,6 @@ public function getDataById($tabla = "", $columnas = [])
     // Retorna los resultados obtenidos.
     return $stm->fetch();
 }
->>>>>>> PedroSanchez
 
     public function update($tabla = "", $columnas = [] ){
 
