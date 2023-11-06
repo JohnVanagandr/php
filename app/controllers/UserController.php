@@ -7,12 +7,13 @@ use Adso\Libs\controller;
 class UserController extends Controller
 {
     protected $model;
-
+    
     function __construct()
     {
         $this->model = $this->model("User");
     }
 
+    
     function index()
     {
 
@@ -22,6 +23,7 @@ class UserController extends Controller
             "subtitulo" => "Somos MVC",
             'rows'      => $users
         ];
+                
         $this->view("user", $data, 'app');
     }
 

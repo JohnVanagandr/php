@@ -8,18 +8,12 @@ class Controller
     {
     }
 
-    /**
-     * Metodo para llamar el modelo en Models
-     */
     public function model($model = "")
     {
         $model = 'Adso\model\\' . $model . 'Model';
         return new $model();
     }
-
-    /**
-     * Metodo para llamar la vista en la clase (View)
-     */
+    
     public function view($view = "", $data = [], $layout = "")
     {
         ob_start();
