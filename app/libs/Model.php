@@ -54,10 +54,8 @@ class Model
 
         /**Ejecutar la consulta preparada y retornarla */ 
         
-        if ($stm->execute()) {
-           
-            return $this->connection->lastInsertId();
-           
+        if ($stm->execute()) {           
+            return $this->connection->lastInsertId();           
         } else {
             return $this->connection->errorInfo();
         }
