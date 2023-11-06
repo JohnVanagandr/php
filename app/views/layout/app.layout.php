@@ -23,6 +23,7 @@
                 if (isset($data['menu']) && $data['menu'] == true) { ?>
                     <a href="<?= URL ?>/roles" class="header__link">Roles</a>
                     <a href="<?= URL ?>/permisson" class="header__link">Permisos</a>
+                    <a href="<?= URL ?>/assignpermissions" class="header__link">Asignar Permisos</a>
                 <?php } else{ ?>
                     <a href="<?= URL ?>/login" class="header__link">Login</a>
                     <a href="<?= URL ?>/register" class="header__link header__link--action">Register</a>

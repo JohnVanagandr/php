@@ -2,7 +2,7 @@
 
 namespace Adso\controllers;
 
-use Adso\Libs\controller;
+use Adso\Libs\controller; 
 
 class MainController extends Controller
 {

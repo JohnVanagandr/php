@@ -1,18 +1,23 @@
 <?php
-define('URL', 'http://citas.test');
+// Definición de constantes para la URL y el nombre
+define('URL', 'http://localhost/citas');
 define('NAME', 'ADSO');
-/*la kay es la llave de encriptaacion  */
+
+// Definición de claves para encriptación
 define('KEY', 'mimamamemima');
 /* la master es la llave que encripta */
 define('MASTER', 'llaveparacodific');
-/* el host ,db, user,password, charset son los parametros que requier la base de datos */
+
+// Definición de detalles de la base de datos
 define('HOST', 'localhost');
 define('DB', 'admin_citas');
 define('USER', 'root');
 define('PASSWORD', '');
 define('CHARSET', 'utf8mb4');
 
+// Definición de roles como un array asociativo
 define('ROLES', [
     'admin' => 1,
     'user' => 2
 ]);
+?>
