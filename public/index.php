@@ -1,5 +1,6 @@
 <?php
 
+// Importa la clase Mode del espacio de nombres Adso\libs y la usa para establecer el modo a "development".
 use Adso\libs\Core;
 
 require __DIR__ .'/../app/libs/Mode.php';
