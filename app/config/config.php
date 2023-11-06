@@ -1,6 +1,10 @@
 <?php
+<<<<<<< HEAD
 // Definición de constantes para la URL y el nombre
 define('URL', 'http://localhost/citas');
+=======
+define('URL', 'http://localhost/citas/');
+>>>>>>> PedroSanchez
 define('NAME', 'ADSO');
 
 // Definición de claves para encriptación
