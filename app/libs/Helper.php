@@ -4,9 +4,9 @@ namespace Adso\libs;
 
 class Helper
 {
+    // Constructor de la clase Helper
     function __construct()
     {
-        // Constructor de la clase Helper
     }
 
     /**
