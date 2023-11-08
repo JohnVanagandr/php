@@ -2,7 +2,7 @@
 
 namespace Adso\controllers;
 
-use Adso\Libs\controller;
+use Adso\libs\Controller;
 use Adso\libs\Helper;
 use Adso\servicios\Transacciones;
 

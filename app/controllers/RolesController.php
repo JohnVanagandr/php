@@ -2,7 +2,7 @@
 
 namespace Adso\controllers;
 
-use Adso\Libs\Controller; // Corregido "controller" a "Controller"
+use Adso\libs\Controller; // Corregido "controller" a "Controller"
 use Adso\libs\Helper;
 
 class RolesController extends Controller {

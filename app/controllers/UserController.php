@@ -8,7 +8,7 @@ namespace Adso\controllers;
 /**
  *  utilizamos la libreria controller ubicada en la carpeta libs
  */
-use Adso\Libs\controller;
+use Adso\libs\Controller;
 
 /**
  *  Iniciamos la clase UserController
