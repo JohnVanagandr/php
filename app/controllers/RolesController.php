@@ -177,14 +177,14 @@ class RolesController extends Controller
         de Model que obtiene una fila por id
         */
         $permit_role = $this->model3->selectPermits(["id_role_fk" => $role["id_role"]]);
-
+        
         $data = [
             "titulo" => "Roles",
             "subtitulo" => "Administrar permisos",
             "menu" => true,
             "rol" => $role,
             "permit" => $permit,
-            "permit_role" => $permit_role
+            "permit_role" => $permit_role //array
         ];
 
         // foreach ($permit as $value) {
@@ -205,6 +205,9 @@ class RolesController extends Controller
      * @return void
      */
     function assing(){
+      // $this->model = $this->model("Role");
+      //   $this->model2 = $this->model("Permisson");
+      //   $this->model3 = $this->model("Permisson_Role");
         if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             $role = $_POST['rol'];
             $permits = $_POST['permisos'];
@@ -215,6 +218,7 @@ class RolesController extends Controller
                 "id_permisson_fk" => $permits
             ];
             $this->model3->storage($valores);
+            header("Location: " . URL . "/roles");
         }
     }
 }

@@ -79,7 +79,7 @@ class RoleModel extends Model
     function getRole($id)
     {
         $this->connection = $this->db->getConnection(); // Establecemos una conexión con la base de datos.
-        $data = $this->getRowById($this->tabla, $id); // Recuperamos los datos del Rol con el identificador $id en la tabla correspondiente.
+        $data = $this->getDataById($this->tabla, $id); // Recuperamos los datos del Rol con el identificador $id en la tabla correspondiente.
         $this->connection = $this->db->closConnection(); // Cerramos la conexión a la base de datos.
         return $data; // Devolvemos el array que contiene la información del Rol.
     }
