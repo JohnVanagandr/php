@@ -16,7 +16,7 @@ define('CHARSET', 'utf8mb4');
 
 // Definición de roles como un array asociativo
 define('ROLES', [
-    'admin' => 1,
-    'user' => 2
+  'admin' => 1,
+  'user' => 2
 ]);
 ?>
