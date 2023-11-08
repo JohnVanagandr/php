@@ -1,5 +1,5 @@
 //Url base del proyecto
-const url = "http://citas.test"
+const url = "http://localhost/php_jhon/citasTag"
 //Atributos del formulario
 const email = document.getElementById('email')
 let usuario = document.getElementById('first_name');
