@@ -1,49 +1,45 @@
 <?php
-/**
- * Namespace y uso de clases para saber donde nos encontramos
- */
-namespace Adso\controllers;
-use Adso\Libs\Controller; // Importa la clase Controller del espacio de nombres Adso\Libs
 
 /**
- * Clase MainController
- *
- * Esta clase se utiliza para controlar la página de inicio del sistema.
+ * Config
+ * development
+ * production
+ * testing
  */
 
-class MainController extends Controller
+class Mode
 {
     /**
-     * Constructor de la clase
+     * Constructor de la clase Mode que establece la configuración del entorno de la aplicación.
      *
-     * El constructor de la clase MainController.
-     * No contiene lógica específica en este momento.
+     * @param string $mode El modo de la aplicación, que puede ser 'development', 'production' o 'testing'.
      */
-    function __construct()
+    function __construct($mode)
     {
-        // Constructor de la clase, no contiene lógica específica
+        switch ($mode) {
+            case 'development':
+                // En el modo de desarrollo, se configuran los errores para que se muestren y se registren todos los tipos de errores.
+                error_reporting(-1);
+                ini_set('display_errors', 1);
+                break;
+            case 'testing':
+            case 'production';
+                // En los modos de prueba y producción, se ocultan los errores al usuario y se registran solo ciertos tipos de errores.
+                ini_set('display_errors', 0);
+                if (version_compare(PHP_VERSION, '5.3', '>=')) {
+                    // Si la versión de PHP es 5.3 o superior, se registran ciertos tipos de errores.
+                    error_reporting(E_ALL & ~E_NOTICE & ~E_DEPRECATED & ~E_STRICT & ~E_USER_NOTICE & ~E_USER_DEPRECATED);
+                } else {
+                    // Si la versión de PHP es anterior a 5.3, se registran ciertos tipos de errores.
+                    error_reporting(E_ALL & ~E_NOTICE & ~E_STRICT & ~E_USER_NOTICE);
+                }
+                break;
+            default:
+                // Si se proporciona un modo no válido, se devuelve un error 503 y se muestra un mensaje de error.
+                header('HTTP/1.1 503 Service Unavailable.', TRUE, 503);
+                echo 'El medio ambiente de la apliacación no es correcto.';
+                exit(1);
+                break;
+        }
     }
-
-    /**
-     * Método para mostrar la página de inicio
-     *
-     * Este método se encarga de mostrar la página de inicio del sistema.
-     * Define un array de datos que se utilizará para la vista.
-     *
-     * @return void para indicar que la función o método no produce un valor de retorno o, en términos simples, no devuelve ningún resultado.
-     * @access public que significa que el elemento que se está documentando es de acceso público.
-     */
-
-    function index()
-    {
-        // Define un array de datos para la vista
-        $data = [
-            "titulo" => "Home", // Título de la página
-            "subtitulo" => "Saludo del sistema", // Subtítulo de la página
-            "menu" => false // Indica si se muestra el menú (en este caso, no se muestra)
-        ];
-        // Carga la vista 'home' con los datos proporcionados y el contexto 'app'
-        $this->view("home", $data,'app');
-    }
-
 }
