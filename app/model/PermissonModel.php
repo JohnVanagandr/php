@@ -45,7 +45,7 @@ class PermissonModel extends Model
      */
     function getId($permisos){
         $this -> connection = $this -> db -> getConnection(); //Establece conexión a la base de datos
-        $data = $this -> getDataById( $this -> tabla, $permisos); // Obtiene datos según el ID y los permisos
+        $data = $this -> getRowById( $this -> tabla, $permisos); // Obtiene datos según el ID y los permisos
         $this -> connection = $this -> db -> closConnection(); //Cierra la conexión a la base de datos
         return $data; //Devuelve los datos obtenidos
     }

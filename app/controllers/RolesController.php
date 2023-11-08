@@ -162,8 +162,20 @@ class RolesController extends Controller
      */
     function manage($id)
     {
-        $role = $this->model->getRole(["id_role" => Helper::decrypt($id)]);
+      //  $this->model = $this->model("Role");
+      //   $this->model2 = $this->model("Permisson");
+      //   $this->model3 = $this->model("Permisson_Role");
+        /*Usa la el metodo getRole de RoleModel que a su vez usa el metodo getRowById 
+        de Model que obtiene una fila por id
+        */
+        $role = $this->model->getRole(["id_role" => Helper::decrypt($id)]); 
+        /**Usa el metodo getPermisson de PermissonModel que a su vez usa el metodo select de 
+         * Model que obtiene todos los datos de una tabla en especifico
+        */
         $permit = $this->model2->getPermisson();
+        /*Usa el metodo selectPermits de Permisson_RoleModel que a su vez usa el metodo getRowById 
+        de Model que obtiene una fila por id
+        */
         $permit_role = $this->model3->selectPermits(["id_role_fk" => $role["id_role"]]);
 
         $data = [
@@ -196,19 +208,13 @@ class RolesController extends Controller
         if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             $role = $_POST['rol'];
             $permits = $_POST['permisos'];
-
-
-
+            // print_r($permits);
+            // die();
             $valores = [
                 "id_role_fk" => $role,
                 "id_permisson_fk" => $permits
             ];
             $this->model3->storage($valores);
-
-
-
         }
     }
-
-
 }
