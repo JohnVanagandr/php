@@ -2,7 +2,7 @@
 
 namespace Adso\controllers;
 
-use Adso\Libs\controller;
+use Adso\libs\Controller;
 use Adso\libs\Helper;
 use Adso\servicios\Transacciones;
 
@@ -110,6 +110,7 @@ class RegisterController extends controller
       if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
         $errores['mail_error'] = "El correo no es válido";
       }
+
       // $correo = $this->model->getEmail($email)['email'];
       // if (is_array($correo) && isset($correo) && $correo == $email) {
       //     $errores['mail_duplicate'] = "El correo ya existe";
@@ -118,6 +119,7 @@ class RegisterController extends controller
       // if (is_array($nombre) && isset($nombre) && $nombre == $name) {
       //     $errores['user_duplicate'] = "El usuario ya existe";
       // }
+
       $correoResult = $this->model->getEmail($email);
       if (is_array($correoResult)) {
         $correo = $correoResult['email'];

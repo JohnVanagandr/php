@@ -233,8 +233,7 @@ class RolesController extends Controller
       ];
       $this->model3->storage($valores);
 
-
-
+      header("Location:" . URL . "/roles");
     }
   }
 
