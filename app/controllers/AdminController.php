@@ -5,7 +5,7 @@ namespace Adso\controllers;
 
 
 /** Esta línea importa la clase "controller" del espacio de nombres "Adso\Libs" */
-use Adso\Libs\Controller;
+use Adso\libs\Controller;
 /** Esta línea importa la clase "Permisson" del espacio de nombres "Adso\libs" */
 use Adso\libs\Permisson;
 
@@ -45,11 +45,10 @@ class AdminController extends Controller
         $data = [
             "titulo"    => "Home",
             "subtitulo" => "Saludo del sistema",
-            "menu"      => true
+            "menu" => true
         ];
 
         /** Se llama al método "view" en la instancia actual para renderizar una vista*/
         $this->view("admin", $data, 'app');
     }
 }
-

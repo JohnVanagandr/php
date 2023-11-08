@@ -109,14 +109,29 @@ function validate()
         if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
             $errores['mail_error'] = "El correo no es válido";
         }
-        $correo = $this->model->getEmail($email)['email'];
-        if (is_array($correo) && isset($correo) && $correo == $email) {
+        // $correo = $this->model->getEmail($email)['email'];
+        // if (is_array($correo) && isset($correo) && $correo == $email) {
+        //     $errores['mail_duplicate'] = "El correo ya existe";
+        // }
+        // $nombre = $this->model->getUsuario($name)['user_name'];
+        // if (is_array($nombre) && isset($nombre) && $nombre == $name) {
+        //     $errores['user_duplicate'] = "El usuario ya existe";
+        // }
+          $correoResult = $this->model->getEmail($email);
+            if (is_array($correoResult)) {
+          $correo = $correoResult['email'];
+            if (isset($correo) && $correo == $email) {
             $errores['mail_duplicate'] = "El correo ya existe";
-        }
-        $nombre = $this->model->getUsuario($name)['user_name'];
-        if ( is_array($nombre) && isset($nombre) && $nombre == $name) {
-            $errores['user_duplicate'] = "El usuario ya existe";
-        }
+          }
+}
+
+$nombreResult = $this->model->getUsuario($name);
+if (is_array($nombreResult)) {
+    $nombre = $nombreResult['user_name'];
+    if (isset($nombre) && $nombre == $name) {
+        $errores['user_duplicate'] = "El usuario ya existe";
+    }
+}
 
         if (empty($errores)) {
             // Si no hay errores, crea un arreglo con los valores del usuario y perfil.
