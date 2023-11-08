@@ -13,8 +13,25 @@
         <button type="submit">Enviar</button>
     </div>
 </form>
+<!-- 
+$role = $this->model->getRole(["id_role" => Helper::decrypt($id)]); 
+        /**Usa el metodo getPermisson de PermissonModel que a su vez usa el metodo select de 
+         * Model que obtiene todos los datos de una tabla en especifico
+        */
+        $permit = $this->model2->getPermisson();
+        /*Usa el metodo selectPermits de Permisson_RoleModel que a su vez usa el metodo getRowById 
+        de Model que obtiene una fila por id
+        */
+        $permit_role = $this->model3->selectPermits(["id_role_fk" => $role["id_role"]]);
 
-
+        $data = [
+            "titulo" => "Roles",
+            "subtitulo" => "Administrar permisos",
+            "menu" => true,
+            "rol" => $role,
+            "permit" => $permit,
+            "permit_role" => $permit_role
+        ]; -->
 
 
 <?php
