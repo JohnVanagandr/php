@@ -1,6 +1,6 @@
 <?php
 // Definición de constantes para la URL y el nombre
-define('URL', 'http://localhost/citas');
+define('URL', 'http://localhost/Motta/citas');
 define('NAME', 'ADSO');
 
 // Definición de claves para encriptación
@@ -10,7 +10,7 @@ define('MASTER', 'llaveparacodific');
 
 // Definición de detalles de la base de datos
 define('HOST', 'localhost');
-define('DB', 'admin_citas');
+define('DB', 'sena_login');
 define('USER', 'root');
 define('PASSWORD', '');
 define('CHARSET', 'utf8mb4');
