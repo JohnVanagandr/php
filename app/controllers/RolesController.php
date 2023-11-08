@@ -169,4 +169,62 @@ class RolesController extends Controller {
             "id" => $id
         ];
     }
+
+    /**
+     * Este metodo es para administrar y asignar los permisos a cada rol
+     * 
+     * @access public
+     * @param int $id
+     * @return void
+     */
+    function manage($id)
+    {
+        $role = $this->model->getRole(["id_role" => Helper::decrypt($id)]);
+        $permit = $this->model2->getPermisson();
+        $permit_role = $this->model3->selectPermits(["id_role_fk" => $role["id_role"]]);
+
+        $data = [
+            "titulo" => "Roles",
+            "subtitulo" => "Administrar permisos",
+            "menu" => true,
+            "rol" => $role,
+            "permit" => $permit,
+            "permit_role" => $permit_role
+        ];
+
+        // foreach ($permit as $value) {
+        //     echo "<br>";
+        //     echo "<pre>";
+        //     print_r($value["id_permission"]);
+        //     print_r($value["name_permisson"]);
+        //     echo "</pre>";
+        // }
+
+
+        $this -> view("rol/manage", $data,"app");
+    }
+    /**
+     * Este metodo es para asignarle los permisos a cada rol
+     * 
+     * @access public
+     * @return void
+     */
+    function assing(){
+        if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+            $role = $_POST['rol'];
+            $permits = $_POST['permisos'];
+
+
+
+            $valores = [
+                "id_role_fk" => $role,
+                "id_permisson_fk" => $permits
+            ];
+            $this->model3->storage($valores);
+
+
+
+        }
+    }
+
 }
