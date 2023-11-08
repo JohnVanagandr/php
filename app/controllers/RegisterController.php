@@ -109,10 +109,12 @@ function validate()
         if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
             $errores['mail_error'] = "El correo no es válido";
         }
-        if ($this->model->getEmail($email)['email'] == $email) {
+        $correo = $this->model->getEmail($email)['email'];
+        if (is_array($correo) && isset($correo) && $correo == $email) {
             $errores['mail_duplicate'] = "El correo ya existe";
         }
-        if ($this->model->getUsuario($name)['user_name'] == $name) {
+        $nombre = $this->model->getUsuario($name)['user_name'];
+        if ( is_array($nombre) && isset($nombre) && $nombre == $name) {
             $errores['user_duplicate'] = "El usuario ya existe";
         }
 
