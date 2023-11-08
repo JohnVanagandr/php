@@ -1,7 +1,7 @@
 <?php
 // Definición de constantes para la URL y el nombre
-define('URL', 'http://localhost/ADSO/citas');
-define('NAME', 'ADSO');
+define('URL', '');
+define('NAME', '');
 
 // Definición de claves para encriptación
 define('KEY', 'mimamamemima');
