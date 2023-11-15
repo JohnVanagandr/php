@@ -16,7 +16,7 @@ class Model
   {
     // Crear una nueva instancia de la clase Database
     $this->db = new Database();
-    $this->connection   = $this->db->getConnection();
+    $this->connection = $this->db->getConnection();
   }
 
   /**
@@ -138,21 +138,6 @@ class Model
    *
    * @return mixed Retorna el ID del registro actualizado si es exitoso, o un mensaje de error en caso contrario.
    */
-  public function update($tabla = "", $columnas = [])
-  {
-    $columns = "";
-    $params = "";
-    $clave = array_key_last($columnas);
-    $valor = array_pop($columnas);
-
-    foreach ($columnas as $key => $value) {
-      // Agregar el nombre de la columna a la cadena de columnas
-      $columns .= $key . ",";
-
-      // Agregar el marcador de parámetro a la cadena de parámetros
-      $params .= ":" . $key . ",";
-    }
-  }
 
   /**
    * Método para seleccionar todos los registros de una tabla en la base de datos.
@@ -161,13 +146,6 @@ class Model
    *
    * @return array Retorna un array de todos los registros seleccionados.
    */
-  public function select($tabla = "")
-  {
-    $sql = "SELECT * FROM $tabla";
-    $stm = $this->connection->prepare($sql);
-    $stm->execute();
-    return $stm->fetchAll();
-  }
 
   /**
    * Método para obtener todos los registros que coincidan con una condición en una tabla de la base de datos.
