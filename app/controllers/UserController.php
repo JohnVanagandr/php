@@ -8,7 +8,7 @@ namespace Adso\controllers;
 /**
  *  utilizamos la libreria controller ubicada en la carpeta libs
  */
-use Adso\Libs\controller;
+use Adso\libs\Controller;
 
 /**
  *  Iniciamos la clase UserController
@@ -42,8 +42,7 @@ class UserController extends Controller
     function index()
     {
 
-        /**
-         *  Obtenemos la lista del modelo de users
+         /*  Obtenemos la lista del modelo de users
          */
         $users = $this->model->getUsers();
 

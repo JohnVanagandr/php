@@ -2,102 +2,147 @@
 
 namespace Adso\controllers;
 
-use Adso\Libs\controller;
+use Adso\libs\Controller; // Corregido "controller" a "Controller"
 use Adso\libs\Helper;
 
 class RolesController extends Controller
 {
 
-    protected $model;
-    protected $model2;
-    protected $model3;
+  protected $model;
+  protected $model2;
+  protected $model3;
 
-    function __construct()
-    {
-        $this->model = $this->model("Role");
-        $this->model2 = $this->model("Permisson");
-        $this->model3 = $this->model("Permisson_Role");
-    }
+  function __construct()
+  {
+    $this->model = $this->model("Role"); // Crear una instancia del modelo "Role"
+    $this->model2 = $this->model("Permisson");
+    $this->model3 = $this->model("Permisson_Role");
+  }
 
-    function index()
-    {
-        $roles = $this->model->getRoles();
+  /**
+   * Método para mostrar la lista de roles.
+   */
+  function index()
+  {
+    $roles = $this->model->getRoles(); // Obtener roles desde el modelo
 
-        $data = [
-            "titulo" => "Roles",
-            "subtitulo" => "Lista de roles",
-            "menu" => true,
-            "roles" => $roles
+    $data = [
+      "titulo" => "Roles",
+      "subtitulo" => "Lista de roles",
+      "menu" => true,
+      "roles" => $roles
+    ];
+
+    $this->view('rol/index', $data, 'app'); // Renderizar la vista de lista de roles
+  }
+
+  /**
+   * Método para mostrar el formulario de creación de roles.
+   */
+  function create()
+  {
+
+    $data = [
+      "titulo" => "Roles",
+      "subtitulo" => "Creación de roles",
+      "menu" => true
+    ];
+
+    $this->view("rol/create", $data, "app"); // Renderizar la vista de creación de roles
+  }
+
+  /**
+   * Método para procesar el formulario de creación de roles.
+   */
+  function storage()
+  {
+
+    if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+
+      $errores = [];
+      $roles = $_POST['rol_name']; // Obtener el nombre del rol desde el formulario
+
+      if ($roles == "") {
+        $errores["rol_error"] = "El rol está vacío";
+      }
+      if (strlen($roles) > 50) {
+        $errores["rol_error"] = "El rol supera el límite de caracteres";
+      }
+
+      if (empty($errores)) {
+
+        $valores = [
+          "name_role" => $roles
         ];
 
-        $this->view('rol/index', $data, 'app');
-    }
+        $this->model->storage($valores); // Almacenar el nuevo rol en la base de datos
 
-    function create()
-    {
+        header("Location: " . URL . "/roles"); // Redireccionar a la lista de roles
 
+      } else {
         $data = [
-            "titulo" => "Roles",
-            "subtitulo" => "Creacion de roles",
-            "menu" => true
+          "titulo" => "Roles",
+          "subtitulo" => "Creación de roles",
+          "menu" => true,
+          "errors" => $errores
         ];
 
-        $this->view("rol/create", $data, "app");
+        $this->view("rol/create", $data, "app"); // Renderizar la vista de creación de roles con errores
+      }
+    } else {
+      // Código para manejar solicitudes GET
     }
+  }
 
-    function storage()
-    {
+  /**
+   * Método para mostrar el formulario de edición de un rol.
+   *
+   * @param string $id El ID del rol a editar.
+   */
+  function editar($id)
+  {
 
-        if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+    $save = $this->model->getRole(["id_role" => Helper::decrypt($id)]); // Obtener detalles del rol a editar
 
-            $errores = [];
-            $roles = $_POST['rol_name'];
+    $data = [
+      "titulo" => "Roles",
+      "subtitulo" => "Actualización de roles",
+      "menu" => true,
+      "data" => $save,
+      "id" => $id
+    ];
 
-            if ($roles == "") {
-                $errores["rol_error"] = "El rol esta vacio";
-            }
-            if (strlen($roles) > 50) {
-                $errores["rol_error"] = "El rol supera el limite de caracteres";
-            }
+    $this->view("rol/update", $data, "app"); // Renderizar la vista de actualización de roles
+  }
 
-            if (empty($errores)) {
+  /**
+   * Método para procesar el formulario de edición de un rol.
+   *
+   * @param string $id El ID del rol a editar.
+   */
+  function update($id)
+  {
 
-                $valores = [
-                    "name_role" => $roles
-                ];
+    if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
-                $this->model->storage($valores);
+      $errores = [];
+      $roles = $_POST['rol_name']; // Obtener el nombre del rol desde el formulario
 
-                header("Location: " . URL . "/roles");
-            } else {
-                $data = [
-                    "titulo" => "Roles",
-                    "subtitulo" => "Creacion de roles",
-                    "menu" => true,
-                    "errors" => $errores
-                ];
+      if ($roles == "") {
+        $errores["rol_error"] = "El rol está vacío";
+      }
+      if (strlen($roles) > 50) {
+        $errores["rol_error"] = "El rol supera el límite de caracteres";
+      }
 
-                $this->view("rol/create", $data, "app");
-            }
-        } else {
-        }
-    }
+      if (empty($errores)) {
 
-    function editar($id)
-    {
-
-        $save = $this->model->getRole(["id_role" => Helper::decrypt($id)]);
-
-        $data = [
-            "titulo" => "Roles",
-            "subtitulo" => "Actualizacion de roles",
-            "menu" => true,
-            "data" => $save,
-            "id" => $id
+        $valores = [
+          "name_role" => $roles,
+          "id_role" => Helper::decrypt($id)
         ];
 
-        $this->view("rol/update", $data, "app");
-    }
+        $this->model->updateRole($valores); // Actualizar el rol en la base de datos
 
     function update($id)
     {
@@ -187,16 +232,10 @@ class RolesController extends Controller
             "permit_role" => $permit_role //array
         ];
 
-        // foreach ($permit as $value) {
-        //     echo "<br>";
-        //     echo "<pre>";
-        //     print_r($value["id_permission"]);
-        //     print_r($value["name_permisson"]);
-        //     echo "</pre>";
-        // }
-
-
-        $this -> view("rol/manage", $data,"app");
+        $this->view("rol/update", $data, "app"); // Renderizar la vista de actualización de roles con errores
+      }
+    } else {
+      // Código para manejar solicitudes GET
     }
     /**
      * Este metodo es para asignarle los permisos a cada rol
@@ -221,4 +260,6 @@ class RolesController extends Controller
             header("Location: " . URL . "/roles");
         }
     }
+  }
+
 }
