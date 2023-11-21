@@ -1,7 +1,7 @@
 <?php
 // Definición de constantes para la URL y el nombre
-define('URL', '');
-define('NAME', '');
+define('URL', 'http://localhost/php/');
+define('NAME', 'ADSO');
 
 // Definición de claves para encriptación
 define('KEY', 'mimamamemima');
@@ -9,11 +9,11 @@ define('KEY', 'mimamamemima');
 define('MASTER', 'llaveparacodific');
 
 // Definición de detalles de la base de datos
-define('HOST', '');
-define('DB', '');
-define('USER', '');
+define('HOST', 'localhost');
+define('DB', 'sena_login');
+define('USER', 'root');
 define('PASSWORD', '');
-define('CHARSET', '');
+define('CHARSET', 'utf8mb4');
 
 // Definición de roles como un array asociativo
 define('ROLES', [
