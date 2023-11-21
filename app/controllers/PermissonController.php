@@ -48,7 +48,45 @@ class PermissonController extends Controller
 
     $this->view('permisson/index', $data, 'app');
   }
+  function search()
+  {
+    $response = array(
+      'status' => false,
+      'data' => false,
+      'message' => 'Está intentando acceder a información privada'
+    );
 
+    // Valida que la solicitud sea de tipo POST.
+    if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+      // Obtiene la información enviada en el cuerpo de la solicitud como JSON.
+      $request = json_decode(file_get_contents("php://input"));
+      // Obtiene el atributo "email" que se envió codificado.
+      // Puede haber otros atributos adicionales en la solicitud.
+      $buscar = $request->buscar;
+      $filtros = $request->filtros;
+      // Consulta con el modelo utilizando el correo proporcionado.
+      $data = $this->model->getPermissonFilter($buscar, $filtros);
+      
+      $response["datax"] = $data;
+      // Verifica si se obtuvo algún dato de la consulta.
+      if ($data) {
+        // Si se encuentra un resultado, se actualiza el arreglo de respuesta.
+        $response['filtros'] = $filtros;
+        $response['buscar'] = $buscar;
+        $response['status'] = 200;
+        $response['data'] = true;
+        $response['message'] = 'El correo se encuentra registrado';
+       } else {
+        // Si no se encuentra un resultado, se actualiza el mensaje de respuesta para indicar que el correo no está registrado.
+        $response['status'] = 200;
+        $response['message'] = 'Estoy sobrescribiendo el mensaje'; // Puedes personalizar este mensaje.
+      } 
+
+      // Codifica la respuesta como JSON y establece el código de respuesta HTTP.
+      echo json_encode($response, http_response_code($response['status'])); 
+     
+    }
+  }
   /**
    * Acción Create
    *

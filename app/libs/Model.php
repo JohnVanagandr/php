@@ -9,24 +9,29 @@ class Model
     protected $db;// Una propiedad protegida llamada $db en una clase
     protected $connection;// Otra propiedad protegida $connection en otra clase 
 
-    /**
-     * La funcion Contructor metodo donde  nos encargamos de instanciar  
-     * una classes y da el resultado se almacena an la propiedad 
-     */
-    function __construct()
-    {
-        
-        $this->db = new Database();//Crear una nueva instancia de la clase Database 
-        $this->connection   = $this->db->getConnection();//llama al método getConnection() de la instancia de la clase Database y el resultado se almacena en la propiedad 
-    }
-    /**
-     * Método para insertar registros en la base de datos
-     */
-    public function insert($tabla = "", $columnas = [])
-    {
-        // Crear cadenas vacías para las columnas y los parámetros
-        $columns = "";
-        $params = "";
+  /**
+   * Constructor de la clase Model que inicializa la conexión a la base de datos.
+   */
+  function __construct()
+  {
+    // Crear una nueva instancia de la clase Database
+    $this->db = new Database();
+    $this->connection = $this->db->getConnection();
+  }
+
+  /**
+   * Método para insertar registros en la base de datos.
+   *
+   * @param string $tabla El nombre de la tabla en la que se insertarán los datos.
+   * @param array $columnas Un array asociativo de columnas y valores a insertar.
+   *
+   * @return mixed Retorna el ID del registro insertado si es exitoso, o un mensaje de error en caso contrario.
+   */
+  public function insert($tabla = "", $columnas = [])
+  {
+    // Crear cadenas vacías para las columnas y los parámetros
+    $columns = "";
+    $params = "";
 
         // Recorrer el array asociativo de columnas y valores
         foreach ($columnas as $key => $value) {
@@ -74,7 +79,15 @@ class Model
     $stm->execute();
     return $stm->fetchAll();
   }
+  public function selectSearch($tabla, $busqueda, $filtro)
+  {
 
+    $sql = "SELECT * FROM $tabla WHERE $filtro LIKE '%$busqueda%' ";
+    $stm = $this->connection->prepare($sql);
+    $stm->execute();
+    //return $sql;
+    return $stm->fetchAll();
+  }
   /**
    * Método para obtener un registro por ID en una tabla de la base de datos.
    *
@@ -116,6 +129,46 @@ class Model
    * @return array Retorna un array de registros que coinciden con la condición.
    */
   public function getRowsById($tabla = "", $columnas = [])
+  {
+    $columns = "";
+    $params = "";
+    foreach ($columnas as $key => $value) {
+      $columns = $key;
+      $params = $value;
+    }
+    $sql = "SELECT * FROM $tabla WHERE $columns = $params";
+
+    $stm = $this->connection->prepare($sql);
+    $stm->execute();
+    return $stm->fetchAll();
+  }
+
+  /**
+   * Método para actualizar registros en la base de datos.
+   *
+   * @param string $tabla El nombre de la tabla en la que se actualizarán los datos.
+   * @param array $columnas Un array asociativo de columnas y valores a actualizar.
+   *
+   * @return mixed Retorna el ID del registro actualizado si es exitoso, o un mensaje de error en caso contrario.
+   */
+
+  /**
+   * Método para seleccionar todos los registros de una tabla en la base de datos.
+   *
+   * @param string $tabla El nombre de la tabla a seleccionar.
+   *
+   * @return array Retorna un array de todos los registros seleccionados.
+   */
+
+  /**
+   * Método para obtener todos los registros que coincidan con una condición en una tabla de la base de datos.
+   *
+   * @param string $tabla El nombre de la tabla a consultar.
+   * @param array $columnas Un array asociativo que especifica la columna y el valor a buscar.
+   *
+   * @return array Retorna un array de registros que coinciden con la condición.
+   */
+  public function getRowById($tabla = "", $columnas = [])
   {
     $columns = "";
     $params = "";
