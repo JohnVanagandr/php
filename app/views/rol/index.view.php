@@ -6,17 +6,18 @@
     </div>
     <div id="botones">
       <button id="principal" onclick="ocultarMostrarElemento()">Filtros</button>
-      <div id="miElemento" hidden>
-        <label><input type="checkbox" id="cbox1" value="first_checkbox" /> filtrado por fecha creado</label>
-        <label><input type="checkbox" id="cbox1" value="first_checkbox" /> filtrado por fecha modificado</label>
-        <label><input type="checkbox" id="cbox1" value="first_checkbox" /> filtrado por Nombre</label>
+      <div id="filtros" hidden>
+        <label><input name="filtros" type="radio" id="cbox1" value="created_at" />Fecha creado</label>
+        <label><input name="filtros" type="radio" id="cbox2" value="updated_at" />Fecha modificado</label>
+        <label><input name="filtros" type="radio" id="cbox3" value="name_role" checked />Nombre</label>
       </div>
     </div>
     <div class="input_search">
-      <input type="search" placeholder="Buscar rol">
+      <input id="buscar" type="search" placeholder="Buscar rol">
       <i class="bi bi-search"></i>
     </div>
   </div>
+  
   <table>
     <thead>
       <tr>
@@ -27,14 +28,14 @@
         <th>Acciones</th>
       </tr>
     </thead>
-    <tbody>
+    <tbody id="resultados">
       <?php
       use Adso\libs\DateHelper;
       use Adso\libs\Helper;
 
       foreach ($data['roles'] as $value) {
         ?>
-        <tr>
+        <tr >
           <td>
             <?= $value['name_role'] ?>
           </td>

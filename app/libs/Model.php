@@ -82,7 +82,15 @@ class Model
     $stm->execute();
     return $stm->fetchAll();
   }
+  public function selectSearch($tabla, $busqueda, $filtro)
+  {
 
+    $sql = "SELECT * FROM $tabla WHERE $filtro LIKE '%$busqueda%' ";
+    $stm = $this->connection->prepare($sql);
+    $stm->execute();
+    //return $sql;
+    return $stm->fetchAll();
+  }
   /**
    * Método para obtener un registro por ID en una tabla de la base de datos.
    *
