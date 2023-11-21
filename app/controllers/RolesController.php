@@ -4,6 +4,7 @@ namespace Adso\controllers;
 
 use Adso\Libs\controller;
 use Adso\libs\Helper;
+use Adso\libs\Permisson;
 
 class RolesController extends Controller
 {
@@ -11,12 +12,17 @@ class RolesController extends Controller
     protected $model;
     protected $model2;
     protected $model3;
+    protected $permission;
+    protected $permit;
 
     function __construct()
     {
         $this->model = $this->model("Role");
         $this->model2 = $this->model("Permisson");
         $this->model3 = $this->model("Permisson_Role");
+
+        $this->permission = new Permisson();
+        $this->permit = $this->permission->ifpermisson();
     }
 
     function index()
@@ -42,7 +48,11 @@ class RolesController extends Controller
             "menu" => true
         ];
 
-        $this->view("rol/create", $data, "app");
+        if ($this->permit["Crear"]) {
+            $this->view("rol/create", $data, "app");
+          } else {
+            echo "no tienes permisos para crear un rol";
+          }
     }
 
     function storage()
@@ -96,7 +106,11 @@ class RolesController extends Controller
             "id" => $id
         ];
 
-        $this->view("rol/update", $data, "app");
+        if ($this->permit["Editar"]) {
+            $this->view("rol/update", $data, "app");
+          } else {
+            echo "no tienes permisos para editar un rol";
+          }
     }
 
     function update($id)
@@ -140,17 +154,21 @@ class RolesController extends Controller
 
     function delete($id)
     {
-
-        $this->model->deleteRole(["id_role" => Helper::decrypt($id)]);
-        header("Location: " . URL . "/roles");
-
-
-        $data = [
-            "titulo" => "Roles",
-            "subtitulo" => "Eliminación de roles",
-            "menu" => true,
-            "id" => $id
-        ];
+        if ($this->permit["Editar"]) {
+            $this->model->deleteRole(["id_role" => Helper::decrypt($id)]);
+            header("Location: " . URL . "/roles");
+      
+      
+            $data = [
+              "titulo" => "Roles",
+              "subtitulo" => "Eliminación de roles",
+              "menu" => true,
+              "id" => $id
+            ];
+            $this->view("rol/update", $data, "app");
+          } else {
+            echo "no tienes permisos para eliminar un rol";
+          }
     }
 
     /**
@@ -162,9 +180,6 @@ class RolesController extends Controller
      */
     function manage($id)
     {
-      //  $this->model = $this->model("Role");
-      //   $this->model2 = $this->model("Permisson");
-      //   $this->model3 = $this->model("Permisson_Role");
         /*Usa la el metodo getRole de RoleModel que a su vez usa el metodo getRowById 
         de Model que obtiene una fila por id
         */
@@ -187,16 +202,13 @@ class RolesController extends Controller
             "permit_role" => $permit_role //array
         ];
 
-        // foreach ($permit as $value) {
-        //     echo "<br>";
-        //     echo "<pre>";
-        //     print_r($value["id_permission"]);
-        //     print_r($value["name_permisson"]);
-        //     echo "</pre>";
-        // }
 
+        if ($this->permit["Administrar"]) {
+            $this->view("rol/manage", $data, "app");
+          } else {
+            echo "no tienes permisos para administrar un rol";
+          }
 
-        $this -> view("rol/manage", $data,"app");
     }
     /**
      * Este metodo es para asignarle los permisos a cada rol
@@ -205,14 +217,11 @@ class RolesController extends Controller
      * @return void
      */
     function assing(){
-      // $this->model = $this->model("Role");
-      //   $this->model2 = $this->model("Permisson");
-      //   $this->model3 = $this->model("Permisson_Role");
+
         if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             $role = $_POST['rol'];
             $permits = $_POST['permisos'];
-            // print_r($permits);
-            // die();
+
             $valores = [
                 "id_role_fk" => $role,
                 "id_permisson_fk" => $permits

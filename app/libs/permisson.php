@@ -3,6 +3,9 @@
 namespace Adso\libs;
 
 use Adso\libs\Database;
+use Adso\model\Permisson_RoleModel;
+use Adso\model\PermissonModel;
+use Adso\model\RoleModel;
 
 /**
  * La clase Permisson proporciona metodos para trabajar con las url protegidas 
@@ -13,6 +16,9 @@ class Permisson
 {
 
     private $sesion;
+    protected $model;
+    protected $model2;
+    protected $model3;
 
     /**
      * Metodo constructor devuelve una instancia de la clase Session que sirve para inicializar una sesion
@@ -23,6 +29,9 @@ class Permisson
     function __construct()
     {
         $this->sesion = new Session();
+        $this->model = new RoleModel();
+        $this->model2 = new PermissonModel;
+        $this->model3 = new Permisson_RoleModel();
     }
 
     /**
@@ -65,33 +74,41 @@ class Permisson
      * Verifica que permisos tiene el usuario y devuelve
      *
      * @param int $id del rol para verificar que permisos tiene relacionados dichol rol
-     * @return boolean devuelve true si tiene permiso, false si no posee el permiso
+     * @return array devuelve true si tiene permiso, false si no posee el permiso
      */
-    public function ifpermisson($id)
+    public function ifpermisson()
     {
 
-        print_r($id);
-        die();
-        /*
-         * se inicializa la variable $respuesta como false que sera la variable de retorno
-         * para validar si el rol posee el permiso o no
-         */
-        $respuesta = false;
-        /*
-         * obtiene el id_rol_fk del usuario que inicio session
-         */
-        $role = $this->sesion->getUser()['id_role_fk'];
-        /*
-         * si el id_rol_fk del usuario es igual al id que llega por parametro $respuesta es true
-         * o sea si posee el permiso
-         * 
-         */
-        if ($this->sesion->getLogin()) {
-            if ($role == $id) {
-                $respuesta = true;
-            }
-        }
+        $role = $this->sesion->getUser()["id_role_fk"];
 
-        return $respuesta;
+
+        /**Usa el metodo getPermisson de PermissonModel que a su vez usa el metodo select de 
+         * Model que obtiene todos los datos de una tabla en especifico
+         */
+        $permit = $this->model2->getPermisson();
+        /*Usa el metodo selectPermits de Permisson_RoleModel que a su vez usa el metodo getRowById 
+        de Model que obtiene una fila por id
+        */
+    
+        $permit_role = $this->model3->selectPermits(["id_role_fk" => $role]);
+    
+        $permissons = array();
+    
+        foreach ($permit as $value) {
+    
+          foreach ($permit_role as $value_role) {
+            
+            if ($value_role['id_permisson_fk'] == $value['id_permission']) {
+    
+              $permissons[$value['name_permisson']] = true;
+              break;
+            } else {
+              $permissons[$value['name_permisson']] = false;
+            }
+          }
+    
+        }
+       
+        return $permissons;
     }
 }
