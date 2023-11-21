@@ -33,48 +33,7 @@ class RolesController extends Controller
 
     $this->view('rol/index', $data, 'app');
   }
-  function search()
-  {
-    $response = array(
-      'status' => false,
-      'data' => false,
-      'message' => 'Está intentando acceder a información privada'
-    );
 
-    // Valida que la solicitud sea de tipo POST.
-    if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-      // Obtiene la información enviada en el cuerpo de la solicitud como JSON.
-      $request = json_decode(file_get_contents("php://input"));
-      // Obtiene el atributo "email" que se envió codificado.
-      // Puede haber otros atributos adicionales en la solicitud.
-      $buscar = $request->buscar;
-      $filtros = $request->filtros;
-      // Consulta con el modelo utilizando el correo proporcionado.
-      $data = $this->model->getRolesFilter($buscar, $filtros);
-
-      $response["datax"] = $data;
-      // Verifica si se obtuvo algún dato de la consulta.
-      if ($data) {
-        // Si se encuentra un resultado, se actualiza el arreglo de respuesta.
-        $response['filtros'] = $filtros;
-        $response['buscar'] = $buscar;
-        $response['status'] = 200;
-        $response['data'] = true;
-        $response['message'] = 'El correo se encuentra registrado';
-       } else {
-        // Si no se encuentra un resultado, se actualiza el mensaje de respuesta para indicar que el correo no está registrado.
-        $response['status'] = 200;
-        $response['message'] = 'Estoy sobrescribiendo el mensaje'; // Puedes personalizar este mensaje.
-      } 
-
-      // Codifica la respuesta como JSON y establece el código de respuesta HTTP.
-      echo json_encode($response, http_response_code($response['status'])); 
-     
-    }
-  }
-  /**
-   * Método para mostrar el formulario de creación de roles.
-   */
   function create()
   {
 
@@ -141,12 +100,6 @@ class RolesController extends Controller
     $this->view("rol/update", $data, "app");
   }
 
-  /**
-   * Método para procesar el formulario de edición de un rol.
-   *
-   * @param string $id El ID del rol a editar.
-   */
-
   function update($id)
   {
 
@@ -210,20 +163,8 @@ class RolesController extends Controller
    */
   function manage($id)
   {
-    //  $this->model = $this->model("Role");
-    //   $this->model2 = $this->model("Permisson");
-    //   $this->model3 = $this->model("Permisson_Role");
-    /*Usa la el metodo getRole de RoleModel que a su vez usa el metodo getRowById 
-    de Model que obtiene una fila por id
-    */
     $role = $this->model->getRole(["id_role" => Helper::decrypt($id)]);
-    /**Usa el metodo getPermisson de PermissonModel que a su vez usa el metodo select de 
-     * Model que obtiene todos los datos de una tabla en especifico
-     */
     $permit = $this->model2->getPermisson();
-    /*Usa el metodo selectPermits de Permisson_RoleModel que a su vez usa el metodo getRowById 
-    de Model que obtiene una fila por id
-    */
     $permit_role = $this->model3->selectPermits(["id_role_fk" => $role["id_role"]]);
 
     $data = [
@@ -232,12 +173,20 @@ class RolesController extends Controller
       "menu" => true,
       "rol" => $role,
       "permit" => $permit,
-      "permit_role" => $permit_role //array
+      "permit_role" => $permit_role
     ];
 
-    $this->view("rol/manage", $data, "app"); // Renderizar la vista de actualización de roles con errores
-  }
+    // foreach ($permit as $value) {
+    //     echo "<br>";
+    //     echo "<pre>";
+    //     print_r($value["id_permission"]);
+    //     print_r($value["name_permisson"]);
+    //     echo "</pre>";
+    // }
 
+
+    $this->view("rol/manage", $data, "app");
+  }
   /**
    * Este metodo es para asignarle los permisos a cada rol
    * 
@@ -246,14 +195,12 @@ class RolesController extends Controller
    */
   function assing()
   {
-    // $this->model = $this->model("Role");
-    //   $this->model2 = $this->model("Permisson");
-    //   $this->model3 = $this->model("Permisson_Role");
     if ($_SERVER['REQUEST_METHOD'] == 'POST') {
       $role = $_POST['rol'];
       $permits = $_POST['permisos'];
-      // print_r($permits);
-      // die();
+
+
+
       $valores = [
         "id_role_fk" => $role,
         "id_permisson_fk" => $permits

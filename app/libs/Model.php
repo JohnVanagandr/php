@@ -140,46 +140,6 @@ class Model
 
     $stm = $this->connection->prepare($sql);
     $stm->execute();
-    return $stm->fetchAll();
-  }
-
-  /**
-   * Método para actualizar registros en la base de datos.
-   *
-   * @param string $tabla El nombre de la tabla en la que se actualizarán los datos.
-   * @param array $columnas Un array asociativo de columnas y valores a actualizar.
-   *
-   * @return mixed Retorna el ID del registro actualizado si es exitoso, o un mensaje de error en caso contrario.
-   */
-
-  /**
-   * Método para seleccionar todos los registros de una tabla en la base de datos.
-   *
-   * @param string $tabla El nombre de la tabla a seleccionar.
-   *
-   * @return array Retorna un array de todos los registros seleccionados.
-   */
-
-  /**
-   * Método para obtener todos los registros que coincidan con una condición en una tabla de la base de datos.
-   *
-   * @param string $tabla El nombre de la tabla a consultar.
-   * @param array $columnas Un array asociativo que especifica la columna y el valor a buscar.
-   *
-   * @return array Retorna un array de registros que coinciden con la condición.
-   */
-  public function getRowById($tabla = "", $columnas = [])
-  {
-    $columns = "";
-    $params = "";
-    foreach ($columnas as $key => $value) {
-      $columns = $key;
-      $params = $value;
-    }
-    $sql = "SELECT * FROM $tabla WHERE $columns = $params";
-
-    $stm = $this->connection->prepare($sql);
-    $stm->execute();
 
     return $stm->fetchAll();
   }
@@ -214,25 +174,21 @@ class Model
     // Construir la consulta SQL de actualización utilizando las cadenas formadas
     $sql = "UPDATE $tabla SET $columns = $params WHERE $clave = $valor";
 
-        // Preparar la consulta SQL
-        $stm = $this->connection->prepare($sql);
-        // Asignar valores a los parámetros utilizando enlaces de parámetros
-        foreach ($columnas as $key => $value) {
-            $stm->bindValue(":" . $key, $value);
-        }
-        // Ejecutar la consulta preparada
+    // Preparar la consulta SQL
+    $stm = $this->connection->prepare($sql);
 
-        print_r($stm);
-        // die();
-        
-        if ($stm->execute()) {
-          
-            return $this->connection->lastInsertId();
-          
-        } else {
-            return $this->connection->errorInfo();
-        }
+    // Asignar valores a los parámetros utilizando enlaces de parámetros
+    foreach ($columnas as $key => $value) {
+      $stm->bindValue(":" . $key, $value);
     }
+
+    // Ejecutar la consulta preparada
+    if ($stm->execute()) {
+      return $this->connection->lastInsertId();
+    } else {
+      return $this->connection->errorInfo();
+    }
+  }
 
     /**
  * Elimina registros de una tabla de la base de datos basándose en las columnas y valores proporcionados.
