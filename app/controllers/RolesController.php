@@ -2,7 +2,7 @@
 
 namespace Adso\controllers;
 
-use Adso\Libs\controller;
+use Adso\libs\controller;
 use Adso\libs\Helper;
 use Adso\servicios\Transacciones;
 
@@ -13,16 +13,16 @@ class RolesController extends Controller
     protected $model2;
     protected $model3;
 
-    function __construct()
-    {
-        $this->model = $this->model("Role");
-        $this->model2 = $this->model("Permisson");
-        $this->model3 = $this->model("Permisson_Role");
-    }
+  function __construct()
+  {
+    $this->model = $this->model("Role");
+    $this->model2 = $this->model("Permisson");
+    $this->model3 = $this->model("Permisson_Role");
+  }
 
-    function index()
-    {
-        $roles = $this->model->getRoles();
+  function index()
+  {
+    $roles = $this->model->getRoles();
 
         $data = [
             "titulo" => "Roles",
@@ -31,35 +31,35 @@ class RolesController extends Controller
             "roles" => $roles
         ];
 
-        $this->view('rol/index', $data, 'app');
-    }
+    $this->view('rol/index', $data, 'app');
+  }
 
-    function create()
-    {
+  function create()
+  {
 
-        $data = [
-            "titulo" => "Roles",
-            "subtitulo" => "Creacion de roles",
-            "menu" => true
-        ];
+    $data = [
+      "titulo" => "Roles",
+      "subtitulo" => "Creacion de roles",
+      "menu" => true
+    ];
 
-        $this->view("rol/create", $data, "app");
-    }
+    $this->view("rol/create", $data, "app");
+  }
 
-    function storage()
-    {
+  function storage()
+  {
 
         if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
-            $errores = [];
-            $roles = $_POST['rol_name'];
+      $errores = [];
+      $roles = $_POST['rol_name'];
 
-            if ($roles == "") {
-                $errores["rol_error"] = "El rol esta vacio";
-            }
-            if (strlen($roles) > 50) {
-                $errores["rol_error"] = "El rol supera el limite de caracteres";
-            }
+      if ($roles == "") {
+        $errores["rol_error"] = "El rol esta vacio";
+      }
+      if (strlen($roles) > 50) {
+        $errores["rol_error"] = "El rol supera el limite de caracteres";
+      }
 
             if (empty($errores)) {
 
@@ -67,89 +67,84 @@ class RolesController extends Controller
                     "name_role" => $roles
                 ];
 
-                $this->model->storage($valores);
+        $this->model->storage($valores);
 
-                header("Location: " . URL . "/roles");
-            } else {
-                $data = [
-                    "titulo" => "Roles",
-                    "subtitulo" => "Creacion de roles",
-                    "menu" => true,
-                    "errors" => $errores
-                ];
-
-                $this->view("rol/create", $data, "app");
-            }
-        } else {
-        }
-    }
-
-    function editar($id)
-    {
-
-        $save = $this->model->getRole(["id_role" => Helper::decrypt($id)]);
-
+        header("Location: " . URL . "/roles");
+      } else {
         $data = [
-            "titulo" => "Roles",
-            "subtitulo" => "Actualizacion de roles",
-            "menu" => true,
-            "data" => $save,
-            "id" => $id
+          "titulo" => "Roles",
+          "subtitulo" => "Creacion de roles",
+          "menu" => true,
+          "errors" => $errores
         ];
 
-        $this->view("rol/update", $data, "app");
-    }
-
-    function update($id)
-    {
-
-        if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-
-            $errores = [];
-            $roles = $_POST['rol_name'];
-
-            if ($roles == "") {
-                $errores["rol_error"] = "El rol esta vacio";
-            }
-            if (strlen($roles) > 50) {
-                $errores["rol_error"] = "El rol supera el limite de caracteres";
-            }
-
-            if (empty($errores)) {
-
-                $valores = [
-                    "name_role" => $roles,
-                    "id_role" => Helper::decrypt($id)
-                ];
-
-                $this->model->updateRole($valores);
-
-                header("location:" . URL . "/roles");
-            } else {
-                $data = [
-                    "titulo" => "Roles",
-                    "subtitulo" => "Creacion de roles",
-                    "menu" => true,
-                    "errors" => $errores
-                ];
-
-        $this->view("rol/update", $data, "app"); // Renderizar la vista de actualización de roles con errores
+        $this->view("rol/create", $data, "app");
       }
     } else {
-      // Código para manejar solicitudes GET
     }
   }
 
-  /**
-   * Método para eliminar un rol.
-   *
-   * @param string $id El ID del rol a eliminar.
-   */
+  function editar($id)
+  {
+
+    $save = $this->model->getRole(["id_role" => Helper::decrypt($id)]);
+
+    $data = [
+      "titulo" => "Roles",
+      "subtitulo" => "Actualizacion de roles",
+      "menu" => true,
+      "data" => $save,
+      "id" => $id
+    ];
+
+    $this->view("rol/update", $data, "app");
+  }
+
+  function update($id)
+  {
+
+    if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+
+      $errores = [];
+      $roles = $_POST['rol_name'];
+
+      if ($roles == "") {
+        $errores["rol_error"] = "El rol esta vacio";
+      }
+      if (strlen($roles) > 50) {
+        $errores["rol_error"] = "El rol supera el limite de caracteres";
+      }
+
+      if (empty($errores)) {
+
+        $valores = [
+          "name_role" => $roles,
+          "id_role" => Helper::decrypt($id)
+        ];
+
+        $this->model->updateRole($valores);
+
+        header("location:" . URL . "/roles");
+      } else {
+        $data = [
+          "titulo" => "Roles",
+          "subtitulo" => "Creacion de roles",
+          "menu" => true,
+          "errors" => $errores
+        ];
+
+        $this->view("rol/create", $data, "app");
+      }
+    } else {
+    }
+  }
+
   function delete($id)
   {
 
-    $this->model->deleteRole(["id_role" => Helper::decrypt($id)]); // Eliminar el rol de la base de datos
-    header("Location: " . URL . "/roles"); // Redireccionar a la lista de roles
+    $this->model->deleteRole(["id_role" => Helper::decrypt($id)]);
+    header("Location: " . URL . "/roles");
+
 
     $data = [
       "titulo" => "Roles",
@@ -159,72 +154,59 @@ class RolesController extends Controller
     ];
   }
 
-    /**
-     * Este metodo es para administrar y asignar los permisos a cada rol
-     * 
-     * @access public
-     * @param int $id
-     * @return void
-     */
-    function manage($id)
-    {
-      //  $this->model = $this->model("Role");
-      //   $this->model2 = $this->model("Permisson");
-      //   $this->model3 = $this->model("Permisson_Role");
-        /*Usa la el metodo getRole de RoleModel que a su vez usa el metodo getRowById 
-        de Model que obtiene una fila por id
-        */
-        $role = $this->model->getRole(["id_role" => Helper::decrypt($id)]); 
-        /**Usa el metodo getPermisson de PermissonModel que a su vez usa el metodo select de 
-         * Model que obtiene todos los datos de una tabla en especifico
-        */
-        $permit = $this->model2->getPermisson();
-        /*Usa el metodo selectPermits de Permisson_RoleModel que a su vez usa el metodo getRowById 
-        de Model que obtiene una fila por id
-        */
-        $permit_role = $this->model3->selectPermits(["id_role_fk" => $role["id_role"]]);
-        
-        $data = [
-            "titulo" => "Roles",
-            "subtitulo" => "Administrar permisos",
-            "menu" => true,
-            "rol" => $role,
-            "permit" => $permit,
-            "permit_role" => $permit_role //array
-        ];
+  /**
+   * Este metodo es para administrar y asignar los permisos a cada rol
+   * 
+   * @access public
+   * @param int $id
+   * @return void
+   */
+  function manage($id)
+  {
+    $role = $this->model->getRole(["id_role" => Helper::decrypt($id)]);
+    $permit = $this->model2->getPermisson();
+    $permit_role = $this->model3->selectPermits(["id_role_fk" => $role["id_role"]]);
 
-        // foreach ($permit as $value) {
-        //     echo "<br>";
-        //     echo "<pre>";
-        //     print_r($value["id_permission"]);
-        //     print_r($value["name_permisson"]);
-        //     echo "</pre>";
-        // }
+    $data = [
+      "titulo" => "Roles",
+      "subtitulo" => "Administrar permisos",
+      "menu" => true,
+      "rol" => $role,
+      "permit" => $permit,
+      "permit_role" => $permit_role
+    ];
+
+    // foreach ($permit as $value) {
+    //     echo "<br>";
+    //     echo "<pre>";
+    //     print_r($value["id_permission"]);
+    //     print_r($value["name_permisson"]);
+    //     echo "</pre>";
+    // }
 
 
-        $this -> view("rol/manage", $data,"app");
+    $this->view("rol/manage", $data, "app");
+  }
+  /**
+   * Este metodo es para asignarle los permisos a cada rol
+   * 
+   * @access public
+   * @return void
+   */
+  function assing()
+  {
+    if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+      $role = $_POST['rol'];
+      $permits = $_POST['permisos'];
+
+
+
+      $valores = [
+        "id_role_fk" => $role,
+        "id_permisson_fk" => $permits
+      ];
+      $this->model3->storage($valores);
+      header("Location: " . URL . "/roles");
     }
-    /**
-     * Este metodo es para asignarle los permisos a cada rol
-     * 
-     * @access public
-     * @return void
-     */
-    function assing(){
-      // $this->model = $this->model("Role");
-      //   $this->model2 = $this->model("Permisson");
-      //   $this->model3 = $this->model("Permisson_Role");
-        if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-            $role = $_POST['rol'];
-            $permits = $_POST['permisos'];
-            // print_r($permits);
-            // die();
-            $valores = [
-                "id_role_fk" => $role,
-                "id_permisson_fk" => $permits
-            ];
-            $this->model3->storage($valores);
-            header("Location: " . URL . "/roles");
-        }
-    }
+  }
 }

@@ -52,57 +52,39 @@ class Model
             $stm->bindValue(":" . $key, $value);
         }
 
-        /**Ejecutar la consulta preparada y retornarla */ 
-        
-        if ($stm->execute()) {
-           
-            return $this->connection->lastInsertId();
-           
-        } else {
-            return $this->connection->errorInfo();
-        }
+    // Ejecutar la consulta preparada
+    if ($stm->execute()) {
+      return $this->connection->lastInsertId();
+    } else {
+      return $this->connection->errorInfo();
     }
-        /**Esta Funcion es el metodo de la clase que se encarga 
-         * realizar la consulta en SQL para seleccionar 
-         * todos los registros de una tabla espesifica en la base de datos*/
-    public function select($tabla = ""){
+  }
 
-        $sql = "SELECT * FROM $tabla"; //
+  /**
+   * Método para seleccionar todos los registros de una tabla en la base de datos.
+   *
+   * @param string $tabla El nombre de la tabla a seleccionar.
+   *
+   * @return array Retorna un array de todos los registros seleccionados.
+   */
+  public function select($tabla = "")
+  {
+    $sql = "SELECT * FROM $tabla";
+    $stm = $this->connection->prepare($sql);
+    $stm->execute();
+    return $stm->fetchAll();
+  }
 
-        $stm = $this -> connection -> prepare($sql);
-
-        $stm -> execute();
-
-        return $stm -> fetchAll();
-    }
-            /**
-         * Obtiene datos de una tabla en la base de datos filtrados por columna(s) y valor(es) específicos.
-         *
-         * Esta función ejecuta una consulta SQL para recuperar datos de una tabla en la base de datos, aplicando un filtro
-         * mediante una o más columnas y sus respectivos valores. Los resultados se devuelven en un arreglo asociativo.
-         *
-         * @param string $tabla El nombre de la tabla de la cual se obtendrán los datos.
-         * @param array $columnas Un arreglo asociativo que especifica las columnas y valores de filtro.
-         *
-         * @return array|false Un arreglo asociativo que contiene los datos obtenidos, o `false` si no se encontraron resultados.
-         *
-         * @throws \PDOException Si ocurre un error durante la ejecución de la consulta SQL.
-         */
-    /**
- * Obtiene datos de una tabla en la base de datos filtrados por columna(s) y valor(es) específicos.
- *
- * Esta función ejecuta una consulta SQL para recuperar datos de una tabla en la base de datos, aplicando un filtro
- * mediante una o más columnas y sus respectivos valores. Los resultados se devuelven en un arreglo asociativo.
- *
- * @param string $tabla El nombre de la tabla de la cual se obtendrán los datos.
- * @param array $columnas Un arreglo asociativo que especifica las columnas y valores de filtro.
- *
- * @return array|false Un arreglo asociativo que contiene los datos obtenidos, o `false` si no se encontraron resultados.
- *
- * @throws \PDOException Si ocurre un error durante la ejecución de la consulta SQL.
- */
-public function getDataById($tabla = "", $columnas = [])
-{
+  /**
+   * Método para obtener un registro por ID en una tabla de la base de datos.
+   *
+   * @param string $tabla El nombre de la tabla a consultar.
+   * @param array $columnas Un array asociativo que especifica la columna y el valor a buscar.
+   *
+   * @return array|null Retorna el registro si se encuentra, o null si no se encuentra ningún registro.
+   */
+  public function getDataById($tabla = "", $columnas = [])
+  {
     $columns = "";
     $params = "";
 
@@ -145,6 +127,7 @@ public function getDataById($tabla = "", $columnas = [])
 
     $stm = $this->connection->prepare($sql);
     $stm->execute();
+
     return $stm->fetchAll();
   }
 

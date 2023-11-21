@@ -28,53 +28,53 @@ class RoleModel extends Model
         parent::__construct(); // Llama al constructor de la clase padre.
     }
 
-    /**
-        * Nos retona una array llamada "data" para obtener el Rol
-        *
-        * En esta funcion establecemos la conexion para acceder a la base de datos 
-        * asi podremos acceder y obtener la información de los Roles llamando a la función "select" con el nombre de la tabla del atributo que
-        * establecimos anteriormente. Alfinal cerramos la conexión a la base de datos y
-        * devolvemos el array que contiene la información de los Roles.
-        *
-        * @access protected
-        * @return array $data
-    */
-    function getRoles()
-    {
-        $this->connection = $this->db->getConnection(); //Establecemos la conexion para acceder a la base de datos
-        $data = $this->select($this->tabla); //Obtenemos la información de los Roles llamando a la función "select" con el nombre de la tabla.
-        $this->connection = $this->db->closConnection(); //Cerramos la conexión a la base de datos.
+  /**
+   * Nos retona una array llamada "data" para obtener el Rol
+   *
+   * En esta funcion establecemos la conexion para acceder a la base de datos 
+   * asi podremos acceder y obtener la información de los Roles llamando a la función "select" con el nombre de la tabla del atributo que
+   * establecimos anteriormente. Alfinal cerramos la conexión a la base de datos y
+   * devolvemos el array que contiene la información de los Roles.
+   *
+   * @access protected
+   * @return array $data
+   */
+  function getRoles()
+  {
+    $this->connection = $this->db->getConnection(); //Establecemos la conexion para acceder a la base de datos
+    $data = $this->select($this->tabla); //Obtenemos la información de los Roles llamando a la función "select" con el nombre de la tabla.
+    $this->connection = $this->db->closConnection(); //Cerramos la conexión a la base de datos.
 
         return $data; //Devolvemos el array que contiene la información de los Roles.
     }
 
-    /**
-        * Almacena datos en la base de datos.
-        *
-        * Esta función establece una conexión con la base de datos, inserta los datos proporcionados en el parámetro $roles en la tabla correspondiente 
-        * y luego cierra la conexión a la base de datos.
-        * La usamos
-        *
-        * @access protected
-        * @param array $roles
-    */
-    function storage($roles)
-    {
-        $this->connection = $this->db->getConnection(); // Establecemos una conexión con la base de datos.
-        $data = $this->insert($this->tabla, $roles);     // Insertamos los datos contenidos en el parámetro $roles en la tabla correspondiente.
-        $this->connection = $this->db->closConnection(); // Cerramos la conexión a la base de datos.
-    }
+  /**
+   * Almacena datos en la base de datos.
+   *
+   * Esta función establece una conexión con la base de datos, inserta los datos proporcionados en el parámetro $roles en la tabla correspondiente 
+   * y luego cierra la conexión a la base de datos.
+   * La usamos
+   *
+   * @access protected
+   * @param array $roles
+   */
+  function storage($roles)
+  {
+    $this->connection = $this->db->getConnection(); // Establecemos una conexión con la base de datos.
+    $data = $this->insert($this->tabla, $roles);     // Insertamos los datos contenidos en el parámetro $roles en la tabla correspondiente.
+    $this->connection = $this->db->closConnection(); // Cerramos la conexión a la base de datos.
+  }
 
-    /**
-        * Obtiene un Rol de la base de datos basado en su identificador ($id).
-        *
-        * Esta función establece una conexión con la base de datos, recupera los datos del Rol con el identificador proporcionado 
-        * y luego cierra la conexión a la base de datos.
-        *
-        * @access protected
-        * @param int $id
-        * @return array $data 
-    */
+  /**
+   * Obtiene un Rol de la base de datos basado en su identificador ($id).
+   *
+   * Esta función establece una conexión con la base de datos, recupera los datos del Rol con el identificador proporcionado 
+   * y luego cierra la conexión a la base de datos.
+   *
+   * @access protected
+   * @param int $id
+   * @return array $data 
+   */
 
     function getRole($id)
     {

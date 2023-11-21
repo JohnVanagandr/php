@@ -3,6 +3,8 @@ let usuario = document.getElementById("user");
 let contrasena = document.getElementById("password");
 let btnEnviar = document.getElementById("btnValidarLogin");
 
+let numRegistros = 12;
+
 const enviarFormulario = (form) => {
   form.submit();
 };
