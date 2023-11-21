@@ -1,8 +1,8 @@
-// //Url base del proyecto
-const url = "http://localhost/php";
+//Url base del proyecto
+const url = "http://localhost/ADSO/citas";
 //Atributos del formulario
 const email = document.getElementById("email");
-let usuario = document.getElementById("user_name");
+let usuario = document.getElementById("first_name");
 
 let form = document.getElementById("form");
 let btn = document.getElementById("btnRegistrar");
@@ -58,7 +58,7 @@ const validacionCorreo = async (e) => {
     } else {
       Swal.fire({
         title: "Advertencia",
-        text: "Correo no valido",
+        text: "El campo correo electronico esta vacio",
         icon: "warning",
         confirmButtonText: "Cerrar",
       });
@@ -101,16 +101,16 @@ const validacionRegister = async (e) => {
     } finally {
     }
   } else {
-    // Swal.fire({
-    //   title: "Advertencia",
-    //   text: "El campo nombre esta vacio",
-    //   icon: "warning",
-    //   confirmButtonText: "Cerrar",
-    // });
+    Swal.fire({
+      title: "Advertencia",
+      text: "El campo nombre esta vacio",
+      icon: "warning",
+      confirmButtonText: "Cerrar",
+    });
   }
 };
 
 //Eventos del formulario
-email.addEventListener("blur", validacionCorreo);
-usuario.addEventListener("blur", validacionRegister);
+email.addEventListener("blur", validacion);
+usuario.addEventListener("blur", validacion2);
 btn.addEventListener("click", enviarFormulario);

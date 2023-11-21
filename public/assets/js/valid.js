@@ -1,46 +1,37 @@
-let formValid = document.getElementById('login');
+let form = document.getElementById('form');
 
 let nombre = document.getElementById("first_name").value;
-console.log(nombre);
 let apellido = document.getElementById("last_name").value;
 let telefono = document.getElementById("phone").value;
 let password = document.getElementById("password").value;
 let password_confirm = document.getElementById("password_confirm").value;
 
-let btnValid = document.getElementById("btnRegistrar");
+let btn = document.getElementById("btnRegistrar");
 
 
-const enviarFormularioValid = (formValid) => {
-    formValid.submit()
+const enviarFormulario = (form) => {
+    form.submit()
     
 }
 
-let validar = (e) => {
-  
-  e.preventDefault();
-
-  if (nombre == "" || nombre == null || nombre.lenght > 50) {
-        console.log(nombre);
+let validar = (e) =>{
+    e.preventDefault();
+    if (nombre == "" || nombre == null || nombre.lenght > 50) {
         return false;
     }
-  if (apellido == "" || apellido == null || apellido.lenght > 50) {
-        console.log("Llega validaar");
-
+    if (apellido == "" || apellido == null || apellido.lenght > 50) {
         return false;
     }
-  if (telefono == "" || telefono == null || telefono.lenght > 15) {
-        console.log("Llega validaar");
-
+    if (telefono == "" || telefono == null || telefono.lenght > 15) {
         return false;
     }
-  if (password == "" || password == null || password.lenght > 50) {
-        console.log("Llega validaar");
-
+    if (password == "" || password == null || password.lenght > 50) {
         return false;
     }
-  console.log("Llega validaar");
-    enviarFormularioValid(formValid);
+
+    enviarFormulario(form);
 
 }
 
-btnValid.addEventListener("click", validar);
+
+btn.addEventListener("click", validar);
