@@ -1,5 +1,5 @@
 <?php
-// print_r($this->permit)
+// print_r($this->permit['Administrar'])
 ?>
 <section class="content-table">
     <div class="table-header">
@@ -49,17 +49,17 @@
                     <td>
 
                         <?php
-                        if (isset($this->permit['Editar']) && $this->permit['Editar'] === 1) {
+                        if (isset($this->permit['Editar']) && $this->permit['Editar'] == 1) {
                         ?>
                             <button><a href="<?= URL ?>/roles/editar/<?= Helper::encrypt($value['id_role']) ?>">editar</a></button>
                         <?php
                         }
-                        if (isset($this->permit['Eliminar']) && $this->permit['Eliminar'] === 1) {
+                        if (isset($this->permit['Eliminar']) && $this->permit['Eliminar'] == 1) {
                         ?>
                             <button><a href="<?= URL ?>/roles/delete/<?= Helper::encrypt($value['id_role']) ?>">eliminar</a></button>
                         <?php
                         }
-                        if (isset($this->permit['Administrar']) && $this->permit['Administrar'] === 1) {
+                        if (isset($this->permit['Administrar']) && $this->permit['Administrar'] == 1) {
                         ?>
                             <button><a href="<?= URL ?>/roles/manage/<?= Helper::encrypt($value['id_role']) ?>">administrar</a></button>
                         <?php

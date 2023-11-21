@@ -1,5 +1,5 @@
 -- phpMyAdmin SQL Dump
--- version 5.2.1
+-- version 5.2.0
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: localhost:3306
@@ -92,7 +92,8 @@ CREATE TABLE `roles` (
 --
 
 INSERT INTO `roles` (`id_role`, `name_role`, `created_at`, `updated_at`) VALUES
-(1, 'Administrador', '2023-11-21 14:19:49', '2023-11-21 09:19:49');
+(1, 'Adminm', '2023-09-18 15:40:24', '2023-11-08 10:08:20'),
+(2, 'User', '2023-10-09 19:16:43', '2023-10-09 14:16:43');
 
 -- --------------------------------------------------------
 
@@ -112,10 +113,9 @@ CREATE TABLE `role_permisson` (
 
 INSERT INTO `role_permisson` (`id_role_permisson`, `id_permisson_fk`, `id_role_fk`) VALUES
 (1, 1, 1),
-(2, 2, 1),
+(2, 3, 1),
 (3, 3, 1),
-(4, 4, 1),
-(5, 5, 1);
+(4, 3, 1);
 
 -- --------------------------------------------------------
 
@@ -197,7 +197,7 @@ ALTER TABLE `permissions`
 -- AUTO_INCREMENT de la tabla `profiles`
 --
 ALTER TABLE `profiles`
-  MODIFY `id_profiles` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
+  MODIFY `id_profiles` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=20;
 
 --
 -- AUTO_INCREMENT de la tabla `roles`
@@ -233,6 +233,12 @@ ALTER TABLE `profiles`
 ALTER TABLE `role_permisson`
   ADD CONSTRAINT `role_permisson_ibfk_1` FOREIGN KEY (`id_permisson_fk`) REFERENCES `permissions` (`id_permission`) ON DELETE CASCADE,
   ADD CONSTRAINT `role_permisson_ibfk_2` FOREIGN KEY (`id_role_fk`) REFERENCES `roles` (`id_role`) ON DELETE CASCADE;
+
+--
+-- Filtros para la tabla `users`
+--
+ALTER TABLE `users`
+  ADD CONSTRAINT `users_ibfk_2` FOREIGN KEY (`id_role_fk`) REFERENCES `roles` (`id_role`);
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

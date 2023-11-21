@@ -124,7 +124,6 @@ class Model
 
     $stm = $this->connection->prepare($sql);
     $stm->execute();
-
     return $stm->fetchAll();
   }
 
