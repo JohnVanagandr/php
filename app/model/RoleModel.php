@@ -66,17 +66,6 @@ class RoleModel extends Model
     $this->connection = $this->db->closConnection(); // Cerramos la conexión a la base de datos.
   }
 
-  /**
-   * Obtiene un Rol de la base de datos basado en su identificador ($id).
-   *
-   * Esta función establece una conexión con la base de datos, recupera los datos del Rol con el identificador proporcionado 
-   * y luego cierra la conexión a la base de datos.
-   *
-   * @access protected
-   * @param int $id
-   * @return array $data 
-   */
-
   function getRole($id)
   {
     $this->connection = $this->db->getConnection(); // Establecemos una conexión con la base de datos.

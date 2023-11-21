@@ -69,6 +69,7 @@ class RegisterController extends controller
       $name = $_POST['first_name'] ?? '';
       $last = $_POST['last_name'] ?? '';
       $email = $_POST['email'] ?? '';
+      $user_name = $_POST['user_name'] ?? '';
       $phone = $_POST['phone'] ?? '';
       $pass = $_POST['password'] ?? '';
       $pass2 = $_POST['password_confirm'] ?? '';
@@ -76,7 +77,22 @@ class RegisterController extends controller
       // Validaciones de datos.
       if ($name == "") {
         $errores['name_error'] = "El nombre no está definido";
-      }
+      } else {
+        if (!ctype_alpha($name)) {
+          $errores['name_error'] = "Solo se permiten caracteres alfabéticos";
+        } elseif (strlen($name) < 5) {
+          $errores['name_error'] = "El nombre debe tener al menos 5 letras";
+        }
+        }
+
+      if ($user_name == "") {
+        $errores['username_error'] = "El username no está definido";
+      } else {
+        if (strlen($user_name) < 5) {
+          $errores['username_error'] = "El username debe tener al menos 5 letras";
+        }
+        }
+      
       if ($last == "") {
         $errores['last_error'] = "El apellido no está definido";
       }
@@ -85,13 +101,33 @@ class RegisterController extends controller
       }
       if ($phone == "") {
         $errores['phone_error'] = "El celular no está definido";
+      } else {
+        if (!ctype_digit($phone)) {
+            $errores['phone_error_string'] = "Solo se permiten datos numéricos";
+        }else{
+          if (strlen($phone) !== 10 || substr($phone, 0, 1) !== '3') {
+              $errores['phone_error_length'] = "El número de celular debe tener 10 dígitos y un formato valido";
+            }
+        }
       }
+      
+      
       if ($pass == "") {
         $errores['pass_error'] = "La contraseña no está definida";
+      } else {
+        if (strlen($pass) < 8 || strlen($pass) > 50) {
+          $errores['pass_error'] = "La contraseña debe tener entre 8 caracteres";
+        } elseif (!preg_match('/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[A-Za-z\d@$!%*?&]{8,50}$/', $pass)) {
+          $errores['pass_error'] = "La contraseña debe contener al menos una letra mayúscula, una letra minúscula, un número";
+        } else {
+          if ($pass != $pass2) {
+            $errores['verify_error'] = "La contraseña no coincide";
+          }
+        }
+      
       }
-      if ($pass != $pass2) {
-        $errores['verify_error'] = "La contraseña no coincide";
-      }
+
+
       if (strlen($name) > 50) {
         $errores['name_error'] = "El nombre excede el límite de caracteres";
       }
@@ -104,34 +140,25 @@ class RegisterController extends controller
       if (strlen($phone) > 15) {
         $errores['phone_error'] = "El celular excede el límite de caracteres";
       }
-      if (strlen($pass) > 50) {
-        $errores['pass_error'] = "La contraseña excede el límite de caracteres";
-      }
+      
+
       if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
         $errores['mail_error'] = "El correo no es válido";
       }
 
-      // $correo = $this->model->getEmail($email)['email'];
-      // if (is_array($correo) && isset($correo) && $correo == $email) {
-      //     $errores['mail_duplicate'] = "El correo ya existe";
-      // }
-      // $nombre = $this->model->getUsuario($name)['user_name'];
-      // if (is_array($nombre) && isset($nombre) && $nombre == $name) {
-      //     $errores['user_duplicate'] = "El usuario ya existe";
-      // }
-
       $correoResult = $this->model->getEmail($email);
       if (is_array($correoResult)) {
+        
         $correo = $correoResult['email'];
         if (isset($correo) && $correo == $email) {
           $errores['mail_duplicate'] = "El correo ya existe";
         }
       }
 
-      $nombreResult = $this->model->getUsuario($name);
-      if (is_array($nombreResult)) {
-        $nombre = $nombreResult['user_name'];
-        if (isset($nombre) && $nombre == $name) {
+      $userResult = $this->model->getUsuario($user_name);
+      if (is_array($userResult)) {
+        $user = $userResult['user_name'];
+        if (isset($user) && $user == $user_name) {
           $errores['user_duplicate'] = "El usuario ya existe";
         }
       }
@@ -140,7 +167,7 @@ class RegisterController extends controller
         // Si no hay errores, crea un arreglo con los valores del usuario y perfil.
         $valores = [
           "user" => [
-            "user_name" => $name,
+            "user_name" => $user_name,
             "email" => $email,
             "password" => Helper::encrypt2($pass)
           ],
@@ -250,4 +277,16 @@ class RegisterController extends controller
       echo json_encode($response, http_response_code($response['status']));
     }
   }
+
+  function nameExistente($name, $conexion) {
+    // Consulta para verificar si el nombre ya está registrado
+    $query = "SELECT COUNT(*) as count FROM tu_tabla WHERE nombre = :nombre";
+    $stmt = $conexion->prepare($query);
+    $stmt->bindParam(':nombre', $name, PDO::PARAM_STR);
+    $stmt->execute();
+    $resultado = $stmt->fetch(PDO::FETCH_ASSOC);
+
+    return $resultado['count'] > 0;
+}
+
 }
