@@ -1,9 +1,9 @@
 const url = "http://citas.test";
 const actual = location.href;
 function ocultarMostrarElemento() {
-  if (actual == "http://citas.test/roles") {
+  if (actual == url + "/roles") {
     var elemento = document.getElementById("filtros");
-  } else if (actual == "http://citas.test/permisson") {
+  } else if (actual == url + "/permisson") {
     var elemento = document.getElementById("filtrosPer");
   }
 
@@ -29,10 +29,10 @@ const cbox33 = document.getElementById("cbox33");
 buscar.addEventListener("input", function () {
   var valorBuscar = buscar.value;
 
-  if (actual == "http://citas.test/roles") {
+  if (actual == url + "/roles") {
     var filters = document.querySelector("#filtros input[type=radio]:checked");
     var envio = "/roles/search";
-  } else if (actual == "http://citas.test/permisson") {
+  } else if (actual == url + "/permisson") {
     var filters = document.querySelector(
       "#filtrosPer input[type=radio]:checked"
     );
