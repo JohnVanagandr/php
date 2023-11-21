@@ -38,6 +38,18 @@ class PermissonModel extends Model
     $this->connection = $this->db->closConnection(); //Cierra la conexión a la base de datos
     return $data; //Devuelve los datos obtenidos de la consulta
   }
+  function getPermissonFilter($busqueda, $filtros)
+  { // Comentario descriptivo de la función
+    $this->connection = $this->db->getConnection(); //Establecemos la conexion para acceder a la base de datos
+    $data = $this->selectSearch($this->tabla, $busqueda, $filtros); //Obtenemos la información de los Roles llamando a la función "select" con el nombre de la tabla.
+
+    $this->connection = $this->db->closConnection(); //Cerramos la conexión a la base de datos.
+
+    return $data; //Devolvemos el array que contiene la información de los Roles.
+  }
+
+
+
   /**
    * Obtiene un registro de permisos por su ID.
    *
