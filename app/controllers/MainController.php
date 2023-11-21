@@ -1,8 +1,11 @@
 <?php
+
 /**
  * Namespace y uso de clases para saber donde nos encontramos
  */
+
 namespace Adso\controllers;
+
 use Adso\Libs\Controller; // Importa la clase Controller del espacio de nombres Adso\Libs
 
 /**
@@ -10,9 +13,7 @@ use Adso\Libs\Controller; // Importa la clase Controller del espacio de nombres 
  *
  * Esta clase se utiliza para controlar la página de inicio del sistema.
  */
-
-class MainController extends Controller
-{
+class MainController extends Controller {
 
     /**
      * Constructor de la clase
@@ -20,10 +21,10 @@ class MainController extends Controller
      * El constructor de la clase MainController.
      * No contiene lógica específica en este momento.
      */
-    function __construct()
-    {
+    function __construct() {
         // Constructor de la clase, no contiene lógica específica
     }
+
     /**
      * Método para mostrar la página de inicio
      *
@@ -34,9 +35,7 @@ class MainController extends Controller
      *  @access public  
      *  que significa que el elemento que se está documentando es de acceso público.
      */
-
-    function index()
-    {
+    function index() {
         // Define un array de datos para la vista
         $data = [
             "titulo" => "Home", // Título de la página
