@@ -3,7 +3,7 @@
  * Namespace y uso de clases para saber donde nos encontramos
  */
 namespace Adso\controllers;
-use Adso\Libs\Controller; // Importa la clase Controller del espacio de nombres Adso\Libs
+use Adso\libs\Controller; // Importa la clase Controller del espacio de nombres Adso\Libs
 
 /**
  * Clase MainController

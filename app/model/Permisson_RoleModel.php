@@ -31,8 +31,6 @@ class Permisson_RoleModel extends Model{
         $this -> connection = $this -> db -> getConnection();
         $data = $this -> getRowsById($this->tabla, $id_role);
         $this -> connection = $this -> db -> closConnection();
-        
         return $data;
- 
     }
 }

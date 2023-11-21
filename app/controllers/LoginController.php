@@ -3,7 +3,7 @@
 // Declaración del espacio de nombres y uso de clases
 namespace Adso\controllers;
 
-use Adso\Libs\Controller; // Importa la clase Controller del espacio de nombres Adso\Libs
+use Adso\libs\Controller; // Importa la clase Controller del espacio de nombres Adso\Libs
 use Adso\libs\Helper; // Importa la clase Helper del espacio de nombres Adso\libs
 use Adso\libs\Session; // Importa la clase Session del espacio de nombres Adso\libs
 use Adso\libs\Email; // Importa la clase Email del espacio de nombres Adso\libs

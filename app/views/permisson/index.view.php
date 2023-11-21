@@ -45,5 +45,27 @@
             ?>
         </tbody>
     </table>
+<div>
+<?php
 
+$total_registro = count($data['permisos']);
+$total_paginas = ceil($total_registro);
+
+
+echo "<center><a href='" . URL . "/permisson/index=1'>Anterior</a>";
+
+// Enlaces numéricos de páginas
+for ($i = 1; $i <= $total_paginas; $i++) {
+    echo "<a href='" . URL . "/permisson/index=$i'>$i</a> ";
+}
+
+// Enlace "Siguiente"
+echo "<a href='" . URL . "/permisson/index=$total_paginas'>Siguiente</a></center>";
+?>
+
+
+
+
+</div>
 </section>
+
