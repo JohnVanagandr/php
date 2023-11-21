@@ -67,10 +67,15 @@ class RolesController extends Controller
 
       $errores = [];
       $roles = $_POST['rol_name']; // Obtener el nombre del rol desde el formulario
-      $permits = $_POST['permisos'];
+      $permits = isset($_POST['permisos']) ? $_POST['permisos'] : [];
+
+      // $permits = $_POST['permisos'];
 
       if ($roles == "") {
         $errores["rol_error"] = "El rol está vacío";
+      }
+      if (empty($permits)) {
+        $errores["rol_error"] = "Debes escoger al menos un permiso";
       }
       if (strlen($roles) > 50) {
         $errores["rol_error"] = "El rol supera el límite de caracteres";
@@ -102,11 +107,15 @@ class RolesController extends Controller
         header("Location: " . URL . "/roles"); // Redireccionar a la lista de roles
 
       } else {
+
+        $permit = $this->model2->getPermisson();
+
         $data = [
           "titulo" => "Roles",
           "subtitulo" => "Creación de roles",
           "menu" => true,
-          "errors" => $errores
+          "errors" => $errores,
+          "permisos" => $permit
         ];
 
         $this->view("rol/create", $data, "app"); // Renderizar la vista de creación de roles con errores
