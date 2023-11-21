@@ -13,8 +13,12 @@
         <thead>
             <tr>
                 <th>Nombre</th>
+                <th>Slug</th>
+                <th>Descripción</th>
                 <th>Fecha de creado</th>
                 <th>Fecha de modificacion</th>
+                
+
                 <th>Acciones</th>
             </tr>
         </thead>
@@ -30,14 +34,21 @@
                         <?= $value['name_permisson'] ?>
                     </td>
                     <td>
+                        <?= $value['slug'] ?>
+                    </td>
+                    <td>
+                        <?= $value['description'] ?>
+                    </td>
+                    <td>
                         <?= DateHelper::shortDate($value['created_at']) ?>
                     </td>
                     <td>
                         <?= DateHelper::shortDate($value['updated_at']) ?>
                     </td>
+                    
                     <td>
-                    <button><a href="<?= URL ?>/permisson/editar/<?= Helper::encrypt($value['id_permission']) ?>">editar</a></button>
-                    <button><a href="<?= URL ?>/permisson/delete/<?= Helper::encrypt($value['id_permission']) ?>">eliminar</a></button>
+                        <button><a href="<?= URL ?>/permisson/editar/<?= Helper::encrypt($value['id_permission']) ?>">editar</a></button>
+                        <button><a href="<?= URL ?>/permisson/delete/<?= Helper::encrypt($value['id_permission']) ?>">eliminar</a></button>
                     </td>
                 </tr>
                 <?php

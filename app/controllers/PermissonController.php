@@ -86,9 +86,19 @@ class PermissonController extends Controller
     if ($_SERVER['REQUEST_METHOD'] == 'POST') {
       $errors = array();
       $permiso = $_POST['per_name'];
+      $slug = $_POST['slug'];
+      $descripcion = $_POST['descripcion'];
 
       if ($permiso == "") {
         $errors['per_error'] = "el campo esta vacio";
+      }
+
+      if ($slug == "") {
+        $errors['per_error'] = "el campo  slug esta vacio";
+      }
+
+      if ($descripcion == "") {
+        $errors['per_error'] = "el campo description esta vacio";
       }
 
       if (strlen($permiso) > 50) {
@@ -98,7 +108,9 @@ class PermissonController extends Controller
       if (empty($errors)) {
 
         $valores = [
-          "name_permisson" => $permiso
+          "name_permisson" => $permiso,
+          "slug" => $slug,
+          "description" => $descripcion,
         ];
 
         $this->model->storage($valores);
