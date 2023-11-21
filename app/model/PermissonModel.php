@@ -26,7 +26,6 @@ class PermissonModel extends Model
      */
     parent::__construct();
   }
-
   /**
    * Obtiene todos los registros de permisos de la base de datos.
    *

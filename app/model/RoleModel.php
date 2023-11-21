@@ -43,7 +43,6 @@ class RoleModel extends Model
   {
     $this->connection = $this->db->getConnection(); //Establecemos la conexion para acceder a la base de datos
     $data = $this->select($this->tabla); //Obtenemos la información de los Roles llamando a la función "select" con el nombre de la tabla.
-
     $this->connection = $this->db->closConnection(); //Cerramos la conexión a la base de datos.
 
     return $data; //Devolvemos el array que contiene la información de los Roles.
@@ -62,7 +61,7 @@ class RoleModel extends Model
   function storage($roles)
   {
     $this->connection = $this->db->getConnection(); // Establecemos una conexión con la base de datos.
-    $data = $this->insert($this->tabla, $roles); // Insertamos los datos contenidos en el parámetro $roles en la tabla correspondiente.
+    $data = $this->insert($this->tabla, $roles);     // Insertamos los datos contenidos en el parámetro $roles en la tabla correspondiente.
     $this->connection = $this->db->closConnection(); // Cerramos la conexión a la base de datos.
   }
 
