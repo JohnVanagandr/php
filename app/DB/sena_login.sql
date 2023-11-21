@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 23-10-2023 a las 18:16:23
+-- Tiempo de generación: 21-11-2023 a las 20:14:22
 -- Versión del servidor: 10.4.28-MariaDB
 -- Versión de PHP: 8.2.4
 
@@ -43,9 +43,20 @@ CREATE TABLE `images` (
 CREATE TABLE `permissions` (
   `id_permission` int(11) NOT NULL,
   `name_permisson` varchar(50) NOT NULL,
-  `created_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
-  `updated_at` datetime DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+  `created_at` timestamp NULL DEFAULT current_timestamp(),
+  `updated_at` datetime DEFAULT current_timestamp() ON UPDATE current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Volcado de datos para la tabla `permissions`
+--
+
+INSERT INTO `permissions` (`id_permission`, `name_permisson`, `created_at`, `updated_at`) VALUES
+(10, 'Listar', '2023-11-20 21:47:00', '2023-11-20 16:47:10'),
+(11, 'Editar', '2023-11-20 21:47:52', '2023-11-20 16:47:52'),
+(12, 'Crear', '2023-11-20 21:48:00', '2023-11-20 16:48:00'),
+(13, 'Administrar', '2023-11-20 22:20:50', '2023-11-20 17:20:50'),
+(14, 'Eliminar', '2023-11-20 22:46:35', '2023-11-20 17:46:35');
 
 -- --------------------------------------------------------
 
@@ -58,9 +69,9 @@ CREATE TABLE `profiles` (
   `first_name` varchar(50) NOT NULL,
   `last_name` varchar(50) NOT NULL,
   `phone` varchar(15) NOT NULL DEFAULT '000',
-  `created_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
-  `updated_at` datetime DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-  `user_id` int NOT NULL
+  `created_at` timestamp NULL DEFAULT current_timestamp(),
+  `updated_at` datetime DEFAULT current_timestamp() ON UPDATE current_timestamp(),
+  `user_id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
@@ -83,7 +94,10 @@ INSERT INTO `profiles` (`id_profiles`, `first_name`, `last_name`, `phone`, `crea
 (14, 'gjhghj', 'tyuty', '123', '2023-10-11 14:01:39', '2023-10-11 09:01:39', 35),
 (15, 'tewr', 'werwe', '123', '2023-10-11 14:56:15', '2023-10-11 09:56:15', 36),
 (16, 'qwe', 'qweqw', '123', '2023-10-11 14:56:59', '2023-10-11 09:56:59', 37),
-(17, 'jhon', 'silva', '3182944014', '2023-10-18 12:28:02', '2023-10-18 07:28:02', 38);
+(17, 'jhon', 'silva', '3182944014', '2023-10-18 12:28:02', '2023-10-18 07:28:02', 38),
+(18, 'nicolas', 'juan', '21312', '2023-11-08 12:12:39', '2023-11-08 07:12:39', 42),
+(19, 'Chucho', 'Jaimes', '3131313131', '2023-11-15 12:50:59', '2023-11-15 07:50:59', 49),
+(20, 'Gualdro', 'Juan', '123', '2023-11-15 12:51:56', '2023-11-15 07:51:56', 50);
 
 -- --------------------------------------------------------
 
@@ -94,9 +108,16 @@ INSERT INTO `profiles` (`id_profiles`, `first_name`, `last_name`, `phone`, `crea
 CREATE TABLE `roles` (
   `id_role` int(11) NOT NULL,
   `name_role` varchar(50) NOT NULL,
-  `created_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
-  `updated_at` datetime DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+  `created_at` timestamp NULL DEFAULT current_timestamp(),
+  `updated_at` datetime DEFAULT current_timestamp() ON UPDATE current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Volcado de datos para la tabla `roles`
+--
+
+INSERT INTO `roles` (`id_role`, `name_role`, `created_at`, `updated_at`) VALUES
+(16, 'Admin', '2023-11-20 22:20:23', '2023-11-20 17:20:23');
 
 -- --------------------------------------------------------
 
@@ -109,6 +130,15 @@ CREATE TABLE `role_permisson` (
   `id_permisson_fk` int(11) NOT NULL,
   `id_role_fk` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Volcado de datos para la tabla `role_permisson`
+--
+
+INSERT INTO `role_permisson` (`id_role_permisson`, `id_permisson_fk`, `id_role_fk`) VALUES
+(15, 13, 16),
+(17, 12, 16),
+(18, 13, 16);
 
 -- --------------------------------------------------------
 
@@ -133,7 +163,7 @@ CREATE TABLE `users` (
 --
 
 INSERT INTO `users` (`id_user`, `user_name`, `email`, `password`, `id_role_fk`, `id_image_fk`, `created_at`, `updated_at`, `passwordTime`) VALUES
-(1, 'jhonatan', 'nicprieto@misena.edu.co', '411f36d65bf2c258e912617a9c8a29bef168963c1ee97788cd', 1, NULL, '2023-08-29 20:39:35', '2023-10-11 09:08:22', '2023-10-09 22:36:48'),
+(1, 'jhonatan', 'nicprieto@misena.edu.co', '411f36d65bf2c258e912617a9c8a29bef168963c1ee97788cd', 16, NULL, '2023-08-29 20:39:35', '2023-11-20 17:42:55', '2023-10-09 22:36:48'),
 (2, 'fabian', 'castro', '1234', NULL, NULL, '2023-08-29 21:06:34', '2023-08-29 16:06:34', NULL),
 (3, 'John', 'jfbehhhhccera@gmail.com', '12345', NULL, NULL, '2023-08-30 14:19:22', '2023-09-11 17:11:26', NULL),
 (7, 'David', 'jsoeajorfuigaudgro@gmail.com', '123', NULL, NULL, '2023-08-30 14:21:32', '2023-08-30 09:21:32', NULL),
@@ -151,7 +181,10 @@ INSERT INTO `users` (`id_user`, `user_name`, `email`, `password`, `id_role_fk`, 
 (35, 'gjhghj', 'efea@gmail.com', '3253812e52244c43795fd25d06c2527d6e8e3d98cf2ac8634d', NULL, NULL, '2023-10-11 14:01:39', '2023-10-11 09:01:39', NULL),
 (36, 'tewr', 'jo@gmail.com', '3253812e52244c43795fd25d06c2527d6e8e3d98cf2ac8634d', NULL, NULL, '2023-10-11 14:56:15', '2023-10-11 09:56:15', NULL),
 (37, 'qwe', 'jp@gmail.com', '3253812e52244c43795fd25d06c2527d6e8e3d98cf2ac8634d', NULL, NULL, '2023-10-11 14:56:59', '2023-10-11 09:56:59', NULL),
-(38, 'jhon', 'jdsilva83@gmail.com', 'e4e021d9584b7ca48d37ecc55e956519e297cc3cab0ac45639', NULL, NULL, '2023-10-18 12:28:02', '2023-10-18 07:28:02', NULL);
+(38, 'jhon', 'jdsilva83@gmail.com', 'e4e021d9584b7ca48d37ecc55e956519e297cc3cab0ac45639', NULL, NULL, '2023-10-18 12:28:02', '2023-10-18 07:28:02', NULL),
+(42, 'nicolas', 'pep@gmail.com', '3253812e52244c43795fd25d06c2527d6e8e3d98cf2ac8634d', NULL, NULL, '2023-11-08 12:12:39', '2023-11-08 07:12:39', NULL),
+(49, 'Chucho', 'correoprueba@gmail.com', '3253812e52244c43795fd25d06c2527d6e8e3d98cf2ac8634d', NULL, NULL, '2023-11-15 12:50:59', '2023-11-15 07:50:59', NULL),
+(50, 'Gualdro', 'pepe@gmail.com', '3253812e52244c43795fd25d06c2527d6e8e3d98cf2ac8634d', NULL, NULL, '2023-11-15 12:51:56', '2023-11-15 07:51:56', NULL);
 
 --
 -- Índices para tablas volcadas
@@ -213,31 +246,31 @@ ALTER TABLE `images`
 -- AUTO_INCREMENT de la tabla `permissions`
 --
 ALTER TABLE `permissions`
-  MODIFY `id_permission` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id_permission` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
 
 --
 -- AUTO_INCREMENT de la tabla `profiles`
 --
 ALTER TABLE `profiles`
-  MODIFY `id_profiles` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
+  MODIFY `id_profiles` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=21;
 
 --
 -- AUTO_INCREMENT de la tabla `roles`
 --
 ALTER TABLE `roles`
-  MODIFY `id_role` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+  MODIFY `id_role` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
 
 --
 -- AUTO_INCREMENT de la tabla `role_permisson`
 --
 ALTER TABLE `role_permisson`
-  MODIFY `id_role_permisson` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id_role_permisson` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=19;
 
 --
 -- AUTO_INCREMENT de la tabla `users`
 --
 ALTER TABLE `users`
-  MODIFY `id_user` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=42;
+  MODIFY `id_user` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=51;
 
 --
 -- Restricciones para tablas volcadas
@@ -253,15 +286,12 @@ ALTER TABLE `profiles`
 -- Filtros para la tabla `role_permisson`
 --
 ALTER TABLE `role_permisson`
+  ADD CONSTRAINT `Eliminar` FOREIGN KEY (`id_role_fk`) REFERENCES `roles` (`id_role`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `Eliminar1` FOREIGN KEY (`id_permisson_fk`) REFERENCES `permissions` (`id_permission`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `id_role_fk` FOREIGN KEY (`id_role_fk`) REFERENCES `roles` (`id_role`) ON DELETE CASCADE,
   ADD CONSTRAINT `role_permisson_ibfk_1` FOREIGN KEY (`id_permisson_fk`) REFERENCES `permissions` (`id_permission`),
   ADD CONSTRAINT `role_permisson_ibfk_2` FOREIGN KEY (`id_role_fk`) REFERENCES `roles` (`id_role`);
-
---
--- Filtros para la tabla `users`
---
--- ALTER TABLE `users`
---   ADD CONSTRAINT `users_ibfk_2` FOREIGN KEY (`id_role_fk`) REFERENCES `roles` (`id_role`);
--- COMMIT;
+COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
