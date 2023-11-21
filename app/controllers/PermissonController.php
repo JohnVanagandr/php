@@ -56,11 +56,11 @@ class PermissonController extends Controller
       "permisos" => $permisos
     ];
 
-    if ($this->permit["Listar"]) {
+    // if ($this->permit["Listar"]) {
       $this->view("permisson/index", $data, "app");
-    } else {
-      echo "no tienes permisos para crear un rol";
-    }
+    // } else {
+    //   echo "no tienes permisos para crear un rol";
+    // }
 
     // $this->view('permisson/index', $data, 'app');
   }
@@ -83,11 +83,11 @@ class PermissonController extends Controller
       "menu" => true
     ];
 
-    if ($this->permit["Listar"]) {
+    // if ($this->permit["Listar"]) {
       $this->view("permisson/create", $data, "app");
-    } else {
-      echo "no tienes permisos para crear un rol";
-    }
+    // } else {
+    //   echo "no tienes permisos para crear un rol";
+    // }
 
     // $this->view('permisson/create', $data, 'app');
   }

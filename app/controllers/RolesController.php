@@ -15,14 +15,45 @@ class RolesController extends Controller
     protected $permission;
     protected $permit;
 
+    const PREFIJO = 'Roles';
+
     function __construct()
     {
+        
+
         $this->model = $this->model("Role");
         $this->model2 = $this->model("Permisson");
         $this->model3 = $this->model("Permisson_Role");
 
         $this->permission = new Permisson();
         $this->permit = $this->permission->ifpermisson();
+
+        foreach($this->permit as $key => $value){
+            $url = explode('.', $key);
+
+            
+
+            if(ucwords($url[0]) == self::PREFIJO){
+                echo "<pre>";
+                print_r($url[1]);
+                echo "</pre>";
+
+                if(($url[1]) == "index"){
+                    $this->index();
+                }
+
+
+            }else{
+                echo "No tiene permitido ver esta vista";
+            }
+        }
+
+        print_r($this -> permit);
+
+
+        die();
+
+        
     }
 
     function index()
@@ -36,7 +67,7 @@ class RolesController extends Controller
             "roles" => $roles
         ];
 
-        if ($this->permit["Listar"]) {
+        if ($this->permit["index"]) {
             $this->view("rol/index", $data, "app");
           } else {
             echo "no tienes permisos para crear un rol";
@@ -54,7 +85,7 @@ class RolesController extends Controller
             "menu" => true
         ];
 
-        if ($this->permit["Crear"]) {
+        if ($this->permit["create"]) {
             $this->view("rol/create", $data, "app");
           } else {
             echo "no tienes permisos para crear un rol";
@@ -112,7 +143,7 @@ class RolesController extends Controller
             "id" => $id
         ];
 
-        if ($this->permit["Editar"]) {
+        if ($this->permit["editar"]) {
             $this->view("rol/update", $data, "app");
           } else {
             echo "no tienes permisos para editar un rol";
@@ -160,7 +191,7 @@ class RolesController extends Controller
 
     function delete($id)
     {
-        if ($this->permit["Editar"]) {
+        if ($this->permit["delete"]) {
             $this->model->deleteRole(["id_role" => Helper::decrypt($id)]);
             header("Location: " . URL . "/roles");
       
@@ -208,7 +239,7 @@ class RolesController extends Controller
         ];
 
 
-        if ($this->permit["Administrar"]) {
+        if ($this->permit["manage"]) {
             $this->view("rol/manage", $data, "app");
           } else {
             echo "no tienes permisos para administrar un rol";

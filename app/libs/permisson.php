@@ -100,14 +100,16 @@ class Permisson
             
             if ($value_role['id_permisson_fk'] == $value['id_permission']) {
     
-              $permissons[$value['name_permisson']] = true;
+              $permissons[$value['slug']] = true;
               break;
             } else {
-              $permissons[$value['name_permisson']] = false;
+              $permissons[$value['slug']] = false;
             }
           }
     
         }
+
+
        
         return $permissons;
     }
