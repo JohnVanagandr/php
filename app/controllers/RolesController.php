@@ -36,7 +36,13 @@ class RolesController extends Controller
             "roles" => $roles
         ];
 
-        $this->view('rol/index', $data, 'app');
+        if ($this->permit["Listar"]) {
+            $this->view("rol/index", $data, "app");
+          } else {
+            echo "no tienes permisos para crear un rol";
+          }
+
+        // $this->view('rol/index', $data, 'app');
     }
 
     function create()
@@ -157,7 +163,6 @@ class RolesController extends Controller
         if ($this->permit["Editar"]) {
             $this->model->deleteRole(["id_role" => Helper::decrypt($id)]);
             header("Location: " . URL . "/roles");
-      
       
             $data = [
               "titulo" => "Roles",
