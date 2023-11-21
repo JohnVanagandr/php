@@ -6,26 +6,21 @@ use Adso\libs\Database;
 
 class Model
 {
-    protected $db;// Una propiedad protegida llamada $db en una clase
-    protected $connection;// Otra propiedad protegida $connection en otra clase 
+  protected $db; // Una propiedad protegida llamada $db en una clase
+  protected $connection; // Otra propiedad protegida $connection en otra clase
 
   /**
-   * Constructor de la clase Model que inicializa la conexión a la base de datos.
+   * La funcion Contructor metodo donde  nos encargamos de instanciar  
+   * una classes y da el resultado se almacena an la propiedad
    */
   function __construct()
   {
-    // Crear una nueva instancia de la clase Database
-    $this->db = new Database();
-    $this->connection = $this->db->getConnection();
-  }
 
+    $this->db = new Database(); //Crear una nueva instancia de la clase Database
+    $this->connection   = $this->db->getConnection(); //llama al método getConnection() de la instancia de la clase Database y el resultado se almacena en la propiedad
+  }
   /**
-   * Método para insertar registros en la base de datos.
-   *
-   * @param string $tabla El nombre de la tabla en la que se insertarán los datos.
-   * @param array $columnas Un array asociativo de columnas y valores a insertar.
-   *
-   * @return mixed Retorna el ID del registro insertado si es exitoso, o un mensaje de error en caso contrario.
+   * Método para insertar registros en la base de datos
    */
   public function insert($tabla = "", $columnas = [])
   {
@@ -57,44 +52,54 @@ class Model
             $stm->bindValue(":" . $key, $value);
         }
 
-    // Ejecutar la consulta preparada
+    /**Ejecutar la consulta preparada y retornarla */
+
     if ($stm->execute()) {
+
       return $this->connection->lastInsertId();
     } else {
       return $this->connection->errorInfo();
     }
   }
-
-  /**
-   * Método para seleccionar todos los registros de una tabla en la base de datos.
-   *
-   * @param string $tabla El nombre de la tabla a seleccionar.
-   *
-   * @return array Retorna un array de todos los registros seleccionados.
-   */
+  /**Esta Funcion es el metodo de la clase que se encarga
+   * realizar la consulta en SQL para seleccionar
+   * todos los registros de una tabla espesifica en la base de datos*/
   public function select($tabla = "")
   {
-    $sql = "SELECT * FROM $tabla";
-    $stm = $this->connection->prepare($sql);
-    $stm->execute();
-    return $stm->fetchAll();
-  }
-  public function selectSearch($tabla, $busqueda, $filtro)
-  {
 
-    $sql = "SELECT * FROM $tabla WHERE $filtro LIKE '%$busqueda%' ";
+    $sql = "SELECT * FROM $tabla"; //
+
     $stm = $this->connection->prepare($sql);
+
     $stm->execute();
-    //return $sql;
+
     return $stm->fetchAll();
   }
   /**
-   * Método para obtener un registro por ID en una tabla de la base de datos.
+   * Obtiene datos de una tabla en la base de datos filtrados por columna(s) y valor(es) específicos.
    *
-   * @param string $tabla El nombre de la tabla a consultar.
-   * @param array $columnas Un array asociativo que especifica la columna y el valor a buscar.
+   * Esta función ejecuta una consulta SQL para recuperar datos de una tabla en la base de datos, aplicando un filtro
+   * mediante una o más columnas y sus respectivos valores. Los resultados se devuelven en un arreglo asociativo.
    *
-   * @return array|null Retorna el registro si se encuentra, o null si no se encuentra ningún registro.
+   * @param string $tabla El nombre de la tabla de la cual se obtendrán los datos.
+   * @param array $columnas Un arreglo asociativo que especifica las columnas y valores de filtro.
+   *
+   * @return array|false Un arreglo asociativo que contiene los datos obtenidos, o `false` si no se encontraron resultados.
+   *
+   * @throws \PDOException Si ocurre un error durante la ejecución de la consulta SQL.
+   */
+  /**
+   * Obtiene datos de una tabla en la base de datos filtrados por columna(s) y valor(es) específicos.
+   *
+   * Esta función ejecuta una consulta SQL para recuperar datos de una tabla en la base de datos, aplicando un filtro
+   * mediante una o más columnas y sus respectivos valores. Los resultados se devuelven en un arreglo asociativo.
+   *
+   * @param string $tabla El nombre de la tabla de la cual se obtendrán los datos.
+   * @param array $columnas Un arreglo asociativo que especifica las columnas y valores de filtro.
+   *
+   * @return array|false Un arreglo asociativo que contiene los datos obtenidos, o `false` si no se encontraron resultados.
+   *
+   * @throws \PDOException Si ocurre un error durante la ejecución de la consulta SQL.
    */
   public function getDataById($tabla = "", $columnas = [])
   {
@@ -144,16 +149,9 @@ class Model
     return $stm->fetchAll();
   }
 
-  /**
-   * Método para actualizar registros en la base de datos.
-   *
-   * @param string $tabla El nombre de la tabla en la que se actualizarán los datos.
-   * @param array $columnas Un array asociativo de columnas y valores a actualizar.
-   *
-   * @return mixed Retorna el ID del registro actualizado si es exitoso, o un mensaje de error en caso contrario.
-   */
   public function update($tabla = "", $columnas = [])
   {
+
     $columns = "";
     $params = "";
     $clave = array_key_last($columnas);
@@ -171,40 +169,44 @@ class Model
     $columns = rtrim($columns, ',');
     $params = rtrim($params, ',');
 
-    // Construir la consulta SQL de actualización utilizando las cadenas formadas
+
+    // Construir la consulta SQL de inserción utilizando las cadenas formadas
     $sql = "UPDATE $tabla SET $columns = $params WHERE $clave = $valor";
 
     // Preparar la consulta SQL
     $stm = $this->connection->prepare($sql);
-
     // Asignar valores a los parámetros utilizando enlaces de parámetros
     foreach ($columnas as $key => $value) {
       $stm->bindValue(":" . $key, $value);
     }
-
     // Ejecutar la consulta preparada
+
+    print_r($stm);
+    // die();
+
     if ($stm->execute()) {
+
       return $this->connection->lastInsertId();
     } else {
       return $this->connection->errorInfo();
     }
   }
 
-    /**
- * Elimina registros de una tabla de la base de datos basándose en las columnas y valores proporcionados.
- *
- * Esta función ejecuta una consulta SQL para eliminar registros de una tabla de la base de datos utilizando
- * columnas y valores específicos proporcionados en forma de un arreglo asociativo.
- *
- * @param string $tabla El nombre de la tabla de la cual se eliminarán registros.
- * @param array $columnas Un arreglo asociativo que especifica las columnas y valores de filtro para la eliminación.
- *
- * @return bool `true` si la eliminación se realiza con éxito, `false` en caso de error.
- *
- * @throws \PDOException Si ocurre un error durante la ejecución de la consulta SQL.
- */
-public function delete($tabla = "", $columnas = [])
-{
+  /**
+   * Elimina registros de una tabla de la base de datos basándose en las columnas y valores proporcionados.
+   *
+   * Esta función ejecuta una consulta SQL para eliminar registros de una tabla de la base de datos utilizando
+   * columnas y valores específicos proporcionados en forma de un arreglo asociativo.
+   *
+   * @param string $tabla El nombre de la tabla de la cual se eliminarán registros.
+   * @param array $columnas Un arreglo asociativo que especifica las columnas y valores de filtro para la eliminación.
+   *
+   * @return bool `true` si la eliminación se realiza con éxito, `false` en caso de error.
+   *
+   * @throws \PDOException Si ocurre un error durante la ejecución de la consulta SQL.
+   */
+  public function delete($tabla = "", $columnas = [])
+  {
     $columns = "";
     $params = "";
 

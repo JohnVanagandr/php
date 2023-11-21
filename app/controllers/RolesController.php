@@ -2,7 +2,7 @@
 
 namespace Adso\controllers;
 
-use Adso\libs\controller;
+use Adso\Libs\controller;
 use Adso\libs\Helper;
 use Adso\servicios\Transacciones;
 
@@ -124,6 +124,17 @@ class RolesController extends Controller
 
         $this->model->updateRole($valores);
 
+
+
+
+        // if (!isset($_GET['login'])) {
+        //   header("location:" . URL . "/admin");
+        // }
+
+
+
+
+
         header("location:" . URL . "/roles");
       } else {
         $data = [
@@ -206,7 +217,6 @@ class RolesController extends Controller
         "id_permisson_fk" => $permits
       ];
       $this->model3->storage($valores);
-      header("Location: " . URL . "/roles");
     }
   }
 }
