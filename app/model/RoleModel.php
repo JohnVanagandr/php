@@ -43,7 +43,6 @@ class RoleModel extends Model
   {
     $this->connection = $this->db->getConnection(); //Establecemos la conexion para acceder a la base de datos
     $data = $this->select($this->tabla); //Obtenemos la información de los Roles llamando a la función "select" con el nombre de la tabla.
-
     $this->connection = $this->db->closConnection(); //Cerramos la conexión a la base de datos.
 
     return $data; //Devolvemos el array que contiene la información de los Roles.
@@ -59,12 +58,30 @@ class RoleModel extends Model
    * @access protected
    * @param array $roles
    */
-  function storage($roles)
+  function storage($roles, $comm = "")
   {
-    $this->connection = $this->db->getConnection(); // Establecemos una conexión con la base de datos.
-    $data = $this->insert($this->tabla, $roles); // Insertamos los datos contenidos en el parámetro $roles en la tabla correspondiente.
+
+    if ($comm != "") {
+      $this->connection = $comm;
+    } else {
+      $this->connection = $this->db->getConnection(); // Establecemos una conexión con la base de datos.
+    }
+
+    $data = $this->insert($this->tabla, $roles);     // Insertamos los datos contenidos en el parámetro $roles en la tabla correspondiente.
     $this->connection = $this->db->closConnection(); // Cerramos la conexión a la base de datos.
+    return $data;
   }
+
+  /**
+   * Obtiene un Rol de la base de datos basado en su identificador ($id).
+   *
+   * Esta función establece una conexión con la base de datos, recupera los datos del Rol con el identificador proporcionado 
+   * y luego cierra la conexión a la base de datos.
+   *
+   * @access protected
+   * @param int $id
+   * @return array $data 
+   */
 
   function getRole($id)
   {
