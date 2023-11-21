@@ -1,22 +1,21 @@
-const url = "http://localhost:81/php";
+const url = "http://localhost/php-main";
 const actual = location.href;
 function ocultarMostrarElemento() {
-    if (actual == "http://localhost:81/php/roles") {
-        var elemento = document.getElementById("filtros");
-        
-    } else if (actual == "http://localhost:81/php/permisson") {
-        var elemento = document.getElementById("filtrosPer");    
-}
-    
-    console.log("ocular/mostrar");
-    // Verificar el estado actual del elemento
-    if (elemento.style.display === "none") {
-        // Si está oculto, mostrarlo
-        elemento.style.display = "block";
-    } else {
-        // Si está visible, ocultarlo
-        elemento.style.display = "none";
-    }
+  if (actual == url + "/roles") {
+    var elemento = document.getElementById("filtros");
+  } else if (actual == url + "/permisson") {
+    var elemento = document.getElementById("filtrosPer");
+  }
+
+  console.log("ocular/mostrar");
+  // Verificar el estado actual del elemento
+  if (elemento.style.display === "none") {
+    // Si está oculto, mostrarlo
+    elemento.style.display = "block";
+  } else {
+    // Si está visible, ocultarlo
+    elemento.style.display = "none";
+  }
 }
 console.log(actual);
 const cbox1 = document.getElementById("cbox1");
@@ -28,40 +27,38 @@ const cbox22 = document.getElementById("cbox22");
 const cbox33 = document.getElementById("cbox33");
 
 buscar.addEventListener("input", function () {
-    var valorBuscar = buscar.value;
+  var valorBuscar = buscar.value;
 
-    if (actual == "http://localhost:81/php/roles") {
-        var filters = document.querySelector(
-            "#filtros input[type=radio]:checked"
-        );
-        var envio = "/roles/search"
-    } else if (actual == "http://localhost:81/php/permisson") {
-        var filters = document.querySelector(
-            "#filtrosPer input[type=radio]:checked"
-            );
-            var envio = "/permisson/search"
-    }
-    var valorFiltro = filters.value;
-    console.log(valorFiltro);
-    fetch(url + envio, {
-        method: "POST",
-        headers: {
-            "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-            buscar: valorBuscar,
-            filtros: valorFiltro,
-        }),
-    })
-        .then((response) => response.json())
-        .then((data) => {
-            console.log(data.datax);
-            var resultsContainer = document.getElementById("resultados");
-            resultsContainer.innerHTML = "";
-            data.datax.forEach((item) => {
-                var itemElement = document.createElement("tr");
+  if (actual == url + "/roles") {
+    var filters = document.querySelector("#filtros input[type=radio]:checked");
+    var envio = "/roles/search";
+  } else if (actual == url + "/permisson") {
+    var filters = document.querySelector(
+      "#filtrosPer input[type=radio]:checked"
+    );
+    var envio = "/permisson/search";
+  }
+  var valorFiltro = filters.value;
+  console.log(valorFiltro);
+  fetch(url + envio, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({
+      buscar: valorBuscar,
+      filtros: valorFiltro,
+    }),
+  })
+    .then((response) => response.json())
+    .then((data) => {
+      console.log(data.datax);
+      var resultsContainer = document.getElementById("resultados");
+      resultsContainer.innerHTML = "";
+      data.datax.forEach((item) => {
+        var itemElement = document.createElement("tr");
 
-                itemElement.innerHTML = `
+        itemElement.innerHTML = `
                 <td>
                 ${item.name_role != null ? item.name_role : item.name_permisson}
                 
@@ -75,10 +72,10 @@ buscar.addEventListener("input", function () {
                 <td>
                 `;
 
-                resultsContainer.appendChild(itemElement);
-            });
-        })
-        .catch((error) => {
-            console.error("Error:", error);
-        });
+        resultsContainer.appendChild(itemElement);
+      });
+    })
+    .catch((error) => {
+      console.error("Error:", error);
+    });
 });
