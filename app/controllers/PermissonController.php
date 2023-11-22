@@ -22,6 +22,8 @@ class PermissonController extends Controller
   /**
    * Constructor de PermissonController.
    * 
+   * 
+   * 
    * Este método se encarga de inicializar el controlador, estableciendo una instancia del modelo de permisos para su uso posterior.
    */
   function __construct()
