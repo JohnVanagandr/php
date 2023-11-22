@@ -178,7 +178,7 @@ class Model
     return $stm->fetchAll();
   }
 
- 
+  
   /**
    * Método para eliminar registros de la base de datos.
    *

@@ -63,15 +63,15 @@ class RolesController extends Controller
         $response['status'] = 200;
         $response['data'] = true;
         $response['message'] = 'El correo se encuentra registrado';
-       } else {
+      } else {
         // Si no se encuentra un resultado, se actualiza el mensaje de respuesta para indicar que el correo no está registrado.
         $response['status'] = 200;
         $response['message'] = 'Estoy sobrescribiendo el mensaje'; // Puedes personalizar este mensaje.
-      } 
+      }
 
       // Codifica la respuesta como JSON y establece el código de respuesta HTTP.
-      echo json_encode($response, http_response_code($response['status'])); 
-     
+      echo json_encode($response, http_response_code($response['status']));
+
     }
   }
   /**
