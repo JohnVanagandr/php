@@ -87,6 +87,21 @@ class PermissonController extends Controller
       $errors = array();
       $permiso = $_POST['per_name'];
       $slug = $_POST['slug'];
+
+      $concatenar = "";
+
+      if($permiso  == "Visualizar") {
+        $concatenar = $slug.".index";
+      }elseif($permiso  == "Crear"){
+        $concatenar = $slug.".storage";
+      }elseif($permiso == "Actualizar"){
+        $concatenar = $slug.".update";
+      } elseif ($permiso == "Eliminar") {
+        $concatenar = $slug.".delete";
+      }
+                        
+      var_dump($concatenar);
+
       $descripcion = $_POST['descripcion'];
 
       if ($permiso == "") {
@@ -109,7 +124,7 @@ class PermissonController extends Controller
 
         $valores = [
           "name_permisson" => $permiso,
-          "slug" => $slug,
+          "slug" => $concatenar,
           "description" => $descripcion,
         ];
 

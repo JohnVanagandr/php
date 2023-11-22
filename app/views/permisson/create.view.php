@@ -3,9 +3,34 @@
         <h1>Nuevo Permiso</h1>
         
         <div>
-            <input type="text" name="per_name" placeholder="Nombre del permiso">
-            <input type="text" name="slug" placeholder="Ingrese el slug">
-            <input type="text" name="descripcion" placeholder="Descripcion del permiso">
+            <!-- <input type="text" name="per_name" placeholder="Nombre del permiso"> -->
+            <select name="per_name" id="per_name">
+              
+            <!-- Seleccione el metodo  -->
+              <!-- <option value="create">Visualizar</option> -->
+              <option value="Visualizar">Visualizar</option>
+              <option value="Crear">Crear</option>
+              <!-- <option value="editar">Editar</option> -->
+              <option value="Actualizar">Actualizar</option>
+              <option value="Eliminar">Eliminar</option>
+
+              <!-- <option value="manage"></option> -->
+              <!-- <option value="assing"></option> -->
+
+            </select>
+
+
+
+            <!-- <input type="text" name="slug" placeholder="Ingrese el slug"> -->
+
+            <select name="slug" id="slug">
+              
+              <option value="permisson">Permisos</option>
+              <option value="roles">Roles</option>
+
+            </select>
+
+            <input type="text" name="descripcion" placeholder="Descripcion del permiso">  
             
             <?php
             if (isset($data["errors"])) {
