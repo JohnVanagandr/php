@@ -23,6 +23,8 @@ class AdminController extends Controller
 {
 
   private $session;
+
+  private $sesiones;
   /** 
    * Constructor de la clase AdminController, este es el metoddo que primero se ejecuta de la clase.
    * 
@@ -33,6 +35,8 @@ class AdminController extends Controller
   function __construct()
   {
     $this->session = new Session;
+
+    $this->sesiones = $this->session->sesion();
   }
 
   /**
@@ -49,10 +53,10 @@ class AdminController extends Controller
   function index()
   {
 
-    $tiene = $this->session->getLogin() ? true : false;
-    if (!$tiene) {
-      header("Location:" . URL . "/login");
-    }
+    // $tiene = $this->session->getLogin() ? true : false;
+    // if (!$tiene) {
+    //   header("Location:" . URL . "/login");
+    // }
 
     $data = [
       "titulo" => "Home",

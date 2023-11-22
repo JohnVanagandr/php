@@ -4,6 +4,8 @@ namespace Adso\controllers;
 
 use Adso\libs\Controller;
 use Adso\libs\Helper;
+use Adso\libs\Session;
+
 
 /**
  * Clase PermissonController 
@@ -14,6 +16,8 @@ class PermissonController extends Controller
 {
 
   protected $model = "";
+  protected $session;
+
 
   /**
    * Constructor de PermissonController.
@@ -22,6 +26,10 @@ class PermissonController extends Controller
    */
   function __construct()
   {
+
+    $this->session = new Session;
+
+    $this->session->sesion();
 
     $this->model = $this->model('Permisson');
   }

@@ -4,6 +4,7 @@ namespace Adso\controllers;
 
 use Adso\Libs\controller;
 use Adso\libs\Helper;
+use Adso\libs\Session;
 
 class RolesController extends Controller
 {
@@ -12,8 +13,15 @@ class RolesController extends Controller
   protected $model2;
   protected $model3;
 
+  protected $session;
+
   function __construct()
   {
+
+    $this->session = new Session;
+
+    $this->session->sesion();
+
     $this->model = $this->model("Role");
     $this->model2 = $this->model("Permisson");
     $this->model3 = $this->model("Permisson_Role");
