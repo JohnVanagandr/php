@@ -1,5 +1,5 @@
 // //Url base del proyecto
-const url = "http://localhost/php";
+const url = "http://citas.test";
 //Atributos del formulario
 const email = document.getElementById("email");
 let usuario = document.getElementById("user_name");
