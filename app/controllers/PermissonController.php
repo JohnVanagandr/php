@@ -86,45 +86,41 @@ class PermissonController extends Controller
     if ($_SERVER['REQUEST_METHOD'] == 'POST') {
       $errors = array();
       $permiso = $_POST['per_name'];
-      $slug = $_POST['slug'];
-
-      $concatenar = "";
+      $modulo = $_POST['slug'];
+      $slug = "";
+      $descripcion = "";
 
       if($permiso  == "Visualizar") {
-        $concatenar = $slug.".index";
+        $slug = $modulo.".index";
       }elseif($permiso  == "Crear"){
-        $concatenar = $slug.".storage";
+        $slug = $modulo.".storage";
       }elseif($permiso == "Actualizar"){
-        $concatenar = $slug.".update";
+        $slug = $modulo.".update";
       } elseif ($permiso == "Eliminar") {
-        $concatenar = $slug.".delete";
+        $slug = $modulo.".delete";
       }
                         
-      var_dump($concatenar);
-
-      $descripcion = $_POST['descripcion'];
+      // var_dump($slug);
 
       if ($permiso == "") {
         $errors['per_error'] = "el campo esta vacio";
       }
 
-      if ($slug == "") {
+      if ($modulo == "") {
         $errors['per_error'] = "el campo  slug esta vacio";
       }
 
-      if ($descripcion == "") {
-        $errors['per_error'] = "el campo description esta vacio";
-      }
-
-      if (strlen($permiso) > 50) {
-        $errors['per_error'] = "el permiso supera el limite de caracteres";
+      if ($modulo == "permisson") {
+        $descripcion = $permiso." permisos";
+      }else{
+        $descripcion = $permiso." roles";
       }
 
       if (empty($errors)) {
 
         $valores = [
           "name_permisson" => $permiso,
-          "slug" => $concatenar,
+          "slug" => $slug,
           "description" => $descripcion,
         ];
 
@@ -188,19 +184,41 @@ class PermissonController extends Controller
     if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
       $errores = [];
-      $roles = $_POST['per_name'];
+      $permiso = $_POST['per_name'];
+      $modulo = $_POST['slug'];
+      $slug = "";
+      $descripcion = "";
 
-      if ($roles == "") {
+      if($permiso  == "Visualizar") {
+        $slug = $modulo.".index";
+      }elseif($permiso  == "Crear"){
+        $slug = $modulo.".storage";
+      }elseif($permiso == "Actualizar"){
+        $slug = $modulo.".update";
+      } elseif ($permiso == "Eliminar") {
+        $slug = $modulo.".delete";
+      }
+
+      if ($permiso == "") {
         $errores["per_error"] = "el rol esta vacio";
       }
-      if (strlen($roles) > 50) {
-        $errores["per_error"] = "el rol supera el limite de caracteres";
+
+      if ($modulo == "") {
+        $errors['per_error'] = "el campo  slug esta vacio";
+      }
+
+      if ($modulo == "permisson") {
+        $descripcion = $permiso." permisos";
+      }else{
+        $descripcion = $permiso." roles";
       }
 
       if (empty($errores)) {
 
         $valores = [
-          "name_permisson" => $roles,
+          "name_permisson" => $permiso,
+          "slug" => $slug,
+          "description" => $descripcion,
           "id_permission" => Helper::decrypt($id)
         ];
 

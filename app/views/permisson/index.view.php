@@ -13,7 +13,6 @@
         <thead>
             <tr>
                 <th>Nombre</th>
-                <th>Slug</th>
                 <th>Descripción</th>
                 <th>Fecha de creado</th>
                 <th>Fecha de modificacion</th>
@@ -33,9 +32,7 @@
                     <td>
                         <?= $value['name_permisson'] ?>
                     </td>
-                    <td>
-                        <?= $value['slug'] ?>
-                    </td>
+
                     <td>
                         <?= $value['description'] ?>
                     </td>

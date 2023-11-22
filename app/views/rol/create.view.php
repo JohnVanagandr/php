@@ -22,7 +22,7 @@
       <br>
       <label>
         <input type="checkbox" name="permisos[]" value="<?= $value['id_permission'] ?>">
-        <?= $value["name_permisson"] ?>
+        <?= $value["description"] ?>
       </label>
     <?php } ?>
 
