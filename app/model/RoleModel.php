@@ -53,7 +53,7 @@ class RoleModel extends Model
    * Esta función establece una conexión con la base de datos, inserta los datos proporcionados en el parámetro $roles en la tabla correspondiente 
    * y luego cierra la conexión a la base de datos.
    * La usamos
-   *
+   * @copyright 2023 ADSO
    * @access protected
    * @param array $roles
    */

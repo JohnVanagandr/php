@@ -1,8 +1,24 @@
 <IfModule mod_rewrite.c>
+    # Verifica si el módulo mod_rewrite está activo en Apache
+
     Options -Multiviews
+    # Desactiva la negociación de contenido Multiviews
+
     RewriteEngine on
+    # Habilita el motor de reescritura de URL
+
     #RewriteBase /citas/public
+    # [Opcional] Define la base para las reescrituras (actualmente desactivada)
+
     RewriteCond %{REQUEST_FILENAME} !-d
+    # Si la solicitud no corresponde a un directorio existente
+
     RewriteCond %{REQUEST_FILENAME} !-f
+    # Y si la solicitud no corresponde a un archivo existente
+
     RewriteRule ^(.+)$ index.php?url=$1 [QSA,L]
+    # Captura cualquier solicitud y la redirige a index.php,
+    # pasando la parte de la URL como parámetro 'url'.
+    # [QSA] Añade la cadena de consulta existente a la nueva URL.
+    # [L] Indica que esta es la última regla si se cumple.
 </IfModule>
