@@ -40,7 +40,7 @@ class Session
 
     function __construct()
     {
-        session_start();
+       // session_start();
         if (isset($_SESSION['user'])) {
             $this->user = $_SESSION['user'];
             $this->login = true;

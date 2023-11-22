@@ -42,6 +42,16 @@ class Controller
         return new $model();
     }
 
+
+
+    public function libs($libs = "")
+    {
+        // Construye el nombre completo del modelo
+        $libs = 'Adso\libs\\' . $libs;
+        // Crea una nueva instancia del modelo y la retorna
+        return new $libs();
+    }
+
     /**
      * se carga una vista desde la carpeta Views.
      *

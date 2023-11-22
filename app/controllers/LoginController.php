@@ -21,6 +21,14 @@ class LoginController extends Controller
      */
     protected $model;
 
+    protected $model2;
+
+    protected $libs;
+
+    protected $Session;
+
+
+
     // Constructor de la clase
 
 
@@ -36,6 +44,34 @@ class LoginController extends Controller
     {
 
         $this->model = $this->model("User"); // Crea una instancia del modelo "User"
+
+        $this->model2 = $this->libs("Session");
+
+
+
+        $this->Session = new Session;
+
+
+        
+
+
+        // $data = [
+        //     "titulo" => "Login",
+        //     "subtitulo" => "Formulario login"
+        
+        // ];
+
+        // Carga la vista 'login' con los datos proporcionados y el contexto 'auth'
+        // $this->view('login', $data, 'auth');
+
+        // if($this->Session->getLogin()==true){
+        //     header("Location: ".URL."/admin");
+        // }else{
+        //     header("Location: ".URL."/login");
+
+        //     //$this->view('login', $data, 'auth');
+
+        // }
 
     }
 
