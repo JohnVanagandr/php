@@ -236,4 +236,35 @@ class RolesController extends Controller
         }
     }
 
+    public function manageid($id) {
+        
+        $data = [
+            "titulo" => "Roles",
+            "subtitulo" => "Administración de roles",
+            "menu" => true,
+            "user_id" => Helper::decrypt($id) // Pasa el ID de usuario a la vista
+        ];
+        // print_r($data);
+            // die();
+
+        $this->view("admin.manage", $data, "app");
+    }
+    
+
+    public function updateRolUser($id) {
+        if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+            $errores = [];
+            $RoleId = $_POST['TipoRol'];
+
+            
+            $userId = Helper::decrypt($id);
+            
+            $this->model->updateUserIdRole($userId, $RoleId);
+            
+            header("location:" . URL . "/admin");
+        } else {
+            
+        }
+    }
+        
 }

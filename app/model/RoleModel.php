@@ -116,4 +116,14 @@ class RoleModel extends Model
         $data = $this->delete($this->tabla, $id); // Eliminamos el Rol con el identificador $id en la tabla correspondiente.
         $this->connection = $this->db->closConnection(); // Cerramos la conexión a la base de datos.
     }
+    function updateUserIdRole($userId, $newRoleId) {
+        $sql = "UPDATE users SET id_role_fk = :newRoleId WHERE id_user = :userId";
+        $params = array(':newRoleId' => $newRoleId, ':userId' => $userId);
+
+        $connection = $this->db->getConnection();
+        $stm = $connection->prepare($sql);
+        $stm->execute($params);
+    }
+   
+    
 }

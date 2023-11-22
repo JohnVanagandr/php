@@ -24,7 +24,7 @@ if (isset($this->permit['Usuarios']) && $this->permit['Usuarios'] == 1) {
                     <th>Rol</th>
                     <th>telefono</th>
                     <th>Correo</th>
-                    <!-- <th>Acciones</th> -->
+                    <th>Acciones</th> 
                 </tr>
             </thead>
             <tbody>
@@ -47,9 +47,9 @@ if (isset($this->permit['Usuarios']) && $this->permit['Usuarios'] == 1) {
                         <td>
                             <?= $value['email'] ?>
                         </td>
-                        <!-- <td>
-                        //<button><a href="<?= URL ?>/roles/manage/<?= Helper::encrypt($value['id_role']) ?>">Administrar</a></button>
-                        </td> -->
+                         <td>
+                         <button><a href="<?= URL ?>/roles/manageid/<?= Helper::encrypt($value['user_id']) ?>">Administrar</a></button>
+                        </td>
 
                     </tr>
                 <?php

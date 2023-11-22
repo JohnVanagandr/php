@@ -232,4 +232,15 @@ class UserModel extends Model
         return $this->insert("users", $valores);
     }
     
+     function updateUserIdRole($userId, $newRoleId) {
+        $sql = "UPDATE usuarios SET id_role = :newRoleId WHERE id = :userId";
+        $params = array(':newRoleId' => $newRoleId, ':userId' => $userId);
+
+        $connection = $this->db->getConnection();
+        $stm = $connection->prepare($sql);
+        $stm->execute($params);
+    }
+
+    
+    
 }
