@@ -23,7 +23,6 @@
       }
       ?>
     </div>
-      @
     <!-- Iteración sobre los permisos disponibles -->
     <?php foreach ($data['permisos'] as $value) { ?>
       <br>

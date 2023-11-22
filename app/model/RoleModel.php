@@ -1,7 +1,7 @@
 <?php
 
     /**
-        * @author Andres Vargas <afvargas325@misena.edu.co>
+        * @author ADSO
     */
 
 namespace Adso\model;

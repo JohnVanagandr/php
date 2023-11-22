@@ -5,6 +5,8 @@
             <input type="text" name="rol_name" value="<?= $data['data']['name_role'] ?>"
                 placeholder="Nombre de rol">
             <?php
+            //Comentario de la lista en cambio, de iterenancia en el codigo 
+            
             if (isset($data["errors"])) {
                 if (array_key_exists("rol_error", $data["errors"])) {
                     ?>
