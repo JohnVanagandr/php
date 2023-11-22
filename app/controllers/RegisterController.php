@@ -80,16 +80,14 @@ class RegisterController extends controller
       } else {
         if (!ctype_alpha($name)) {
           $errores['name_error'] = "Solo se permiten caracteres alfabéticos";
-        } elseif (strlen($name) < 5) {
-          $errores['name_error'] = "El nombre debe tener al menos 5 letras";
-        }
+        } 
         }
 
       if ($user_name == "") {
         $errores['username_error'] = "El username no está definido";
       } else {
-        if (strlen($user_name) < 5) {
-          $errores['username_error'] = "El username debe tener al menos 5 letras";
+        if (strlen($user_name) < 3) {
+          $errores['username_error'] = "El username debe tener al menos 3 caracteres";
         }
         }
       
@@ -179,7 +177,8 @@ class RegisterController extends controller
         ];
 
         // Realiza una transacción de registro a través del servicio.
-        $transaccion = $this->servicio->trsRegistro($valores);
+        // $transaccion = $this->servicio->trsRegistro($valores);
+        $this->servicio->trsRegistro($valores);
       } else {
         // Si hay errores, crea un arreglo con los errores y muestra la página de registro nuevamente con los errores.
         $data = [
@@ -188,6 +187,7 @@ class RegisterController extends controller
         $this->view("register", $data, "auth");
       }
     }
+    header('Location: ' . URL . '/admin'); //Redireccionamiento de 
   }
 
 
