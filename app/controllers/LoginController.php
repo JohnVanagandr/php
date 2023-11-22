@@ -17,7 +17,6 @@ class LoginController extends Controller
 {
     /**
      * @access protected
-     * @var string
      */
     protected $model;
 

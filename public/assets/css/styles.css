@@ -282,3 +282,7 @@ table tbody td button a {
     background: var(--primary--color);
     color: var(--white--color);
 }
+
+.btn-table{
+    margin-left: 10px;
+}
