@@ -72,7 +72,7 @@ class UserModel extends Model
      */
     function getUsuario($usuario)
     {
-        $sql = "SELECT user_name  FROM users WHERE user_name  = :user";
+        $sql = "SELECT user_name FROM users WHERE BINARY user_name = :user";
         $stm = $this->connection->prepare($sql);
         $stm->bindValue(":user", $usuario);
         $stm->execute();

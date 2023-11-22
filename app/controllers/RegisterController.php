@@ -110,8 +110,7 @@ class RegisterController extends controller
             }
         }
       }
-      
-      
+
       if ($pass == "") {
         $errores['pass_error'] = "La contraseña no está definida";
       } else {
@@ -158,7 +157,7 @@ class RegisterController extends controller
       $userResult = $this->model->getUsuario($user_name);
       if (is_array($userResult)) {
         $user = $userResult['user_name'];
-        if (isset($user) && $user == $user_name) {
+        if (isset($user) && $user === $user_name) {
           $errores['user_duplicate'] = "El usuario ya existe";
         }
       }
