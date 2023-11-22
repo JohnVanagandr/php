@@ -34,7 +34,9 @@ class UserModel extends Model
 
     function getUsers()
     {
-        $sql = "SELECT * FROM users";
+        $sql = "SELECT U.*,P.*,R.*  FROM users U 
+        INNER JOIN profiles P ON P.user_id = U.id_user
+        INNER JOIN roles R ON R.id_role = U.id_role_fk;";
         $stm = $this->connection->prepare($sql);
         $stm->execute();
         return $stm->fetchAll();

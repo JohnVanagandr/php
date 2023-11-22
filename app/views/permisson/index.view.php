@@ -3,7 +3,7 @@
         <div class="tittle-table">
             <h2>Permisos</h2>
             <?php
-            if (isset($this->permit['Crear']) && $this->permit['Crear'] === 1) {
+            if (isset($this->permit['Crear']) && $this->permit['Crear'] == 1) {
             ?>
                 <button><a href="<?= URL ?>/permisson/create">nuevo</a></button>
             <?php
@@ -44,12 +44,12 @@
                     </td>
                     <td>
                         <?php
-                        if (isset($this->permit['Editar']) && $this->permit['Editar'] === 1) {
+                        if (isset($this->permit['Editar']) && $this->permit['Editar'] == 1) {
                         ?>
                             <button><a href="<?= URL ?>/permisson/editar/<?= Helper::encrypt($value['id_permission']) ?>">editar</a></button>
                         <?php
                         }
-                        if (isset($this->permit['Eliminar']) && $this->permit['Eliminar'] === 1) {
+                        if (isset($this->permit['Eliminar']) && $this->permit['Eliminar'] == 1) {
                         ?>
                             <button><a href="<?= URL ?>/permisson/delete/<?= Helper::encrypt($value['id_permission']) ?>">eliminar</a></button>
                         <?php

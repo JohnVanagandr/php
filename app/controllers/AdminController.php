@@ -16,6 +16,11 @@ use Adso\libs\Permisson;
 class AdminController extends Controller
 {
 
+    protected $model;
+    protected $model2;
+    protected $permission;
+    protected $permit;
+    
     /** 
      * Constructor de la clase AdminController, este es el metoddo que primero se ejecuta de la clase.
      * 
@@ -25,6 +30,11 @@ class AdminController extends Controller
     */
     function __construct()
     {
+        $this->model = $this->model("User");
+        $this->model2 = $this->model("Permisson");
+
+        $this->permission = new Permisson();
+        $this->permit = $this->permission->ifpermisson();
     }
 
     /**
@@ -40,11 +50,17 @@ class AdminController extends Controller
 
     function index()
     {
+        $users = $this->model->getUsers();
+        $permit = $this->model2->getPermisson();
+        // print_r($users);
+        // die();
 
         $data = [
             "titulo"    => "Home",
-            "subtitulo" => "Saludo del sistema",
-            "menu" => true
+            "subtitulo" => "Saludo del sistemaa",
+            "menu" => true,
+            "permit" => $permit,
+            "users" => $users
         ];
 
         /** Se llama al método "view" en la instancia actual para renderizar una vista*/

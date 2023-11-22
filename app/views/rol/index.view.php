@@ -1,12 +1,12 @@
 <?php
-// print_r($this->permit['Administrar'])
+// print_r($this->permit)
 ?>
 <section class="content-table">
     <div class="table-header">
         <div class="tittle-table">
             <h2>Roles</h2>
             <?php
-            if (isset($this->permit['Crear']) && $this->permit['Crear'] === 1) {
+            if (isset($this->permit['Crear']) && $this->permit['Crear'] == 1) {
             ?>
                 <button><a href="<?= URL ?>/roles/create">nuevo</a></button>
             <?php
@@ -72,4 +72,5 @@
             ?>
         </tbody>
     </table>
+    
 </section>
