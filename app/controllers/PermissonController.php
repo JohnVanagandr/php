@@ -20,7 +20,7 @@ class PermissonController extends Controller
   protected $permission;
   protected $permit;
 
-  const PREFIJO = 'Permission';
+  const PREFIJO = 'Permisson';
 
   /**
    * Constructor de PermissonController.
