@@ -1,5 +1,5 @@
 <?php
-define('URL', 'http://localhost/citas');
+define('URL', 'http://localhost/nuevo/php');
 define('NAME', 'ADSO');
 /*la kay es la llave de encriptaacion  */
 define('KEY', 'mimamamemima');

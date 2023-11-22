@@ -48,19 +48,48 @@
 <div>
 <?php
 
-$total_registro = count($data['permisos']);
-$total_paginas = ceil($total_registro);
+if($_REQUEST["pagina"]==="1"){$_REQUEST["pagina"]=="0";}
+        else{
+            if($pagina>1)
+            $ant=$_REQUEST["pagina"]-1;
+            echo"<a href='" . URL . "/permisson/pagina=1><span>previus</span>";
+            echo"<a href='" . URL . "/permisson/pagina=".($pagina-1)."'>".$ant."</a>";
+            echo "<a> ".$_REQUEST["pagina"] ."</a> ";
+        $sigui =$_REQUEST["pagina"]+1;
+        $ultima =$total_registro/$registros;
+        if($ultima==$_REQUEST["pagina"]+1){
+            $ultima="";
+        }
+        if($pagina<$paginas && $paginas>1){
+            echo"<a href='" . URL . "/permisson/pagina=".($pagina+1).">".$sigui."</a>";
+        }  
+        if($pagina<$paginas && $paginas>1){
+            echo"<a href='" . URL . "/permisson/pagina=".ceil($ultima)."'></a>";    
+        }
+
+        }
 
 
-echo "<center><a href='" . URL . "/permisson/index=1'>Anterior</a>";
 
-// Enlaces numéricos de páginas
-for ($i = 1; $i <= $total_paginas; $i++) {
-    echo "<a href='" . URL . "/permisson/index=$i'>$i</a> ";
-}
 
-// Enlace "Siguiente"
-echo "<a href='" . URL . "/permisson/index=$total_paginas'>Siguiente</a></center>";
+
+
+
+
+
+    // $total_registro =13;
+    // $total_paginas =ceil($total_registro/$por_pagina=12);
+
+
+    // echo "<center>";
+
+    // // Enlaces numéricos de páginas
+    // for ($i = 1; $i <= $total_paginas; $i++) {
+    //     echo "<a href='" . URL . "/permisson/pagina=".$i."'>".$i."</a> ";
+    // }
+
+    // // Enlace "Siguiente"
+    // echo "</center>";
 ?>
 
 

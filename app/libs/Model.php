@@ -202,20 +202,59 @@ class Model
 
 
 
-    public function paginadopermisos($tabla = "", $por_pagina = 12)
+    public function paginadopermisos($tabla = "")
 {   
-    if(isset($_GET['pagina'])){
-        $pagina = $_GET['pagina'];
-    } else {
-        $pagina = 0;
+    if(!empty($_REQUEST["pagina"])){
+        $_REQUEST["pagina"]=$_REQUEST["pagina"];
+    }else{
+        $_REQUEST["pagina"]="1";
     }
+    if($_REQUEST["pagina"]==""){
+        $_REQUEST["pagina"]="1";
+    }
+    $sql1 = "SELECT * FROM $tabla";
+    $stm1 = $this->connection->prepare($sql1);
+    $stm1->execute();
+    $total_registro = $stm1->rowCount(); 
+    $pagina=$_REQUEST["pagina"];
+    $registros='12';
 
-    $empieza = $pagina * $por_pagina;
+    if(is_numeric($pagina))
+        $inicio=(($pagina-1)*$registros);
+    else
+    $inicio=0;
+    
+    $sql = "SELECT * FROM $tabla LIMIT $inicio, $registros";
+        $stm = $this->connection->prepare($sql);
+        $stm->execute();
 
-    $sql = "SELECT * FROM $tabla LIMIT $empieza, $por_pagina";
-    $stm = $this->connection->prepare($sql);
-    $stm->execute();
-    return $stm->fetchAll();
+        $paginas=ceil($total_registro/$registros);
+
+        return $stm->fetchAll();
+
+        //esto va en la vista se tieen que pasar los parametros a la vista de este controlador :)
+
+        // if($_REQUEST["pagina"]==="1"){$_REQUEST["pagina"]=="0";}
+        // else{
+        //     if($pagina>1)
+        //     $ant=$_REQUEST["pagina"]-1;
+        //     echo"<a href='" . URL . "/permisson/pagina=1><span>previus</span>";
+        //     echo"<a href='" . URL . "/permisson/pagina=".($pagina-1)."'>".$ant."</a>";
+        //     echo "<a> ".$_REQUEST["pagina"] ."</a> ";
+        // $sigui =$_REQUEST["pagina"]+1;
+        // $ultima =$total_registro/$registros;
+        // if($ultima==$_REQUEST["pagina"]+1){
+        //     $ultima="";
+        // }
+        // if($pagina<$paginas && $paginas>1){
+        //     echo"<a href='" . URL . "/permisson/pagina=".($pagina+1).">".$sigui."</a>";
+        // }  
+        // if($pagina<$paginas && $paginas>1){
+        //     echo"<a href='" . URL . "/permisson/pagina=".ceil($ultima)."'></a>";    
+        // }
+
+        // }
+    
 }
 
 
@@ -223,4 +262,23 @@ class Model
 
 
 
+
+
+public function controwpremisos($tabla = "")
+    {
+        if(!empty($_REQUEST["pagina"])){
+            $_REQUEST["pagina"]=$_REQUEST["pagina"];
+        }else{
+            $_REQUEST["pagina"]="1";
+        }
+        if($_REQUEST["pagina"]==""){
+            $_REQUEST["pagina"]="1";
+        }
+        $sql = "SELECT * FROM $tabla";
+        $stm = $this->connection->prepare($sql);
+        $stm->execute();
+        $total_registro = $stm->rowCount(); 
+        $pagina=$_REQUEST["pagina"];
+        return $total_registro;
+    }
 }

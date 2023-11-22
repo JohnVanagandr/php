@@ -40,7 +40,7 @@ class PermissonModel extends Model
 
     function pcaginado(){ // Comentario descriptivo de la función
         $this -> connection = $this -> db -> getConnection(); //Establece la conexión a la base de datos
-        $data = $this -> select($this->tabla)
+        $data = $this -> controwpremisos($this->tabla)
         ($this -> tabla); //Realiza una consulta a la base de datos y guarda los resultados en la variable $data
         $this -> connection = $this -> db -> closConnection(); //Cierra la conexión a la base de datos
         return $data; //Devuelve los datos obtenidos de la consulta

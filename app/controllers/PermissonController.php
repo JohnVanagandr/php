@@ -37,14 +37,24 @@ class PermissonController extends Controller
     function index()
     {
         $permisos = $this->model->getPermisson();
-
+        
+        
+        
         $data = [
             "titulo" => "permisos",
             "subtitulo" => "Lista de permisos",
             "menu" => true,
             "permisos" => $permisos
         ];
-
+        
+        // $paginador =$this->model->pcaginado();
+        // $data1 = [
+        //     "titulo" => "permisos",
+        //     "subtitulo" => "Lista de permisos",
+        //     "menu" => true,
+        //     "permisos" => $paginador
+        // ];
+       
         $this->view('permisson/index', $data, 'app');
     }
 
@@ -230,13 +240,13 @@ class PermissonController extends Controller
     {
         $permisos = $this->model->pcaginado();
 
-        $data = [
+        $data2 = [
             "titulo" => "paginado",
             "subtitulo" => "paginado de permisos",
             "menu" => true,
             "permisos" => $permisos
         ];
 
-        $this->view('permisson/index', $data, 'app');
+        $this->view('permisson/index', $data2, 'app');
     }
 }
