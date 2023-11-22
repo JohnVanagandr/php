@@ -3,7 +3,6 @@
 define('URL', '');
 define('NAME', '');
 
-
 // Definición de claves para encriptación
 define('KEY', 'mimamamemima');
 /* la master es la llave que encripta */
@@ -21,4 +20,3 @@ define('ROLES', [
   'admin' => 1,
   'user' => 2
 ]);
-?>
