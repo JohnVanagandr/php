@@ -37,6 +37,13 @@ class LoginController extends Controller
 
         $this->model = $this->model("User"); // Crea una instancia del modelo "User"
 
+        /**
+         * condicion que mira si la sesion esta iniciada, si es verdadero lo debe redirigin directamente a la vista admin
+         */
+        if((session_start() == true )){
+            header('Location: ' . URL . '/admin'); 
+        }
+
     }
 
 
