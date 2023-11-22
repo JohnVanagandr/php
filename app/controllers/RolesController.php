@@ -19,40 +19,18 @@ class RolesController extends Controller
 
     function __construct()
     {
-        
-
-        $this->model = $this->model("Role");
-        $this->model2 = $this->model("Permisson");
-        $this->model3 = $this->model("Permisson_Role");
-
+    
         $this->permission = new Permisson();
-        $this->permit = $this->permission->ifpermisson();
+        $this->permit = $this->permission->ifpermisson(self::PREFIJO);      
 
-        foreach($this->permit as $key => $value){
-            $url = explode('.', $key);
-
+        if($this->permit){
+            $this->model = $this->model("Role");
+            $this->model2 = $this->model("Permisson");
+            $this->model3 = $this->model("Permisson_Role");
+        }else{
+            header("Location: " . URL . "/admin/error403");
             
-
-            if(ucwords($url[0]) == self::PREFIJO){
-                echo "<pre>";
-                print_r($url[1]);
-                echo "</pre>";
-
-                if(($url[1]) == "index"){
-                    $this->index();
-                }
-
-
-            }else{
-                echo "No tiene permitido ver esta vista";
-            }
         }
-
-        print_r($this -> permit);
-
-
-        die();
-
         
     }
 
@@ -67,13 +45,8 @@ class RolesController extends Controller
             "roles" => $roles
         ];
 
-        if ($this->permit["index"]) {
-            $this->view("rol/index", $data, "app");
-          } else {
-            echo "no tienes permisos para crear un rol";
-          }
 
-        // $this->view('rol/index', $data, 'app');
+        $this->view('rol/index', $data, 'app');
     }
 
     function create()
@@ -85,11 +58,9 @@ class RolesController extends Controller
             "menu" => true
         ];
 
-        if ($this->permit["create"]) {
+
             $this->view("rol/create", $data, "app");
-          } else {
-            echo "no tienes permisos para crear un rol";
-          }
+
     }
 
     function storage()
@@ -143,11 +114,9 @@ class RolesController extends Controller
             "id" => $id
         ];
 
-        if ($this->permit["editar"]) {
-            $this->view("rol/update", $data, "app");
-          } else {
-            echo "no tienes permisos para editar un rol";
-          }
+
+        $this->view("rol/update", $data, "app");
+
     }
 
     function update($id)
@@ -183,7 +152,7 @@ class RolesController extends Controller
                     "errors" => $errores
                 ];
 
-                $this->view("rol/create", $data, "app");
+                $this->view("rol/update", $data, "app");
             }
         } else {
         }
@@ -191,20 +160,17 @@ class RolesController extends Controller
 
     function delete($id)
     {
-        if ($this->permit["delete"]) {
-            $this->model->deleteRole(["id_role" => Helper::decrypt($id)]);
-            header("Location: " . URL . "/roles");
-      
-            $data = [
-              "titulo" => "Roles",
-              "subtitulo" => "Eliminación de roles",
-              "menu" => true,
-              "id" => $id
-            ];
-            $this->view("rol/update", $data, "app");
-          } else {
-            echo "no tienes permisos para eliminar un rol";
-          }
+        $this->model->deleteRole(["id_role" => Helper::decrypt($id)]);
+        header("Location: " . URL . "/roles");
+    
+        $data = [
+            "titulo" => "Roles",
+            "subtitulo" => "Eliminación de roles",
+            "menu" => true,
+            "id" => $id
+        ];
+        header("Location: " . URL . "/roles");
+
     }
 
     /**
@@ -238,12 +204,8 @@ class RolesController extends Controller
             "permit_role" => $permit_role //array
         ];
 
+        $this->view("rol/manage", $data, "app");
 
-        if ($this->permit["manage"]) {
-            $this->view("rol/manage", $data, "app");
-          } else {
-            echo "no tienes permisos para administrar un rol";
-          }
 
     }
     /**
