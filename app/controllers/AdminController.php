@@ -8,6 +8,7 @@ namespace Adso\controllers;
 use Adso\libs\Controller;
 /** Esta línea importa la clase "Permisson" del espacio de nombres "Adso\libs" */
 use Adso\libs\Permisson;
+use Adso\libs\Session;
 
 
 /** Se define una clase llamada "AdminController" que hereda de la clase "Controller" 
@@ -17,15 +18,21 @@ use Adso\libs\Permisson;
 class AdminController extends Controller
 {
 
+    private $session;
   /** 
    * Constructor de la clase AdminController, este es el metoddo que primero se ejecuta de la clase.
    * 
    * En este caso, el constructor está vacío, lo que significa que no realiza 
    * ninguna acción específica.
    *
-   */
+  */
+  //protected $sesion;
   function __construct()
   {
+
+        $this->session = new Session();        
+        
+        
   }
 
   /**

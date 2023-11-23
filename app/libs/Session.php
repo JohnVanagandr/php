@@ -19,7 +19,7 @@ class Session
 
     private $login = false;
 
-    /** @var mixed $user Datos del usuario autenticado.
+    /** @var array $user Datos del usuario autenticado.
      */
 
     private $user;
@@ -40,7 +40,7 @@ class Session
 
     function __construct()
     {
-       // session_start();
+        session_start();
         if (isset($_SESSION['user'])) {
             $this->user = $_SESSION['user'];
             $this->login = true;
@@ -60,12 +60,12 @@ class Session
      * Luego almacena el valor del parámetro en la variable de session con la clave 'user', que indica que el usuario esta autenticado.
      * Y por ultimo establece al objeto login en true para indicar que el usuario ha iniciado sesión con éxito.
      * 
-     *  @param mixed $user Datos del usuario que se va a autenticar.
-     *  @return void
+     *  @param array $user Datos del usuario que se va a autenticar.
      */
 
     function loginStar($user)
     {
+        
         if ($user) {
             $this->user = $_SESSION['user'] = $user;
             $this->login = true;
@@ -81,7 +81,6 @@ class Session
      * Tambien elimina el objeto, en caso de que existiera, para limpiar los datos del usuario autenticado.
      * Y establece el objeto login en false para indicar que el usuario ha cerrado sesión con éxito.
      * 
-     * @return void
      */
 
     function loginDestroy()
@@ -99,6 +98,7 @@ class Session
 
     function getLogin()
     {
+        
         return $this->login;
     }
 
@@ -106,7 +106,7 @@ class Session
     /**
      * Obtiene los datos del usuario autenticado.
      * 
-     *  @return mixed Datos del usuario autenticado
+     *  @return array Datos del usuario autenticado
      * 
      */
 
@@ -114,6 +114,10 @@ class Session
     {
         return $this->user;
     }
+
+
+
+    
 
     
 }

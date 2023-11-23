@@ -9,6 +9,7 @@ use Adso\libs\Session; // Importa la clase Session del espacio de nombres Adso\l
 use Adso\libs\Email; // Importa la clase Email del espacio de nombres Adso\libs
 use Adso\libs\DateHelper; // Importa la clase DateHelper del espacio de nombres Adso\libs
 
+
 /**
  * @package controllers
  * @author Jarminthon Enrique Rueda Larrota
@@ -20,18 +21,7 @@ class LoginController extends Controller
      * @var string
      */
     protected $model;
-
-    protected $model2;
-
-    protected $libs;
-
     protected $Session;
-
-
-
-    // Constructor de la clase
-
-
     /**
      * Método contructor de la clase
      *
@@ -43,35 +33,19 @@ class LoginController extends Controller
     function __construct()
     {
 
-        $this->model = $this->model("User"); // Crea una instancia del modelo "User"
-
-        $this->model2 = $this->libs("Session");
-
-
-
-        $this->Session = new Session;
-
-
         
-
-
-        // $data = [
-        //     "titulo" => "Login",
-        //     "subtitulo" => "Formulario login"
+        $this->Session = new Session();
         
-        // ];
+        if($this->Session->getLogin()){ 
 
-        // Carga la vista 'login' con los datos proporcionados y el contexto 'auth'
-        // $this->view('login', $data, 'auth');
+            header("Location: " . URL . "/admin");
 
-        // if($this->Session->getLogin()==true){
-        //     header("Location: ".URL."/admin");
-        // }else{
-        //     header("Location: ".URL."/login");
+        }
+        else{
 
-        //     //$this->view('login', $data, 'auth');
-
-        // }
+            $this->model = $this->model("User"); // Crea una instancia del modelo "User"
+            
+        }
 
     }
 
@@ -111,6 +85,10 @@ class LoginController extends Controller
         ];
 
         // Carga la vista 'login' con los datos proporcionados y el contexto 'auth'
+        
+
+
+        
         $this->view('login', $data, 'auth');
     }
 
@@ -177,10 +155,10 @@ class LoginController extends Controller
 
                 } else {
                     //Tomamos el resultado de la consulta
-                    $sesion = new Session();
-                    $sesion->loginStar($data);
-                    $role = $data['id_role_fk'];
-                    print_r($role);
+                    // $session = new Session();
+                    $this -> Session->loginStar($data);
+
+                    
 
                     header('Location: ' . URL . '/admin'); //Redireccionamiento de 
 
