@@ -152,26 +152,22 @@ public function getDataById($tabla = "", $columnas = [])
     public function update($tabla = "", $columnas = [] ){
 
         $columns = "";
-        $params = "";
+
         $clave = array_key_last($columnas);
         $valor = array_pop($columnas);
 
         foreach ($columnas as $key => $value) {
             // Agregar el nombre de la columna a la cadena de columnas
-            $columns .= $key . ",";
-
-            // Agregar el marcador de parámetro a la cadena de parámetros
-            $params .= ":" . $key . ",";
+            $columns .= $key . " = :" . $key . ",";
           
         }
 
         // Eliminar la última coma de las cadenas de columnas y parámetros
         $columns = rtrim($columns, ',');
-        $params = rtrim($params, ',');
 
 
         // Construir la consulta SQL de inserción utilizando las cadenas formadas
-        $sql = "UPDATE $tabla SET $columns = $params WHERE $clave = $valor";
+        $sql = "UPDATE $tabla SET $columns WHERE $clave = $valor";
 
         // Preparar la consulta SQL
         $stm = $this->connection->prepare($sql);

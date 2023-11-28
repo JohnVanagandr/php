@@ -100,7 +100,6 @@ class PermissonController extends Controller
         $slug = $modulo.".delete";
       }
                         
-      // var_dump($slug);
 
       if ($permiso == "") {
         $errors['per_error'] = "el campo esta vacio";
