@@ -4,6 +4,7 @@ namespace Adso\controllers;
 
 use Adso\libs\Controller;
 use Adso\libs\Helper;
+use Adso\libs\DateHelper;
 
 /**
  * Clase PermissonController 
@@ -71,7 +72,10 @@ class PermissonController extends Controller
       foreach ($data as $key => $value) {
         // Accede al elemento id_permission
         $id_permission = $value['id_permission'];
-
+        $dateUpdate = DateHelper::shortDate($value['updated_at']);
+        $dateCreate = DateHelper::shortDate($value['created_at']);
+        $data[$key]['created_at'] = $dateCreate;
+        $data[$key]['updated_at'] = $dateUpdate;
         // Encripta el id_permission
         $encrypted_id_permission = Helper::encrypt($id_permission); // Asegúrate de tener una función de encriptación definida
 
@@ -94,7 +98,7 @@ class PermissonController extends Controller
     } else {
       // Si no se encuentra un resultado, se actualiza el mensaje de respuesta para indicar que el correo no está registrado.
       $response['status'] = 200;
-      $response['message'] = 'Estoy sobrescribiendo el mensaje'; // Puedes personalizar este mensaje.
+      $response['message'] = 'Estoy sobrescribiendo el mensaje';
     }
 
     // Codifica la respuesta como JSON y establece el código de respuesta HTTP.

@@ -4,6 +4,7 @@ namespace Adso\controllers;
 
 use Adso\libs\Controller; // Corregido "controller" a "Controller"
 use Adso\libs\Helper;
+use Adso\libs\DateHelper;
 
 class RolesController extends Controller
 {
@@ -40,7 +41,6 @@ class RolesController extends Controller
     $response = array(
       'status' => false,
       'data' => false,
-      'message' => 'Está intentando acceder a información privada'
     );
 
     // Valida que la solicitud sea de tipo POST.
@@ -57,11 +57,14 @@ class RolesController extends Controller
       foreach ($data as $key => $value) {
         // Accede al elemento id_permission
         $id_role = $value['id_role'];
-
+        $dateUpdate = DateHelper::shortDate($value['updated_at']);
+        $dateCreate = DateHelper::shortDate($value['created_at']);
         // Encripta el id_permission
         $encrypted_id_role = Helper::encrypt($id_role); // Asegúrate de tener una función de encriptación definida
 
         // Reemplaza el id_permission original con el encriptado en el array
+        $data[$key]['created_at'] = $dateCreate;
+        $data[$key]['updated_at'] = $dateUpdate;
         $data[$key]['id_role'] = $encrypted_id_role;
       }
       $response["datax"] = $data;
@@ -77,7 +80,7 @@ class RolesController extends Controller
       } else {
         // Si no se encuentra un resultado, se actualiza el mensaje de respuesta para indicar que el correo no está registrado.
         $response['status'] = 200;
-        $response['message'] = 'Estoy sobrescribiendo el mensaje'; // Puedes personalizar este mensaje.
+        $response['message'] = 'Estoy sobrescribiendo el mensaje';
       }
 
       // Codifica la respuesta como JSON y establece el código de respuesta HTTP.
