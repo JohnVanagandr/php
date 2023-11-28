@@ -17,7 +17,7 @@
       <i class="bi bi-search"></i>
     </div>
   </div>
-  
+
   <table>
     <thead>
       <tr>
@@ -35,7 +35,7 @@
 
       foreach ($data['roles'] as $value) {
         ?>
-        <tr >
+        <tr>
           <td>
             <?= $value['name_role'] ?>
           </td>
