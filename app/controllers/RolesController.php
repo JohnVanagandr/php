@@ -54,24 +54,35 @@ class RolesController extends Controller
       // Consulta con el modelo utilizando el correo proporcionado.
       $data = $this->model->getRolesFilter($buscar, $filtros);
 
+      foreach ($data as $key => $value) {
+        // Accede al elemento id_permission
+        $id_role = $value['id_role'];
+
+        // Encripta el id_permission
+        $encrypted_id_role = Helper::encrypt($id_role); // Asegúrate de tener una función de encriptación definida
+
+        // Reemplaza el id_permission original con el encriptado en el array
+        $data[$key]['id_role'] = $encrypted_id_role;
+      }
       $response["datax"] = $data;
+      //$datax['id_role'] = Helper::encrypt($data['id_role']);
       // Verifica si se obtuvo algún dato de la consulta.
       if ($data) {
         // Si se encuentra un resultado, se actualiza el arreglo de respuesta.
-        $response['filtros'] = $filtros;
+        $response["accion"] = "roles";
+        $response['filtro'] = $filtros;
         $response['buscar'] = $buscar;
         $response['status'] = 200;
         $response['data'] = true;
-        $response['message'] = 'El correo se encuentra registrado';
-       } else {
+      } else {
         // Si no se encuentra un resultado, se actualiza el mensaje de respuesta para indicar que el correo no está registrado.
         $response['status'] = 200;
         $response['message'] = 'Estoy sobrescribiendo el mensaje'; // Puedes personalizar este mensaje.
-      } 
+      }
 
       // Codifica la respuesta como JSON y establece el código de respuesta HTTP.
-      echo json_encode($response, http_response_code($response['status'])); 
-     
+      echo json_encode($response, http_response_code($response['status']));
+
     }
   }
   /**

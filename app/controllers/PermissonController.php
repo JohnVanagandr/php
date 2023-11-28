@@ -53,7 +53,6 @@ class PermissonController extends Controller
     $response = array(
       'status' => false,
       'data' => false,
-      'message' => 'Está intentando acceder a información privada'
     );
 
     // Valida que la solicitud sea de tipo POST.
@@ -66,27 +65,43 @@ class PermissonController extends Controller
       $filtros = $request->filtros;
       // Consulta con el modelo utilizando el correo proporcionado.
       $data = $this->model->getPermissonFilter($buscar, $filtros);
-      
-      $response["datax"] = $data;
-      // Verifica si se obtuvo algún dato de la consulta.
-      if ($data) {
-        // Si se encuentra un resultado, se actualiza el arreglo de respuesta.
-        $response['filtros'] = $filtros;
-        $response['buscar'] = $buscar;
-        $response['status'] = 200;
-        $response['data'] = true;
-        $response['message'] = 'El correo se encuentra registrado';
-       } else {
-        // Si no se encuentra un resultado, se actualiza el mensaje de respuesta para indicar que el correo no está registrado.
-        $response['status'] = 200;
-        $response['message'] = 'Estoy sobrescribiendo el mensaje'; // Puedes personalizar este mensaje.
-      } 
+      //$data['id_permission'] = Helper::encrypt($data['id_permission']);
 
-      // Codifica la respuesta como JSON y establece el código de respuesta HTTP.
-      echo json_encode($response, http_response_code($response['status'])); 
-     
+
+      foreach ($data as $key => $value) {
+        // Accede al elemento id_permission
+        $id_permission = $value['id_permission'];
+
+        // Encripta el id_permission
+        $encrypted_id_permission = Helper::encrypt($id_permission); // Asegúrate de tener una función de encriptación definida
+
+        // Reemplaza el id_permission original con el encriptado en el array
+        $data[$key]['id_permission'] = $encrypted_id_permission;
+      }
+
+
+      $response["datax"] = $data;
     }
+
+    // Verifica si se obtuvo algún dato de la consulta.
+    if ($data) {
+      $response["accion"] = "permisson";
+      // Si se encuentra un resultado, se actualiza el arreglo de respuesta.
+      $response['filtros'] = $filtros;
+      $response['buscar'] = $buscar;
+      $response['status'] = 200;
+      $response['data'] = true;
+    } else {
+      // Si no se encuentra un resultado, se actualiza el mensaje de respuesta para indicar que el correo no está registrado.
+      $response['status'] = 200;
+      $response['message'] = 'Estoy sobrescribiendo el mensaje'; // Puedes personalizar este mensaje.
+    }
+
+    // Codifica la respuesta como JSON y establece el código de respuesta HTTP.
+    echo json_encode($response, http_response_code($response['status']));
+
   }
+
   /**
    * Acción Create
    *

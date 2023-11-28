@@ -1,4 +1,4 @@
-const url = "http://citas.test";
+const url = "http://localhost/php-main";
 const actual = location.href;
 function ocultarMostrarElemento() {
   if (actual == url + "/roles") {
@@ -53,6 +53,7 @@ buscar.addEventListener("input", function () {
     .then((response) => response.json())
     .then((data) => {
       console.log(data.datax);
+      console.log(data.accion);
       var resultsContainer = document.getElementById("resultados");
       resultsContainer.innerHTML = "";
       data.datax.forEach((item) => {
@@ -70,6 +71,15 @@ buscar.addEventListener("input", function () {
                 ${item.updated_at}
                 </td>
                 <td>
+                    <button><a
+                            href="${url}/${data.accion}/editar/${
+          item.id_permission != null ? item.id_permission : item.id_role
+        }">editar</a></button>
+                    <button><a
+                            href="${url}/${data.accion}/delete/${
+          item.id_permission != null ? item.id_permission : item.id_role
+        }">eliminar</a></button>
+                </td>
                 `;
 
         resultsContainer.appendChild(itemElement);
