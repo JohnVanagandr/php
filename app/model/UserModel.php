@@ -13,7 +13,6 @@ class UserModel extends Model
      * En el constructor, se establece la conexión a la base de datos llamando al constructor de la clase padre Model.
      *
      * @access public
-     * @param void
      * @return void
      */
     function __construct()
@@ -28,7 +27,6 @@ class UserModel extends Model
      * despues en $stm obtenemos la conexion a la base de datos y preparamos dicha consulta para luego ejecutarla
      *
      * @access public
-     * @param void
      * @return array|false Retorna un array con los datos de los usuarios o false si ocurre un error.
      */
 
@@ -74,7 +72,7 @@ class UserModel extends Model
      */
     function getUsuario($usuario)
     {
-        $sql = "SELECT user_name  FROM users WHERE user_name  = :user";
+        $sql = "SELECT user_name FROM users WHERE BINARY user_name = :user";
         $stm = $this->connection->prepare($sql);
         $stm->bindValue(":user", $usuario);
         $stm->execute();
@@ -128,8 +126,10 @@ class UserModel extends Model
         $stm->bindValue(":clave", $password);
         $stm->bindValue(":username", $user);
         $stm->execute();
+        // return $stm->fetch();
         return $stm->fetch();
     }
+    
 
     /**
      * Comprueba si un usuario tiene un token de autenticación.

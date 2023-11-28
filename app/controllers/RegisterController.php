@@ -119,8 +119,7 @@ class RegisterController extends controller
             }
         }
       }
-      
-      
+
       if ($pass == "") {
         $errores['pass_error'] = "La contraseña no está definida";
       } else {
@@ -288,16 +287,5 @@ class RegisterController extends controller
       echo json_encode($response, http_response_code($response['status']));
     }
   }
-
-  function nameExistente($name, $conexion) {
-    // Consulta para verificar si el nombre ya está registrado
-    $query = "SELECT COUNT(*) as count FROM tu_tabla WHERE nombre = :nombre";
-    $stmt = $conexion->prepare($query);
-    $stmt->bindParam(':nombre', $name, PDO::PARAM_STR);
-    $stmt->execute();
-    $resultado = $stmt->fetch(PDO::FETCH_ASSOC);
-
-    return $resultado['count'] > 0;
-}
 
 }

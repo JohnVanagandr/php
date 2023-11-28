@@ -8,6 +8,7 @@ namespace Adso\model;
 
 use Adso\libs\Model;
 
+
 class RoleModel extends Model
 {
 
@@ -106,4 +107,23 @@ class RoleModel extends Model
     $data = $this->delete($this->tabla, $id); // Eliminamos el Rol con el identificador $id en la tabla correspondiente.
     $this->connection = $this->db->closConnection(); // Cerramos la conexión a la base de datos.
   }
+
+  function search_consulta($rolBuscado) {
+    $this->connection = $this->db->getConnection();
+
+    // Prepara la consulta SQL utilizando un LIKE para buscar roles que contengan el término de búsqueda
+    $sql = "SELECT * FROM roles WHERE name_role LIKE :rolBuscado";
+    $stm = $this->connection->prepare($sql);
+    $stm->bindValue(":rolBuscado", "%" . $rolBuscado . "%");
+    $stm->execute();
+
+    // Obtiene los resultados de la consulta
+    $resultados = $stm->fetchAll();
+
+    // Cerrar la conexión a la base de datos
+    $this->connection = $this->db->closConnection();
+
+    return $resultados;
+}
+
 }

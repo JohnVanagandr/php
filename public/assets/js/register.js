@@ -1,5 +1,5 @@
 // //Url base del proyecto
-const url = "http://localhost/php";
+const url = "http://citas.test";
 //Atributos del formulario
 const email = document.getElementById("email");
 let usuario = document.getElementById("user_name");
@@ -22,6 +22,7 @@ const enviarFormulario = (form) => {
 //Función para solicitar datos al servidor
 const validacionCorreo = async (e) => {
   //Validamos que el campo correo este lleno
+  
   if (email.value != "") {
     //Validamos que el formato del correo sea valido
     if (validarEmail(email.value)) {
@@ -44,7 +45,7 @@ const validacionCorreo = async (e) => {
         if (json.data) {
           Swal.fire({
             title: "Error!",
-            text: "El correo no esta disponible",
+            text: "El correo ya esta registrado",
             icon: "error",
             confirmButtonText: "Cerrar",
           });
