@@ -123,10 +123,10 @@ class UserModel extends Model
         $password = hash_hmac("sha512", $password, KEY);
         $password = substr($password, 0, 50);
         $connection = $this->db->getConnection();
-        $sql = "SELECT * FROM users WHERE email = :correo AND password = :clave";
+        $sql = "SELECT * FROM users WHERE user_name = :username AND password = :clave";
         $stm = $connection->prepare($sql);
         $stm->bindValue(":clave", $password);
-        $stm->bindValue(":correo", $user);
+        $stm->bindValue(":username", $user);
         $stm->execute();
         return $stm->fetch();
     }
