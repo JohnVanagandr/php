@@ -18,38 +18,32 @@ class PermissonController extends Controller
 
   function index()
   {
+    //$permisos = $this->model->getPermisson();
+    $permisos = $this->model->getPermissonPage();
 
-    $permisos = $this->model->getPermisson();
-    // $cantidadPermisos = ceil(count($permisos) / 12);
-
-    $offset = 1;
-
-    $permisosLimit = $this->model->getPermissonPage($offset, 12);
     $data = [
       "titulo" => "permisos",
       "subtitulo" => "Lista de permisos",
       "menu" => true,
-      "permisos" => $permisosLimit,
-      // "cantidadRegistros" => $cantidadPermisos
-      // "cantidadPaginas" => $cantidadPermisosS
+      "permisos" => $permisos,
     ];
 
     $this->view('permisson/index', $data, 'app');
   }
 
-  function paginarPermisos()
+  function paginarPermisos($numPagina)
   {
-    if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+    $permisos = $this->model->getPermissonPage($numPagina);
 
-      $request = json_decode(file_get_contents("php://input"));
-      die($request);
+    $data = [
+      "titulo" => "permisos",
+      "subtitulo" => "Lista de permisos",
+      "menu" => true,
+      "permisos" => $permisos,
+    ];
 
-      $response = array(
-        'status'    => false,
-        'data'      => false,
-        'message'   => 'Esta intentando acceder a informaión privada'
-      );
-    }
+    $this->view('permisson/index', $data, 'app');
+
   }
 
   function create()

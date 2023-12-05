@@ -13,7 +13,7 @@ class Model
   {
     // Crear una nueva instancia de la clase Database
     $this->db = new Database();
-    $this->connection   = $this->db->getConnection();
+    $this->connection = $this->db->getConnection();
   }
   /**
    * Método para insertar registros en la base de datos
@@ -71,20 +71,46 @@ class Model
   }
 
 
-  public function selectLimit($tabla = "", $desplazamiento = null, $limite = null)
+  public function selectLimit($tabla = "", $columnas = [], $numPagina = 0)
   {
 
-    $sql = "SELECT * FROM $tabla LIMIT $desplazamiento, $limite";
+    $limit = 12;
+    $id = "id_permission";
+    
+    $pagina = $numPagina != 0 ? $numPagina : 0;
+    
+    if (!$pagina) {
+      $inicio = 0;
+      $pagina = 1;
+    } else {
+      $inicio = ($pagina - 1) * $limit;
+    }
 
-    $stm = $this->connection->prepare($sql);
+    $sLimit = "LIMIT $inicio , $limit";
 
-    // $stm->bindValue(":desplazamiento", $desplazamiento);
+    /* Consulta de registros filtrados */
+    $sql = "SELECT SQL_CALC_FOUND_ROWS " . implode(", ", $columnas) . " FROM $tabla $sLimit";
+    $resultado = $this->connection->query($sql);
+    $datos = $resultado->fetchAll();
 
-    // $stm->bindValue(":limite", $limite);
+    /* Consulta para total de registro*/
+    $sqlTotal = "SELECT count($id) FROM $tabla ";
+    $resTotal = $this->connection->query($sqlTotal);
+    $row_total = $resTotal->fetchAll();
+    $totalRegistros = $row_total[0];
 
-    $stm->execute();
+    $output = [];
+    $output['totalRegistros'] = $totalRegistros["count(id_permission)"];
+    $output['totalFiltro'] = count($datos);
+    $output['data'] = $datos;
+    $output['paginaActual'] = $pagina;
+    $output['totalPaginas'] = ceil($output['totalRegistros'] / $limit);
 
-    return $stm->fetchAll();
+    // echo("<pre>");
+    // print_r($output['paginacion']);
+    // echo("</pre>");
+    // die();
+    return $output;
   }
 
   public function getDataById($tabla = "", $columnas = [])

@@ -1,5 +1,5 @@
 <?php
-define('URL', 'http://localhost/ADSO/php');
+define('URL', 'http://localhost/Motta/php');
 define('NAME', 'ADSO');
 
 define('KEY', 'mimamamemima');

@@ -18,14 +18,13 @@
         <th>Acciones</th>
       </tr>
     </thead>
-    <tbody>
+    <tbody id="contend">
       <?php
-
       use Adso\libs\DateHelper;
       use Adso\libs\Helper;
 
-      foreach ($data['permisos'] as $value) {
-      ?>
+      foreach($data['permisos']['data'] as $value) {
+        ?>
         <tr>
           <td>
             <?= $value['name_permisson'] ?>
@@ -37,27 +36,47 @@
             <?= DateHelper::shortDate($value['updated_at']) ?>
           </td>
           <td>
-            <button><a href="<?= URL ?>/permisson/editar/<?= Helper::encrypt($value['id_permission']) ?>">editar</a></button>
-            <button><a href="<?= URL ?>/permisson/delete/<?= Helper::encrypt($value['id_permission']) ?>">eliminar</a></button>
+            <button><a
+                href="<?= URL ?>/permisson/editar/<?= Helper::encrypt($value['id_permission']) ?>">editar</a></button>
+            <button><a
+                href="<?= URL ?>/permisson/delete/<?= Helper::encrypt($value['id_permission']) ?>">eliminar</a></button>
           </td>
         </tr>
-      <?php
+        <?php
       }
       ?>
     </tbody>
   </table>
+
   <div>
-    <ul>
-      <?php
-      $numeroPaginas = ceil(count(($data['permisos'])) / 12);
-      echo  count(($data['permisos']));
-      echo  $numeroPaginas;
-      for ($i = 0; $i < count(($data['permisos'])); $i++) {
-        echo "hola";
-      }
-      ?>
-    </ul>
+    <div class="info-pag">
+      <label>
+        Mostrando
+        <?= $data['permisos']['totalFiltro'] ?> de
+        <?= $data['permisos']['totalRegistros'] ?> registros
+      </label>
+    </div>
+    <div id="nav-paginacion">
+      <nav>
+        <ul class="pagination-list">
+          <?php 
+          $numeroInicio = 1;
+          if (($data['permisos']['paginaActual'] - 2) >= 1) {
+            $numeroInicio = $data['permisos']['paginaActual'] - 2;
+          }
+          $numeroFin = $numeroInicio + 3;
+          if ($numeroFin > $data['permisos']['totalPaginas']) {
+            $numeroFin = $data['permisos']['totalPaginas'];
+          }
+          for($i = $numeroInicio; $i <= $numeroFin; $i++) { ?>
+            <li class="pagination-item">
+                <a href="<?= URL ?>/permisson/paginarPermisos/<?= $i ?>">
+                  <?= $i ?>
+                </a>
+              </li>
+          <?php } ?>
+        </ul>
+      </nav>
+    </div>
   </div>
-
-
 </section>

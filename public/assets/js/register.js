@@ -1,5 +1,5 @@
 //Url base del proyecto
-const url = "http://localhost/ADSO/php";
+const url = "http://localhost/Motta/php";
 //Atributos del formulario
 const email = document.getElementById("email");
 let usuario = document.getElementById("first_name");

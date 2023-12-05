@@ -21,12 +21,20 @@ class PermissonModel extends Model
     return $data;
   }
 
-  function getPermissonPage($desplazamiento, $limite)
-  {
+  // function getPermissonPage($desplazamiento, $limite)
+  // {
 
+  //   $this->connection = $this->db->getConnection();
+  //   $data = $this->selectLimit($this->tabla, $desplazamiento, $limite);
+  //   $this->connection = $this->db->closConnection();
+  //   return $data;
+  // }
+  function getPermissonPage($numPagina = 0)
+  {
     $this->connection = $this->db->getConnection();
-    $data = $this->selectLimit($this->tabla, $desplazamiento, $limite);
-    // die($data);
+    $table = "permissions";
+    $columns = ['id_permission', 'name_permisson', 'created_at', 'updated_at'];
+    $data = $this->selectLimit($table, $columns, $numPagina);
     $this->connection = $this->db->closConnection();
     return $data;
   }
