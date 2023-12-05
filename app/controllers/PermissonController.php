@@ -20,6 +20,8 @@ class PermissonController extends Controller
   protected $permission;
   protected $permit;
 
+  const PREFIJO = 'Permisson';
+
   /**
    * Constructor de PermissonController.
    * 
@@ -27,13 +29,19 @@ class PermissonController extends Controller
    */
   function __construct()
   {
-
-    $this->model = $this->model("Role");
-    $this->model2 = $this->model('Permisson');
-    $this->model3 = $this->model("Permisson_Role");
-
+    
     $this->permission = new Permisson();
-    $this->permit = $this->permission->ifpermisson();
+    $this->permit = $this->permission->ifpermisson(self::PREFIJO);      
+
+    if($this->permit){
+
+        $this->model = $this->model("Role");
+        $this->model2 = $this->model("Permisson");
+        $this->model3 = $this->model("Permisson_Role");
+    }else{
+        header("Location: " . URL . "/admin/error403");
+        
+    }
   }
 
   /**
@@ -56,13 +64,8 @@ class PermissonController extends Controller
       "permisos" => $permisos
     ];
 
-    if ($this->permit["Listar"]) {
-      $this->view("permisson/index", $data, "app");
-    } else {
-      echo "no tienes permisos para crear un rol";
-    }
+    $this->view("permisson/index", $data, "app");
 
-    // $this->view('permisson/index', $data, 'app');
   }
 
   /**
@@ -83,13 +86,9 @@ class PermissonController extends Controller
       "menu" => true
     ];
 
-    if ($this->permit["Listar"]) {
-      $this->view("permisson/create", $data, "app");
-    } else {
-      echo "no tienes permisos para crear un rol";
-    }
 
-    // $this->view('permisson/create', $data, 'app');
+      $this->view("permisson/create", $data, "app");
+
   }
   /**
    * Acción Storage
@@ -126,6 +125,7 @@ class PermissonController extends Controller
         $this->model2->storage($valores);
 
         header("Location: " . URL . "/permisson");
+
       } else {
         $data = [
           "titulo" => "permisos",
@@ -163,11 +163,8 @@ class PermissonController extends Controller
       "id" => $id
     ];
 
-    if ($this->permit["Editar"]) {
+
       $this->view("permisson/update", $data, "app");
-    } else {
-      echo "no tienes permisos para editar un rol";
-    }
 
     // $this->view('permisson/update', $data, 'app');
   }
@@ -236,20 +233,17 @@ class PermissonController extends Controller
    */
   function delete($id)
   {
-    if ($this->permit["Editar"]) {
+
       $this->model2->deletePermisson(["id_permission" => Helper::decrypt($id)]);
       //print_r($id);
       // die($id);
-      // $data = [
-      //   "titulo" => "permisos",
-      //   "subtitulo" => "editar un permisos",
-      //   "menu" => true,
-      //   "id" => $id
-      // ];
+      $data = [
+        "titulo" => "permisos",
+        "subtitulo" => "editar un permisos",
+        "menu" => true
+      ];
 
       header("Location: " . URL . "/permisson");
 
-    }
-    //$this->view('permisson/update', $data, 'app');
   }
 }

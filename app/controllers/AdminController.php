@@ -66,4 +66,13 @@ class AdminController extends Controller
         /** Se llama al método "view" en la instancia actual para renderizar una vista*/
         $this->view("admin", $data, 'app');
     }
+
+    function error403(){
+        $data = [
+            "titulo"    => "Home",
+            "subtitulo" => "Saludo del sistema",
+            "menu" => true
+        ];
+        $this->view('403', $data , 'app');
+    }
 }
