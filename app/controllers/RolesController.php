@@ -212,25 +212,4 @@ class RolesController extends Controller
 
         }
     }
-
-    function search() {
-        // Obtiene el valor del campo de búsqueda 
-        $rolBuscado = isset($_POST['search_rol']) ? $_POST['search_rol'] : '';
-    
-        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-            // Llamar a la función para obtener el dato
-            $resultados = $this->model->search_consulta($rolBuscado);
-    
-            $data = [
-                "titulo" => "Roles",
-                "subtitulo" => "Lista de roles",
-                "menu" => true,
-                "roles" => $resultados
-            ];
-    
-            $this->view('rol/index', $data, 'app');
-        }
-    }
-
-
 }
