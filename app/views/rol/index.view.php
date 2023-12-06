@@ -2,7 +2,15 @@
   <div class="table-header">
     <div class="tittle-table">
       <h2>Roles</h2>
-      <button><a href="<?= URL ?>/roles/create">nuevo</a></button>
+      <?php
+      
+
+      if(in_array('roles.create', $data['permisos'])) {
+        ?>
+        <button><a href="<?= URL ?>/roles/create">nuevo</a></button>
+        <?php
+      }
+      ?>
     </div>
     <div id="botones">
       <button id="principal" onclick="ocultarMostrarElemento()">Filtros</button>
@@ -33,7 +41,7 @@
       use Adso\libs\DateHelper;
       use Adso\libs\Helper;
 
-      foreach ($data['roles'] as $value) {
+      foreach($data['roles'] as $value) {
         ?>
         <tr>
           <td>
@@ -46,12 +54,28 @@
             <?= DateHelper::shortDate($value['updated_at']) ?>
           </td>
           <td>
-            <button><a href="<?= URL ?>/roles/editar/<?= Helper::encrypt($value['id_role']) ?>">editar</a></button>
+
+            <?php
+            if(in_array('roles.editar', $data['permisos'])) {
+              ?>
+              <button><a href="<?= URL ?>/roles/editar/<?= Helper::encrypt($value['id_role']) ?>">editar</a></button>
+              <?php
+            }
+            if(in_array('roles.delete', $data['permisos'])) {
+            ?>
             <button><a href="<?= URL ?>/roles/delete/<?= Helper::encrypt($value['id_role']) ?>">eliminar</a></button>
+            <?php
+            }
+            if(in_array('roles.manage', $data['permisos'])) {
+            ?>
             <button><a href="<?= URL ?>/roles/manage/<?= Helper::encrypt($value['id_role']) ?>">administrar</a></button>
+            <?php
+            }
+            ?>
           </td>
         </tr>
         <?php
+        // print_r($data['permisos']);
       }
       ?>
     </tbody>

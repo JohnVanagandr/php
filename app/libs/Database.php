@@ -52,6 +52,6 @@ class Database
      */
     function closConnection()
     {
-        $this->connection = null;
+        return null;
     }
 }

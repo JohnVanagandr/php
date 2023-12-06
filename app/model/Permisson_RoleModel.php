@@ -6,6 +6,12 @@ namespace Adso\model;
 use Adso\libs\Model;
 class Permisson_RoleModel extends Model{
     private $tabla = "role_permisson";
+
+    function __construct() {
+        // Llama al constructor de la clase padre (Model).
+        parent::__construct();
+        
+    }
     /**
      * Este metodo guarda los permisos chequeados
      * 
@@ -28,6 +34,7 @@ class Permisson_RoleModel extends Model{
 
     function selectPermits ($id_role){
 
+        
         $this -> connection = $this -> db -> getConnection();
         $data = $this -> getRowsById($this->tabla, $id_role);
         $this -> connection = $this -> db -> closConnection();

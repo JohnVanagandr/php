@@ -44,10 +44,21 @@
             <?= DateHelper::shortDate($value['updated_at']) ?>
           </td>
           <td>
-            <button><a
+          <?php
+            if(in_array('permisson.editar', $data['permisos'])) {
+              ?>
+              <button><a
                 href="<?= URL ?>/permisson/editar/<?= Helper::encrypt($value['id_permission']) ?>">editar</a></button>
+              <?php
+            }
+            if(in_array('permisson.delete', $data['permisos'])) {
+            ?>
             <button><a
                 href="<?= URL ?>/permisson/delete/<?= Helper::encrypt($value['id_permission']) ?>">eliminar</a></button>
+            <?php
+            }
+            
+            ?>
           </td>
         </tr>
         <?php

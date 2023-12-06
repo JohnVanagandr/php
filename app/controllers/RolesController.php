@@ -28,6 +28,8 @@ class RolesController extends Controller
       $this->model = $this->model("Role");
       $this->model2 = $this->model("Permisson");
       $this->model3 = $this->model("Permisson_Role");
+
+      
     } else {
       header("Location: " . URL . "/admin/error403");
 
@@ -39,11 +41,17 @@ class RolesController extends Controller
   {
     $roles = $this->model->getRoles();
 
+    $permisos = $this->permission->permissionbool();
+
+    // print_r($permisos);
+    // die();
+
     $data = [
       "titulo" => "Roles",
       "subtitulo" => "Lista de roles",
       "menu" => true,
-      "roles" => $roles
+      "roles" => $roles,
+      "permisos" => $permisos,
     ];
 
     $this->view('rol/index', $data, 'app'); // Renderizar la vista de lista de roles

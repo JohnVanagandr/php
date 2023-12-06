@@ -16,7 +16,8 @@ class Model
   {
     // Crear una nueva instancia de la clase Database
     $this->db = new Database();
-    $this->connection = $this->db->getConnection();
+    // $this->connection = $this->db->getConnection();
+    
   }
   /**
    * Método para insertar registros en la base de datos.
