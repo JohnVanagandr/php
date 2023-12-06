@@ -134,13 +134,15 @@ class RolesController extends Controller
   {
 
     $save = $this->model->getRole(["id_role" => Helper::decrypt($id)]); // Obtener detalles del rol a editar
+    $permit = $this->model2->getPermisson();
 
     $data = [
       "titulo" => "Roles",
       "subtitulo" => "Actualización de roles",
       "menu" => true,
       "data" => $save,
-      "id" => $id
+      "id" => $id,
+      "permisos" => $permit
     ];
 
     $this->view("rol/update", $data, "app"); // Renderizar la vista de actualización de roles
