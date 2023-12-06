@@ -223,8 +223,8 @@ class PermissonController extends Controller
 
         $this->model->updatePermisson($valores);
 
-
         header("location:" . URL . "/permisson");
+        
       } else {
         $data = [
           "titulo" => "Roles",

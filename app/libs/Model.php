@@ -27,7 +27,7 @@ class Model
         // Crear cadenas vacías para las columnas y los parámetros
         $columns = "";
         $params = "";
-        
+
         // Recorrer el array asociativo de columnas y valores
         foreach ($columnas as $key => $value) {
             // Agregar el nombre de la columna a la cadena de columnas
@@ -41,8 +41,8 @@ class Model
         $columns = rtrim($columns, ',');
         $params = rtrim($params, ',');
 
-        if($tabla =="permissions"){
 
+        if($tabla =="permissions"){
 
             // Consulta para verificar si el slug ya existe
             $sqlSlugCheck = "SELECT COUNT(*) FROM $tabla WHERE slug = :slug";
@@ -186,47 +186,84 @@ public function getDataById($tabla = "", $columnas = [])
         return $stm->fetchAll();
     }
 
-    public function update($tabla = "", $columnas = []){
+    public function update($tabla = "", $columnas = [] ){
 
-    $columns = "";
-    $whereClause = "";
+        $columns = "";
 
-    // Recorrer el array asociativo de columnas y valores
-    foreach ($columnas as $key => $value) {
-        // Agregar el nombre de la columna y el marcador de parámetro a la cadena de columnas
-        $columns .= $key . " = :" . $key . ",";
+        $clave = array_key_last($columnas);
+        $valor = array_pop($columnas);
+
+        foreach ($columnas as $key => $value) {
+            // Agregar el nombre de la columna a la cadena de columnas
+            $columns .= $key . " = :" . $key . ",";
+          
+        }
+
+        // Eliminar la última coma de las cadenas de columnas y parámetros
+        $columns = rtrim($columns, ',');
+
+        if($tabla =="permissions"){
+
+            // Consulta para verificar si el slug ya existe
+            $sqlSlugCheck = "SELECT COUNT(*) FROM $tabla WHERE slug = :slug";
+            $stmSlugCheck = $this->connection->prepare($sqlSlugCheck);
+            $stmSlugCheck->bindValue(":slug", $columnas['slug']);
+            $stmSlugCheck->execute();
+
+            // Verificar si el slug ya existe
+            if ($stmSlugCheck->fetchColumn() > 0) {
+                return "El slug ya existe en la base de datos.";
+            }
+
+            // Construir la consulta SQL de inserción utilizando las cadenas formadas
+            $sql = "UPDATE $tabla SET $columns WHERE $clave = $valor";
+
+            // Preparar la consulta SQL
+            $stm = $this->connection->prepare($sql);
+            // Asignar valores a los parámetros utilizando enlaces de parámetros
+            foreach ($columnas as $key => $value) {
+                $stm->bindValue(":" . $key, $value);
+            }
+            // Ejecutar la consulta preparada
+
+            print_r($stm);
+            // die();
+            
+            if ($stm->execute()) {
+              
+                return $this->connection->lastInsertId();
+              
+            } else {
+                return $this->connection->errorInfo();
+            }
+
+
+        }else{
+
+          // Construir la consulta SQL de inserción utilizando las cadenas formadas
+          $sql = "UPDATE $tabla SET $columns WHERE $clave = $valor";
+
+          // Preparar la consulta SQL
+          $stm = $this->connection->prepare($sql);
+          // Asignar valores a los parámetros utilizando enlaces de parámetros
+          foreach ($columnas as $key => $value) {
+              $stm->bindValue(":" . $key, $value);
+          }
+          // Ejecutar la consulta preparada
+
+          print_r($stm);
+          // die();
+          
+          if ($stm->execute()) {
+            
+              return $this->connection->lastInsertId();
+            
+          } else {
+              return $this->connection->errorInfo();
+          }
+
+      }
     }
-
-    // Eliminar la última coma de la cadena de columnas
-    $columns = rtrim($columns, ',');
-
-    // Obtener la clave y el valor de la última columna para la cláusula WHERE
-    $lastKey = key($columnas);
-    $lastValue = array_pop($columnas);
-    $whereClause = "$lastKey = :$lastKey";
-
-    // Construir la consulta SQL de actualización
-    $sql = "UPDATE $tabla SET $columns WHERE $whereClause";
-
-    // Preparar la consulta SQL
-    $stm = $this->connection->prepare($sql);
-
-    // Asignar valores a los parámetros utilizando enlaces de parámetros
-    foreach ($columnas as $key => $value) {
-        $stm->bindValue(":" . $key, $value);
-    }
-
-    // Asignar valor para el parámetro WHERE
-    $stm->bindValue(":" . $lastKey, $lastValue);
-
-    // Ejecutar la consulta preparada
-    if ($stm->execute()) {
-        return true; // En una actualización, no tiene sentido devolver el lastInsertId
-    } else {
-        return $this->connection->errorInfo();
-    }
-}
-
 
     /**
  * Elimina registros de una tabla de la base de datos basándose en las columnas y valores proporcionados.
