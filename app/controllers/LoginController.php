@@ -77,7 +77,6 @@ class LoginController extends Controller
         $this->view('login', $data, 'auth');
     }
 
-
     /**
      * Método para validar el formulario de inicio de sesión 
      *

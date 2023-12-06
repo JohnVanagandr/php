@@ -75,32 +75,43 @@ class RegisterController extends controller
       $pass2 = $_POST['password_confirm'] ?? '';
 
       // Validaciones de datos.
-      if ($name == "") {
+      if (trim($name) == "") {
         $errores['name_error'] = "El nombre no está definido";
       } else {
-        if (!ctype_alpha($name)) {
-          $errores['name_error'] = "Solo se permiten caracteres alfabéticos";
-        } 
-        }
+          $nameWithoutSpaces = str_replace(' ', '', $name);
+          if (!ctype_alpha($nameWithoutSpaces)) {
+              $errores['name_error'] = "Solo se permiten caracteres alfabéticos en el nombre";
+          }
+      }
 
-      if ($user_name == "") {
+      if (trim($last) == "") {
+        $errores['last_error'] = "El apellido no está definido";
+      } else {
+        $nameWithoutSpaces = str_replace(' ', '', $last);
+        if (!ctype_alpha($nameWithoutSpaces)) {
+            $errores['name_error'] = "Solo se permiten caracteres alfabéticos en el apellido";
+        }
+      }
+
+      if (trim($user_name) == "") {
         $errores['username_error'] = "El username no está definido";
       } else {
-        if (strlen($user_name) < 3) {
-          $errores['username_error'] = "El username debe tener al menos 3 caracteres";
-        }
-        }
-      
-      if ($last == "") {
-        $errores['last_error'] = "El apellido no está definido";
+          // Verificar si el username cumple con el patrón permitido
+          $pattern = '/^[a-zA-Z0-9._]+$/';
+
+          if (!preg_match($pattern, $user_name)) {
+              $errores['username_error'] = "El username solo puede contener letras, nuemros, puntos (.) y guiones bajos (_)";
+          }
       }
-      if ($email == "") {
+
+      if (trim($email) == "") {
         $errores['mail_error'] = "El correo no está definido";
       }
-      if ($phone == "") {
+
+      if (trim($phone) == "") {
         $errores['phone_error'] = "El celular no está definido";
       } else {
-        if (!ctype_digit($phone)) {
+        if (!ctype_digit(trim($phone))) {
             $errores['phone_error_string'] = "Solo se permiten datos numéricos";
         }else{
           if (strlen($phone) !== 10 || substr($phone, 0, 1) !== '3') {
@@ -155,6 +166,7 @@ class RegisterController extends controller
       $userResult = $this->model->getUsuario($user_name);
       if (is_array($userResult)) {
         $user = $userResult['user_name'];
+
         if (isset($user) && $user === $user_name) {
           $errores['user_duplicate'] = "El usuario ya existe";
         }
@@ -165,7 +177,7 @@ class RegisterController extends controller
         $valores = [
           "user" => [
             "user_name" => $user_name,
-            "email" => $email,
+            "email" => strtolower($email),
             "password" => Helper::encrypt2($pass)
           ],
           "profile" => [
@@ -177,8 +189,8 @@ class RegisterController extends controller
         ];
 
         // Realiza una transacción de registro a través del servicio.
-        // $transaccion = $this->servicio->trsRegistro($valores);
-        $this->servicio->trsRegistro($valores);
+        $transaccion = $this->servicio->trsRegistro($valores);
+        header("Location:" . URL . "/admin");
       } else {
         // Si hay errores, crea un arreglo con los errores y muestra la página de registro nuevamente con los errores.
         $data = [
@@ -276,5 +288,4 @@ class RegisterController extends controller
       echo json_encode($response, http_response_code($response['status']));
     }
   }
-
 }
