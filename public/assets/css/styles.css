@@ -1,13 +1,45 @@
-@import url('https://fonts.googleapis.com/css?family=Open+Sans');
+@import url("https://fonts.googleapis.com/css?family=Open+Sans");
 
-:root{
-    --primary--color: #3a23be;
-    --secundary--color: #888;
-    --grey--color: #4f4b4b;
-    --white--color: #fff;
-    --danger--color: #ff0000;
+:root {
+  --primary--color: #3a23be;
+  --secundary--color: #888;
+  --grey--color: #4f4b4b;
+  --white--color: #fff;
+  --danger--color: #ff0000;
+}
+input[type="radio"] {
+  appearance: none;
+  width: 20px;
+  height: 20px;
+  cursor: pointer;
+  border: 2px solid #3498db; /* Azul claro */
+  border-radius: 50%;
+  background-clip: content-box;
+  padding: 3px;
+  margin: 5px;
 }
 
+input[type="radio"]:checked {
+  background-color: #2980b9; /* Azul más oscuro */
+}
+
+/* Estilo para el contenedor del radio button */
+#filtros label {
+  border: 2px solid #3498db; /* Azul claro */
+  padding: 10px;
+  border-radius: 5px;
+  width: fit-content;
+  color: #2c3e50; /* Gris oscuro para el texto */
+  cursor: pointer;
+  margin: 5px;
+  display: inline-flex;
+  align-items: center;
+}
+
+/* Estilo hover para el contenedor */
+#filtros label:hover {
+  background: rgba(52, 152, 219, 0.349); /* Azul claro con transparencia */
+}
 /* *,
 *:before,
 *:after {
@@ -23,264 +55,262 @@ body {
 } */
 
 html {
-    box-sizing: border-box;
+  box-sizing: border-box;
 }
 
 *,
 *:before,
 *:after {
-    font-family: "Open Sans", sans-serif;
-    box-sizing: inherit;
-    font-size: 16px;
-} 
+  font-family: "Open Sans", sans-serif;
+  box-sizing: inherit;
+  font-size: 16px;
+}
 
 body {
-    background: #f2f2f2;
-    margin: 0;
-    padding: 0;
-} 
+  background: #f2f2f2;
+  margin: 0;
+  padding: 0;
+}
 
 .header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 0 10px;
-    height: 60px;
-    background: #fff;
-    box-shadow: 0px 1px 1px #c2c2c2;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 10px;
+  height: 60px;
+  background: #fff;
+  box-shadow: 0px 1px 1px #c2c2c2;
 }
 
-.header__items{
-    display: flex;
+.header__items {
+  display: flex;
 }
 
-.header__link{
-    padding: 6px 14px 6px 14px;
-    text-decoration: none;
-    color: var(--grey--color);
+.header__link {
+  padding: 6px 14px 6px 14px;
+  text-decoration: none;
+  color: var(--grey--color);
 }
 
-.header__link--action{
-    background: var(--white--color);
-    border-radius: 8px;
-    color: var(--primary--color);
-    border: 1px solid;
-    border-color: var(--primary--color);
+.header__link--action {
+  background: var(--white--color);
+  border-radius: 8px;
+  color: var(--primary--color);
+  border: 1px solid;
+  border-color: var(--primary--color);
 }
 
-.header__link--action:hover{
-    background: var(--primary--color);
-    color: var(--white--color);
+.header__link--action:hover {
+  background: var(--primary--color);
+  color: var(--white--color);
 }
 
-.content-table{
-    width: 80%;
-    margin: 20px auto 0 auto;
-    display: grid;
-    grid-template-columns: 1fr;
-    grid-template-rows: auto 1fr;
-    grid-template-areas:
-        "cabecera"
-        "contenido"
-    ;
+.content-table {
+  width: 80%;
+  margin: 20px auto 0 auto;
+  display: grid;
+  grid-template-columns: 1fr;
+  grid-template-rows: auto 1fr;
+  grid-template-areas:
+    "cabecera"
+    "contenido";
 }
 
-.table-header{
-    grid-area: cabecera;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
+.table-header {
+  grid-area: cabecera;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }
 
-.tittle-table{
-display: flex;
-align-items: center;
-height: 50px;
+.tittle-table {
+  display: flex;
+  align-items: center;
+  height: 50px;
 }
 
-.tittle-table h2{
-    display: inline;
-    margin-inline-end: 15px;
-    font-size: 25px;
+.tittle-table h2 {
+  display: inline;
+  margin-inline-end: 15px;
+  font-size: 25px;
 }
 
 .table-header button {
-    display: inline;
-    border-radius: 8px;
-    color: var(--primary--color);
-    border: 1px solid var(--primary--color);
-    text-transform: uppercase;
-    padding: 5px 10px;
-    cursor: pointer;
-    font-size: 12px;
+  display: inline;
+  border-radius: 8px;
+  color: var(--primary--color);
+  border: 1px solid var(--primary--color);
+  text-transform: uppercase;
+  padding: 5px 10px;
+  cursor: pointer;
+  font-size: 12px;
 }
 
 .table-header button:hover {
-    background: var(--primary--color);
-    color: var(--white--color);
+  background: var(--primary--color);
+  color: var(--white--color);
 }
 
 .table-header button a {
-    text-decoration: none;
-    font-size: inherit;
+  text-decoration: none;
+  font-size: inherit;
 }
 
 .table-header button:hover a {
-    color: var(--white--color);
+  color: var(--white--color);
 }
 
 .input_search {
-    position: relative;
+  position: relative;
 }
 
 .input_search input {
-    font-family: "Open Sans", sans-serif;
-    font-size: 14px;
-    background-color: inherit;
-    color: var(--grey--color);
-    outline: none; 
-    border: 1px solid var(--primary--color);
-    border-radius: 8px;
-    padding: 7px 40px 7px 10px;
-    height: 30px;
-    width: 350px;
+  font-family: "Open Sans", sans-serif;
+  font-size: 14px;
+  background-color: inherit;
+  color: var(--grey--color);
+  outline: none;
+  border: 1px solid var(--primary--color);
+  border-radius: 8px;
+  padding: 7px 40px 7px 10px;
+  height: 30px;
+  width: 350px;
 }
 
 .input_search input:hover {
-    border-color: var(--secundary--color);
+  border-color: var(--secundary--color);
 }
 
-.input_search i{
-    position: absolute;
-    top: 50%;
-    right: 0;
-    margin-right: .5rem;
-    transform: translate(-50%,-50%);
+.input_search i {
+  position: absolute;
+  top: 50%;
+  right: 0;
+  margin-right: 0.5rem;
+  transform: translate(-50%, -50%);
 }
 
-table{
-    grid-area: contenido;
-    border-spacing: 0;
-    border-radius: 7px;
-    overflow: hidden;
+table {
+  grid-area: contenido;
+  border-spacing: 0;
+  border-radius: 7px;
+  overflow: hidden;
 }
 
 table thead {
-    background-color: var(--primary--color);
-    color: var(--white--color);
+  background-color: var(--primary--color);
+  color: var(--white--color);
 }
 
 table thead th {
-    padding: 10px;
+  padding: 10px;
 }
 
 table tbody td {
-    text-align: center;
-    border-bottom: 1px solid black;
-    padding: 5px;
+  text-align: center;
+  border-bottom: 1px solid black;
+  padding: 5px;
 }
 
 table tbody tr:hover {
-    background-color: #e4e0f9;
+  background-color: #e4e0f9;
 }
 
 table tbody td button {
-    background-color: inherit;
-    border: 1px solid transparent;
-    padding: 5px 10px;
-    cursor: pointer;
-    text-transform: capitalize;
+  background-color: inherit;
+  border: 1px solid transparent;
+  padding: 5px 10px;
+  cursor: pointer;
+  text-transform: capitalize;
 }
 
 table tbody td button:hover {
-    border: 1px solid var(--primary--color);
-    border-radius: 8px;
-    color: var(--primary--color);
+  border: 1px solid var(--primary--color);
+  border-radius: 8px;
+  color: var(--primary--color);
 }
 
 table tbody td button a {
-    text-decoration: none;
-    color: inherit;
-    font-size: inherit;
+  text-decoration: none;
+  color: inherit;
+  font-size: inherit;
 }
 
-.card-content{
-    width: 100vw;
-    height: calc(100vh - 60px);
-    display: flex;
-    align-items: center;
-    justify-content: center;
+.card-content {
+  width: 100vw;
+  height: calc(100vh - 60px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .form-role {
-    display: grid;
-    grid-template-columns: 1fr;
-    grid-template-rows: 70px 100px 70px;
-    grid-template-areas:
-        "titulo"
-        "input"
-        "boton"
-    ;
-    align-items: center;
-    justify-items: center;
-    width: 340px;
-    border: 1px solid;
-    border-color: #cdcdc7;
-    border-radius: 8px;
-    background-color: #f9f9f9;
+  display: grid;
+  grid-template-columns: 1fr;
+  grid-template-rows: 70px 100px 70px;
+  grid-template-areas:
+    "titulo"
+    "input"
+    "boton";
+  align-items: center;
+  justify-items: center;
+  width: 340px;
+  border: 1px solid;
+  border-color: #cdcdc7;
+  border-radius: 8px;
+  background-color: #f9f9f9;
 }
 
 .form-role h1 {
-    grid-area: titulo;
-    font-size: 25px;
-    margin: 0;
+  grid-area: titulo;
+  font-size: 25px;
+  margin: 0;
 }
 
 .form-role div {
-    grid-area: input;
-    display: flex;
-    flex-flow: column wrap;
-    align-items: center;
-    gap: 3px;
-    width: inherit;
-    padding: 0px 20px;
+  grid-area: input;
+  display: flex;
+  flex-flow: column wrap;
+  align-items: center;
+  gap: 3px;
+  width: inherit;
+  padding: 0px 20px;
 }
 
 .form-role div input {
-    outline: none;
-    background-color: #f9f9f9;
-    padding: 7px 10px;
-    border: 1px solid;
-    border-color: #cdcdc7;
-    border-radius: 5px;
-    font-size: 14px;
-    color: var(--grey--color);
-    height: 40px;
-    width: 100%;
+  outline: none;
+  background-color: #f9f9f9;
+  padding: 7px 10px;
+  border: 1px solid;
+  border-color: #cdcdc7;
+  border-radius: 5px;
+  font-size: 14px;
+  color: var(--grey--color);
+  height: 40px;
+  width: 100%;
 }
 
 .form-role div span {
-    display: block;
-    align-self: flex-start;
-    font-size: 13px;
-    margin-left: 4px;
-    color: var(--danger--color);
+  display: block;
+  align-self: flex-start;
+  font-size: 13px;
+  margin-left: 4px;
+  color: var(--danger--color);
 }
 
 .form-role button {
-    grid-area: boton;
-    margin: 10px 0;
-    background: var(--white-color);
-    border-radius: 10px;
-    color: var(--primary--color);
-    border: 1px solid;
-    border-color: var(--primary--color);
-    padding: 7px 25px;
+  grid-area: boton;
+  margin: 10px 0;
+  background: var(--white-color);
+  border-radius: 10px;
+  color: var(--primary--color);
+  border: 1px solid;
+  border-color: var(--primary--color);
+  padding: 7px 25px;
 }
 
-.form-role button:hover{
-    background: var(--primary--color);
-    color: var(--white--color);
+.form-role button:hover {
+  background: var(--primary--color);
+  color: var(--white--color);
 }
 
 .info-pag{

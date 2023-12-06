@@ -86,7 +86,15 @@ class Model
 
     return $stm->fetchAll();
   }
+  public function selectSearch($tabla, $busqueda, $filtro)
+  {
 
+    $sql = "SELECT * FROM $tabla WHERE $filtro LIKE '%$busqueda%' ";
+    $stm = $this->connection->prepare($sql);
+    $stm->execute();
+    //return $sql;
+    return $stm->fetchAll();
+  }
 
   public function selectLimit($tabla = "", $columnas = [], $numPagina = 0)
   {

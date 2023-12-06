@@ -4,8 +4,16 @@
       <h2>Permisos</h2>
       <button><a href="<?= URL ?>/permisson/create">nuevo</a></button>
     </div>
+    <div id="botones">
+      <button id="principal" onclick="ocultarMostrarElemento()">Filtros</button>
+      <div id="filtrosPer" hidden>
+        <label><input name="filtros" type="radio" id="cbox11" value="created_at" />Fecha creado</label>
+        <label><input name="filtros" type="radio" id="cbox22" value="updated_at" />Fecha modificado</label>
+        <label><input name="filtros" type="radio" id="cbox33" value="name_permisson" checked />Nombre</label>
+      </div>
+    </div>
     <div class="input_search">
-      <input type="search" placeholder="Buscar permiso">
+      <input id="buscar" type="search" placeholder="Buscar rol">
       <i class="bi bi-search"></i>
     </div>
   </div>
@@ -80,3 +88,4 @@
     </div>
   </div>
 </section>
+<script src="<?= URL ?>/assets/js/filtrado.js"></script>

@@ -4,6 +4,7 @@ namespace Adso\controllers;
 
 use Adso\libs\Controller;
 use Adso\libs\Helper;
+use Adso\libs\DateHelper;
 use Adso\libs\Permisson;
 
 class PermissonController extends Controller
@@ -29,14 +30,14 @@ class PermissonController extends Controller
     $this->permit = $this->permission->ifpermisson(self::PREFIJO);      
 
     if($this->permit){
-
+ 
         $this->model = $this->model("Role");
         $this->model2 = $this->model("Permisson");
         $this->model3 = $this->model("Permisson_Role");
     }else{
         header("Location: " . URL . "/admin/error403");
         
-    }
+    } 
   }
 
   /**
@@ -76,9 +77,74 @@ class PermissonController extends Controller
     ];
 
     $this->view('permisson/index', $data, 'app');
+  }
+  function search()
+  {
+    $response = array(
+      'status' => false,
+      'data' => false,
+    );
+
+    // Valida que la solicitud sea de tipo POST.
+    if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+      // Obtiene la información enviada en el cuerpo de la solicitud como JSON.
+      $request = json_decode(file_get_contents("php://input"));
+      // Obtiene el atributo "email" que se envió codificado.
+      // Puede haber otros atributos adicionales en la solicitud.
+      $buscar = $request->buscar;
+      $filtros = $request->filtros;
+      // Consulta con el modelo utilizando el correo proporcionado.
+      $data = $this->model2->getPermissonFilter($buscar, $filtros);
+      //$data['id_permission'] = Helper::encrypt($data['id_permission']);
+
+
+      foreach ($data as $key => $value) {
+        // Accede al elemento id_permission
+        $id_permission = $value['id_permission'];
+        $dateUpdate = DateHelper::shortDate($value['updated_at']);
+        $dateCreate = DateHelper::shortDate($value['created_at']);
+        $data[$key]['created_at'] = $dateCreate;
+        $data[$key]['updated_at'] = $dateUpdate;
+        // Encripta el id_permission
+        $encrypted_id_permission = Helper::encrypt($id_permission); // Asegúrate de tener una función de encriptación definida
+
+        // Reemplaza el id_permission original con el encriptado en el array
+        $data[$key]['id_permission'] = $encrypted_id_permission;
+      }
+
+
+      $response["datax"] = $data;
+    }
+
+    // Verifica si se obtuvo algún dato de la consulta.
+    if ($data) {
+      $response["accion"] = "permisson";
+      // Si se encuentra un resultado, se actualiza el arreglo de respuesta.
+      $response['filtros'] = $filtros;
+      $response['buscar'] = $buscar;
+      $response['status'] = 200;
+      $response['data'] = true;
+    } else {
+      // Si no se encuentra un resultado, se actualiza el mensaje de respuesta para indicar que el correo no está registrado.
+      $response['status'] = 200;
+      $response['message'] = 'Estoy sobrescribiendo el mensaje';
+    }
+
+    // Codifica la respuesta como JSON y establece el código de respuesta HTTP.
+    echo json_encode($response, http_response_code($response['status']));
 
   }
 
+  /**
+   * Acción Create
+   *
+   * Este método maneja la acción de mostrar la vista para crear un nuevo permiso.
+   * 
+   *  Prepara los datos necesarios para la vista, establece el título y el subtítulo, y luego muestra la vista que permite al usuario crear un nuevo permiso en la aplicación.
+   *
+   * @access public
+   * @return void
+   */
   function create()
   {
     $data = [

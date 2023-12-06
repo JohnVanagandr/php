@@ -25,14 +25,15 @@ class PermissonModel extends Model
     return $data;
   }
 
-  // function getPermissonPage($desplazamiento, $limite)
-  // {
+  function getPermissonFilter($busqueda, $filtros)
+  { // Comentario descriptivo de la función
+    $this->connection = $this->db->getConnection(); //Establecemos la conexion para acceder a la base de datos
+    $data = $this->selectSearch($this->tabla, $busqueda, $filtros); //Obtenemos la información de los Roles llamando a la función "select" con el nombre de la tabla.
 
-  //   $this->connection = $this->db->getConnection();
-  //   $data = $this->selectLimit($this->tabla, $desplazamiento, $limite);
-  //   $this->connection = $this->db->closConnection();
-  //   return $data;
-  // }
+    $this->connection = $this->db->closConnection(); //Cerramos la conexión a la base de datos.
+
+    return $data; //Devolvemos el array que contiene la información de los Roles.
+  }
   function getPermissonPage($numPagina = 0)
   {
     $this->connection = $this->db->getConnection();
