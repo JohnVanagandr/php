@@ -16,9 +16,8 @@ class Model
   {
     // Crear una nueva instancia de la clase Database
     $this->db = new Database();
-    $this->connection   = $this->db->getConnection();
+    $this->connection = $this->db->getConnection();
   }
-
   /**
    * Método para insertar registros en la base de datos.
    *
@@ -58,7 +57,9 @@ class Model
     }
 
     // Ejecutar la consulta preparada
+
     if ($stm->execute()) {
+
       return $this->connection->lastInsertId();
     } else {
       return $this->connection->errorInfo();
@@ -76,20 +77,59 @@ class Model
    **/
   public function select($tabla = "")
   {
+
     $sql = "SELECT * FROM $tabla";
+
     $stm = $this->connection->prepare($sql);
+
     $stm->execute();
+
     return $stm->fetchAll();
   }
 
-  /**
-   * Método para obtener un registro por ID en una tabla de la base de datos.
-   *
-   * @param string $tabla El nombre de la tabla a consultar.
-   * @param array $columnas Un array asociativo que especifica la columna y el valor a buscar.
-   *
-   * @return array|null Retorna el registro si se encuentra, o null si no se encuentra ningún registro.
-   **/
+
+  public function selectLimit($tabla = "", $columnas = [], $numPagina = 0)
+  {
+
+    $limit = 12;
+    $id = "id_permission";
+    
+    $pagina = $numPagina != 0 ? $numPagina : 0;
+    
+    if (!$pagina) {
+      $inicio = 0;
+      $pagina = 1;
+    } else {
+      $inicio = ($pagina - 1) * $limit;
+    }
+
+    $sLimit = "LIMIT $inicio , $limit";
+
+    /* Consulta de registros filtrados */
+    $sql = "SELECT SQL_CALC_FOUND_ROWS " . implode(", ", $columnas) . " FROM $tabla $sLimit";
+    $resultado = $this->connection->query($sql);
+    $datos = $resultado->fetchAll();
+
+    /* Consulta para total de registro*/
+    $sqlTotal = "SELECT count($id) FROM $tabla ";
+    $resTotal = $this->connection->query($sqlTotal);
+    $row_total = $resTotal->fetchAll();
+    $totalRegistros = $row_total[0];
+
+    $output = [];
+    $output['totalRegistros'] = $totalRegistros["count(id_permission)"];
+    $output['totalFiltro'] = count($datos);
+    $output['data'] = $datos;
+    $output['paginaActual'] = $pagina;
+    $output['totalPaginas'] = ceil($output['totalRegistros'] / $limit);
+
+    // echo("<pre>");
+    // print_r($output['paginacion']);
+    // echo("</pre>");
+    // die();
+    return $output;
+  }
+
   public function getDataById($tabla = "", $columnas = [])
   {
     $columns = "";
@@ -101,6 +141,7 @@ class Model
     $sql = "SELECT * FROM $tabla WHERE $columns = $params";
 
     $stm = $this->connection->prepare($sql);
+
     $stm->execute();
 
     return $stm->fetch();
@@ -163,6 +204,7 @@ class Model
    **/
   public function update($tabla = "", $columnas = [])
   {
+
     $columns = "";
     $params = "";
     $clave = array_key_last($columnas);
@@ -180,43 +222,29 @@ class Model
     $columns = rtrim($columns, ',');
     $params = rtrim($params, ',');
 
-    // Construir la consulta SQL de actualización utilizando las cadenas formadas
+
+    // Construir la consulta SQL de inserción utilizando las cadenas formadas
     $sql = "UPDATE $tabla SET $columns = $params WHERE $clave = $valor";
 
     // Preparar la consulta SQL
     $stm = $this->connection->prepare($sql);
-
-    // Eliminar la última coma de las cadenas de columnas y parámetros
-    $columns = rtrim($columns, ',');
-    $params = rtrim($params, ',');
-
-    // Construir la consulta SQL de actualización utilizando las cadenas formadas
-    $sql = "UPDATE $tabla SET $columns = $params WHERE $clave = $valor";
-
-    // Preparar la consulta SQL
-    $stm = $this->connection->prepare($sql);
-
     // Asignar valores a los parámetros utilizando enlaces de parámetros
     foreach ($columnas as $key => $value) {
       $stm->bindValue(":" . $key, $value);
     }
-
     // Ejecutar la consulta preparada
+
+    print_r($stm);
+    // die();
+
     if ($stm->execute()) {
+
       return $this->connection->lastInsertId();
     } else {
       return $this->connection->errorInfo();
     }
   }
 
-  /**
-   * Método para eliminar registros de la base de datos.
-   *
-   * @param string $tabla El nombre de la tabla de la que se eliminarán los registros.
-   * @param array $columnas Un array asociativo que especifica la columna y el valor para identificar el registro a eliminar.
-   *
-   * @return mixed Retorna un mensaje de éxito si la eliminación es exitosa, o un mensaje de error en caso contrario.
-   */
   function delete($tabla = "", $columnas = [])
   {
     $columns = "";
@@ -229,6 +257,7 @@ class Model
     $sql = "DELETE FROM $tabla WHERE $columns = $params";
 
     $stm = $this->connection->prepare($sql);
+
     $stm->execute();
 
     return $stm->fetch();

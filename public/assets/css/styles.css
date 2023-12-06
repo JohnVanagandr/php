@@ -283,6 +283,45 @@ table tbody td button a {
     color: var(--white--color);
 }
 
-.btn-table{
-    margin-left: 10px;
+.info-pag{
+    margin-top: 15px;
+    padding-left: 10px;
+    color: var(--grey--color);
+}
+
+#nav-paginacion {
+    text-align: center; /* Centrar la lista de paginación */
+}
+
+.pagination-list {
+    list-style: none;
+    padding: 0;
+}
+
+.pagination-item {
+    display: inline-block;
+    margin-right: 5px; /* Ajusta este valor según tus preferencias de espaciado */
+}
+
+.pagination-item a {
+    display: block;
+    padding: 8px 16px; /* Ajusta este valor según tus preferencias de espaciado interno */
+    text-decoration: none;
+    color: #333; /* Color del texto no visitado */
+    background-color: #f1f1f1; /* Color de fondo no visitado */
+    border: 1px solid #ddd; /* Borde del enlace no visitado */
+    transition: background-color 0.3s ease; /* Agrega transición para un cambio suave */
+}
+
+.pagination-item.active a {
+    color: #fff; /* Color del texto cuando la página está activa */
+    background-color: var(--primary--color); /* Color de fondo cuando la página está activa */
+    border-radius: 5px;
+}
+
+.pagination-item a:hover,
+.pagination-item a:focus {
+    color: #fff; /* Color del texto al pasar el ratón o enfocar */
+    background-color: var(--primary--color); /* Color de fondo al pasar el ratón o enfocar */
+    border-radius: 5px;
 }

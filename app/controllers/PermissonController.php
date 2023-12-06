@@ -6,11 +6,6 @@ use Adso\libs\Controller;
 use Adso\libs\Helper;
 use Adso\libs\Permisson;
 
-/**
- * Clase PermissonController 
- * 
- * El controlador PermissonController maneja todas las acciones relacionadas con los permisos en la pagina. Esto incluye la creación, edición, eliminación y visualización de permisos. Además, se encarga de almacenar nuevos permisos en la base de datos y actualizar permisos existentes.
- */
 class PermissonController extends Controller
 {
 
@@ -55,29 +50,35 @@ class PermissonController extends Controller
    */
   function index()
   {
-    $permisos = $this->model2->getPermisson();
+    //$permisos = $this->model->getPermisson();
+    $permisos = $this->model->getPermissonPage();
 
     $data = [
       "titulo" => "permisos",
       "subtitulo" => "Lista de permisos",
       "menu" => true,
-      "permisos" => $permisos
+      "permisos" => $permisos,
     ];
 
     $this->view("permisson/index", $data, "app");
 
   }
 
-  /**
-   * Acción Create
-   *
-   * Este método maneja la acción de mostrar la vista para crear un nuevo permiso.
-   * 
-   *  Prepara los datos necesarios para la vista, establece el título y el subtítulo, y luego muestra la vista que permite al usuario crear un nuevo permiso en la aplicación.
-   *
-   * @access public
-   * @return void
-   */
+  function paginarPermisos($numPagina)
+  {
+    $permisos = $this->model->getPermissonPage($numPagina);
+
+    $data = [
+      "titulo" => "permisos",
+      "subtitulo" => "Lista de permisos",
+      "menu" => true,
+      "permisos" => $permisos,
+    ];
+
+    $this->view('permisson/index', $data, 'app');
+
+  }
+
   function create()
   {
     $data = [
@@ -90,16 +91,6 @@ class PermissonController extends Controller
       $this->view("permisson/create", $data, "app");
 
   }
-  /**
-   * Acción Storage
-   *
-   * Este método maneja el almacenamiento de un nuevo permiso en la base de datos.
-   * 
-   * Si se recibe una solicitud POST, valida los datos enviados, como el nombre del permiso. Si los datos son válidos, almacena el nuevo permiso en la base de datos y redirige al usuario a la página de permisos. Si hay errores en los datos, muestra la vista de creación nuevamente con los mensajes de error correspondientes.
-   *
-   * @access public
-   * @return void
-   */
 
   function storage()
   {
@@ -138,17 +129,6 @@ class PermissonController extends Controller
       }
     }
   }
-  /**
-   * Acción Editar
-   *
-   * Este método maneja la acción de mostrar la vista de edición de un permiso existente.
-   *
-   * Recibe un ID de permiso como parámetro, recupera los datos del permiso correspondiente desde el modelo y prepara los datos necesarios para la vista de edición. Luego, muestra la vista que permite al usuario editar el permiso existente.
-   * 
-   * @param string $id ID del permiso a editar.
-   * @access public
-   * @return void
-   */
 
   function editar($id)
   {
@@ -163,10 +143,7 @@ class PermissonController extends Controller
       "id" => $id
     ];
 
-
-      $this->view("permisson/update", $data, "app");
-
-    // $this->view('permisson/update', $data, 'app');
+    $this->view('permisson/update', $data, 'app');
   }
 
   /**
@@ -219,18 +196,6 @@ class PermissonController extends Controller
     } else {
     }
   }
-
-  /**
-   * Acción Delete
-   *
-   * Este método maneja la eliminación de un permiso de la base de datos.
-   * 
-   * Recibe un ID de permiso como parámetro y elimina el permiso correspondiente en la base de datos. Luego, redirige al usuario a la página de permisos, mostrando la lista actualizada de permisos sin el permiso eliminado.
-   *
-   * @param string $id ID del permiso a eliminar.
-   * @access public
-   * @return void
-   */
   function delete($id)
   {
 

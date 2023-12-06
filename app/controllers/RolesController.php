@@ -45,6 +45,7 @@ class RolesController extends Controller
             "roles" => $roles
         ];
 
+
         $this->view('rol/index', $data, 'app');
     }
 
@@ -189,15 +190,18 @@ class RolesController extends Controller
          * Model que obtiene todos los datos de una tabla en especifico
         */
         $permit = $this->model2->getPermisson();
+        /*Usa el metodo selectPermits de Permisson_RoleModel que a su vez usa el metodo getRowById 
+        de Model que obtiene una fila por id
+        */
         $permit_role = $this->model3->selectPermits(["id_role_fk" => $role["id_role"]]);
-
+        
         $data = [
             "titulo" => "Roles",
             "subtitulo" => "Administrar permisos",
             "menu" => true,
             "rol" => $role,
             "permit" => $permit,
-            "permit_role" => $permit_role
+            "permit_role" => $permit_role //array
         ];
 
         $this->view("rol/manage", $data, "app");
@@ -211,6 +215,7 @@ class RolesController extends Controller
      * @return void
      */
     function assing(){
+
         if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             $role = $_POST['rol'];
             $permits = $_POST['permisos'];
@@ -220,9 +225,7 @@ class RolesController extends Controller
                 "id_permisson_fk" => $permits
             ];
             $this->model3->storage($valores);
-
-
-
+            header("Location: " . URL . "/roles");
         }
     }
 }

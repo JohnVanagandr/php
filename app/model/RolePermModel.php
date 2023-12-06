@@ -44,7 +44,7 @@ class RoleAsogModel extends Model {
         $this->connection = $this->db->getConnection();
 
         // Realiza una consulta select en la tabla definida en $table.
-        $data = $this->select($this->table);
+        $data = $this->paginadopermisos($this->table);
 
         // Cierra la conexión a la base de datos.
         $this->connection = $this->db->closConnection();

@@ -11,35 +11,35 @@ use Adso\servicios\Transacciones;
  */
 class RegisterController extends controller
 {
-  // Propiedades para almacenar instancias de modelos y servicios.
-  protected $model;
-  protected $servicio;
+    // Propiedades para almacenar instancias de modelos y servicios.
+    protected $model;
+    protected $servicio;
 
-  /**
-   * Constructor de la clase RegisterController.
-   * Aquí se inicializan las propiedades.
-   */
-  function __construct()
-  {
-    // Inicializa la propiedad $model con una instancia del modelo "User".
-    $this->model = $this->model("User");
-
-    // Inicializa la propiedad $servicio con una nueva instancia de la clase "Transacciones".
-    $this->servicio = new Transacciones();
-  }
-
-
+    /**
+     * Constructor de la clase RegisterController.
+     * Aquí se inicializan las propiedades.
+     */
+    function __construct()
+    {
+        // Inicializa la propiedad $model con una instancia del modelo "User".
+        $this->model = $this->model("User");
+        
+        // Inicializa la propiedad $servicio con una nueva instancia de la clase "Transacciones".
+        $this->servicio = new Transacciones();
+    }
 
 
-  /**
-   * Esta función se encarga de mostrar la página de registro.
-   *
-   * Carga la vista "register" con datos como el título y subtítulo para personalizar la página de registro.
-   *
-   * @return void No devuelve un valor explícito, pero carga la vista "register" para mostrar la página de registro.
-   */
-  function index()
-  {
+
+
+/**
+ * Esta función se encarga de mostrar la página de registro.
+ *
+ * Carga la vista "register" con datos como el título y subtítulo para personalizar la página de registro.
+ *
+ * @return void No devuelve un valor explícito, pero carga la vista "register" para mostrar la página de registro.
+ */
+function index()
+{
     // Define un arreglo de datos que se utilizarán en la vista.
     $data = [
       "titulo" => "Registro",          // Título de la página.
@@ -48,21 +48,21 @@ class RegisterController extends controller
 
     // Carga la vista "register" y pasa los datos y el contexto 'auth'.
     $this->view('register', $data, 'auth');
-  }
+}
 
-  /**
-   * Esta función maneja la validación de datos para registrar un nuevo usuario en el sistema.
-   *
-   * Verifica si se ha recibido una solicitud POST y realiza una serie de validaciones en los datos proporcionados.
-   * Si los datos son válidos, registra al usuario; de lo contrario, muestra errores en la página de registro.
-   *
-   * @return void No devuelve un valor explícito, pero registra un nuevo usuario o muestra errores en la página de registro.
-   */
-  function validate()
-  {
+/**
+ * Esta función maneja la validación de datos para registrar un nuevo usuario en el sistema.
+ *
+ * Verifica si se ha recibido una solicitud POST y realiza una serie de validaciones en los datos proporcionados.
+ * Si los datos son válidos, registra al usuario; de lo contrario, muestra errores en la página de registro.
+ *
+ * @return void No devuelve un valor explícito, pero registra un nuevo usuario o muestra errores en la página de registro.
+ */
+function validate()
+{
     if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-      // Inicializa un arreglo de errores.
-      $errores = [];
+        // Inicializa un arreglo de errores.
+        $errores = [];
 
       // Obtiene los datos del formulario.
       $name = $_POST['first_name'] ?? '';
@@ -226,6 +226,8 @@ class RegisterController extends controller
 
         // Consulta con el modelo utilizando el correo proporcionado.
         $data = $this->model->getEmail($email);
+        // Consulta con el modelo utilizando el correo proporcionado.
+        $data = $this->model->getEmail($email);
 
         // Verifica si se obtuvo algún dato de la consulta.
         if ($data) {
@@ -285,5 +287,5 @@ class RegisterController extends controller
         echo json_encode($response, http_response_code($response['status']));
       }
     }
-  }
+}
 }
