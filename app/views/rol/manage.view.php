@@ -8,11 +8,11 @@
     <br>
     <label>
       <input type="checkbox" name="permisos[]" value="<?= $value['id_permission'] ?>" <?php foreach ($data["permit_role"] as $permit_role) {
-          if ($permit_role['id_permisson_fk'] == $value['id_permission']) {
-            echo "checked";
-            break;
-          }
-        } ?>>
+                                                                                        if ($permit_role['id_permisson_fk'] == $value['id_permission']) {
+                                                                                          echo "checked";
+                                                                                          break;
+                                                                                        }
+                                                                                      } ?>>
       <?= $value['name_permisson'] ?>
     </label>
   <?php } ?>

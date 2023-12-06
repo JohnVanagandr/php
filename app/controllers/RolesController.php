@@ -4,6 +4,7 @@ namespace Adso\controllers;
 
 use Adso\Libs\controller;
 use Adso\libs\Helper;
+use Adso\libs\Permisson;
 
 class RolesController extends Controller
 {
@@ -11,15 +12,26 @@ class RolesController extends Controller
     protected $model;
     protected $model2;
     protected $model3;
+    protected $permission;
+    protected $permit;
 
-
+    const PREFIJO = 'Roles';
 
     function __construct()
     {
-        $this->model = $this->model("Role");
-        $this->model2 = $this->model("Permisson");
-        $this->model3 = $this->model("Permisson_Role");
+    
+        $this->permission = new Permisson();
+        $this->permit = $this->permission->ifpermisson(self::PREFIJO);      
 
+        if($this->permit){
+            $this->model = $this->model("Role");
+            $this->model2 = $this->model("Permisson");
+            $this->model3 = $this->model("Permisson_Role");
+        }else{
+            header("Location: " . URL . "/admin/error403");
+            
+        }
+        
     }
 
     function index()
@@ -45,7 +57,9 @@ class RolesController extends Controller
             "menu" => true
         ];
 
-        $this->view("rol/create", $data, "app");
+
+            $this->view("rol/create", $data, "app");
+
     }
 
     function storage()
@@ -99,7 +113,9 @@ class RolesController extends Controller
             "id" => $id
         ];
 
+
         $this->view("rol/update", $data, "app");
+
     }
 
     function update($id)
@@ -135,7 +151,7 @@ class RolesController extends Controller
                     "errors" => $errores
                 ];
 
-                $this->view("rol/create", $data, "app");
+                $this->view("rol/update", $data, "app");
             }
         } else {
         }
@@ -143,17 +159,17 @@ class RolesController extends Controller
 
     function delete($id)
     {
-
         $this->model->deleteRole(["id_role" => Helper::decrypt($id)]);
         header("Location: " . URL . "/roles");
-
-
+    
         $data = [
             "titulo" => "Roles",
             "subtitulo" => "Eliminación de roles",
             "menu" => true,
             "id" => $id
         ];
+        header("Location: " . URL . "/roles");
+
     }
 
     /**
@@ -165,7 +181,13 @@ class RolesController extends Controller
      */
     function manage($id)
     {
-        $role = $this->model->getRole(["id_role" => Helper::decrypt($id)]);
+        /*Usa la el metodo getRole de RoleModel que a su vez usa el metodo getRowById 
+        de Model que obtiene una fila por id
+        */
+        $role = $this->model->getRole(["id_role" => Helper::decrypt($id)]); 
+        /**Usa el metodo getPermisson de PermissonModel que a su vez usa el metodo select de 
+         * Model que obtiene todos los datos de una tabla en especifico
+        */
         $permit = $this->model2->getPermisson();
         $permit_role = $this->model3->selectPermits(["id_role_fk" => $role["id_role"]]);
 
@@ -178,16 +200,9 @@ class RolesController extends Controller
             "permit_role" => $permit_role
         ];
 
-        // foreach ($permit as $value) {
-        //     echo "<br>";
-        //     echo "<pre>";
-        //     print_r($value["id_permission"]);
-        //     print_r($value["name_permisson"]);
-        //     echo "</pre>";
-        // }
+        $this->view("rol/manage", $data, "app");
 
 
-        $this -> view("rol/manage", $data,"app");
     }
     /**
      * Este metodo es para asignarle los permisos a cada rol
@@ -200,8 +215,6 @@ class RolesController extends Controller
             $role = $_POST['rol'];
             $permits = $_POST['permisos'];
 
-
-
             $valores = [
                 "id_role_fk" => $role,
                 "id_permisson_fk" => $permits
@@ -212,25 +225,4 @@ class RolesController extends Controller
 
         }
     }
-
-    function search() {
-        // Obtiene el valor del campo de búsqueda 
-        $rolBuscado = isset($_POST['search_rol']) ? $_POST['search_rol'] : '';
-    
-        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-            // Llamar a la función para obtener el dato
-            $resultados = $this->model->search_consulta($rolBuscado);
-    
-            $data = [
-                "titulo" => "Roles",
-                "subtitulo" => "Lista de roles",
-                "menu" => true,
-                "roles" => $resultados
-            ];
-    
-            $this->view('rol/index', $data, 'app');
-        }
-    }
-
-
 }

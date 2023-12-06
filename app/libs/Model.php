@@ -41,7 +41,6 @@ class Model
       // Agregar el marcador de parámetro a la cadena de parámetros
       $params .= ":" . $key . ",";
     }
-    $sql = "SELECT * FROM $tabla WHERE $columns = $params";
 
     // Eliminar la última coma de las cadenas de columnas y parámetros
     $columns = rtrim($columns, ',');

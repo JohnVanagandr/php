@@ -137,4 +137,4 @@
 </div>
 
 <script src="<?= URL ?>/assets/js/register.js"></script>
-<!-- <script src="<?= URL ?>/assets/js/valid.js"></script> -->
+<script src="<?= URL ?>/assets/js/valid.js"></script>

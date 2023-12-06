@@ -1,8 +1,8 @@
-// //Url base del proyecto
-const url = "http://citas.test";
+//Url base del proyecto
+const url = "http://localhost/citas";
 //Atributos del formulario
 const email = document.getElementById("email");
-let usuario = document.getElementById("user_name");
+let usuario = document.getElementById("first_name");
 
 let form = document.getElementById("form");
 let btn = document.getElementById("btnRegistrar");
