@@ -107,13 +107,15 @@ class RegisterController extends controller
       if (trim($email) == "") {
         $errores['mail_error'] = "El correo no está definido";
       }
-
       if (trim($phone) == "") {
         $errores['phone_error'] = "El celular no está definido";
       } else {
-        if (!ctype_digit(trim($phone))) {
+        if (! (trim($phone))) {
             $errores['phone_error_string'] = "Solo se permiten datos numéricos";
         }else{
+
+
+          
           if (strlen($phone) !== 10 || substr($phone, 0, 1) !== '3') {
               $errores['phone_error_length'] = "El número de celular debe tener 10 dígitos y un formato valido";
             }
@@ -199,7 +201,6 @@ class RegisterController extends controller
         $this->view("register", $data, "auth");
       }
     }
-    header('Location: ' . URL . '/admin'); //Redireccionamiento de 
   }
 
 
