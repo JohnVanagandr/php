@@ -28,6 +28,6 @@
       } 
       ?>
     </div>
-    <button class="btn-update">Actualizar</button>
+    <button class="btn-create">Actualizar</button>
   </form>
 </section>
