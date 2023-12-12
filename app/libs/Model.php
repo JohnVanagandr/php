@@ -105,10 +105,15 @@ class Model
 
     }
 
+    $stm->execute();
+
+    return $stm->fetchAll();
+  }
   /**
-   * Método para seleccionar todos los registros de una tabla en la base de datos.
+   * Obtiene datos de una tabla en la base de datos filtrados por columna(s) y valor(es) específicos.
    *
-   * @param string $tabla El nombre de la tabla a seleccionar.
+   * Esta función ejecuta una consulta SQL para recuperar datos de una tabla en la base de datos, aplicando un filtro
+   * mediante una o más columnas y sus respectivos valores. Los resultados se devuelven en un arreglo asociativo.
    *
    * @return array Retorna un array de todos los registros seleccionados.
    **/
@@ -132,8 +137,11 @@ class Model
     $stm = $this->connection->prepare($sql);
 
     // Ejecuta la consulta SQL.
+
+    // Ejecuta la consulta SQL.
     $stm->execute();
     //return $sql;
+    // Retorna los resultados obtenidos.
     return $stm->fetchAll();
   }
 
@@ -302,6 +310,8 @@ class Model
     $params = "";
 
     // Construye la cláusula WHERE de la consulta SQL en base a las columnas y valores especificados.
+
+    // Construye la cláusula WHERE de la consulta SQL en base a las columnas y valores especificados.
     foreach ($columnas as $key => $value) {
         $columns = $key;
         $params = $value;
@@ -315,6 +325,10 @@ class Model
 
     $stm->execute();
 
+    // Esta función devuelve un valor si se obtienen resultados de la consulta.
+    // Sin embargo, dado que se trata de una operación de eliminación, es poco común
+    // devolver resultados. En su lugar, se podría considerar devolver `true` si la eliminación
+    // tiene éxito o lanzar una excepción en caso de error.
     // Esta función devuelve un valor si se obtienen resultados de la consulta.
     // Sin embargo, dado que se trata de una operación de eliminación, es poco común
     // devolver resultados. En su lugar, se podría considerar devolver `true` si la eliminación

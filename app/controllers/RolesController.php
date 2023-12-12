@@ -7,6 +7,7 @@ use Adso\libs\Helper;
 use Adso\libs\DateHelper;
 use Adso\libs\Permisson;
 use Adso\servicios\Transacciones;
+use Adso\libs\Session;
 
 class RolesController extends Controller
 {
@@ -19,6 +20,8 @@ class RolesController extends Controller
   protected $permit;
 
   const PREFIJO = 'Roles';
+
+  protected $session;
 
   function __construct()
   {
@@ -38,8 +41,6 @@ class RolesController extends Controller
 
   }
 
-  }
-
   function index()
   {
     $roles = $this->model->getRoles();
@@ -54,7 +55,7 @@ class RolesController extends Controller
       "permisos" => $permisos,
     ];
 
-    $this->view('rol/index', $data, 'app'); // Renderizar la vista de lista de roles
+    $this->view('rol/index', $data, 'app');
   }
   function search()
   {
@@ -140,7 +141,7 @@ class RolesController extends Controller
       // $permits = $_POST['permisos'];
 
       if ($roles == "") {
-        $errores["rol_error"] = "El rol está vacío";
+        $errores["rol_error"] = "El rol esta vacio";
       }
       if (empty($permits)) {
         $errores["rol_error"] = "Debes escoger al menos un permiso";
@@ -171,8 +172,7 @@ class RolesController extends Controller
 
         // $this->model->storage($valores); // Almacenar el nuevo rol en la base de datos
 
-        header("Location: " . URL . "/roles"); // Redireccionar a la lista de roles
-
+        header("Location: " . URL . "/roles");
       } else {
 
         $permit = $this->model2->getPermisson();
@@ -206,7 +206,7 @@ class RolesController extends Controller
       "permisos" => $permit
     ];
 
-    $this->view("rol/update", $data, "app"); // Renderizar la vista de actualización de roles
+    $this->view("rol/update", $data, "app");
   }
 
   /**

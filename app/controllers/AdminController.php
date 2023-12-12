@@ -1,11 +1,15 @@
 <?php
 
 /** Esta línea establece el espacio de nombres actual para el archivo de código */
+
 namespace Adso\controllers;
 
 /** Esta línea importa la clase "controller" del espacio de nombres "Adso\Libs" */
+
 use Adso\libs\Controller;
+
 /** Esta línea importa la clase "Permisson" del espacio de nombres "Adso\libs" */
+
 use Adso\libs\Permisson;
 use Adso\libs\Session;
 
@@ -17,7 +21,9 @@ use Adso\libs\Session;
 class AdminController extends Controller
 {
 
-    private $session;
+  private $session;
+
+  private $sesiones;
   /** 
    * Constructor de la clase AdminController, este es el metoddo que primero se ejecuta de la clase.
    * 
@@ -28,10 +34,9 @@ class AdminController extends Controller
   //protected $sesion;
   function __construct()
   {
+    $this->session = new Session;
 
-        $this->session = new Session();        
-        
-        
+    $this->sesiones = $this->session->sesion();
   }
 
     /**

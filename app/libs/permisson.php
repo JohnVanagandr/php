@@ -16,10 +16,10 @@ use Adso\model\RoleModel;
 class Permisson {
 
   private $sesion;
+<<<<<<< HEAD
   protected $model;
   protected $model2;
   protected $model3;
-
 
   /**
    * Metodo constructor devuelve una instancia de la clase Session que sirve para inicializar una sesion
@@ -143,5 +143,8 @@ class Permisson {
 
      return $permisos;
 
+    return $respuesta;
   }
+>>>>>>> grupo_8
 }
+

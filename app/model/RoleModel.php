@@ -154,3 +154,4 @@ class RoleModel extends Model
         $this->connection = $this->db->closConnection(); // Cerramos la conexión a la base de datos.
     }
 }
+
