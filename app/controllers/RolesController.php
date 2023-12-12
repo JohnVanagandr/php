@@ -215,27 +215,28 @@ class RolesController extends Controller
    * @param string $id El ID del rol a editar.
    */
 
-    function update($id)
-    {
+  function update($id)
+  {
 
-        if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+    if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
-            $errores = [];
-            $roles = $_POST['rol_name'];
+      $errores = [];
+      $roles = $_POST['rol_name'];
 
-            if ($roles == "") {
-                $errores["rol_error"] = "El rol esta vacio";
-            }
-            if (strlen($roles) > 50) {
-                $errores["rol_error"] = "El rol supera el limite de caracteres";
-            }
+      if ($roles == "") {
+        $errores["rol_error"] = "El rol esta vacio";
+      }
+      if (strlen($roles) > 50) {
+        $errores["rol_error"] = "El rol supera el limite de caracteres";
+      }
 
-            if (empty($errores)) {
+      if (empty($errores)) {
 
-                $valores = [
-                    "name_role" => $roles,
-                    "id_role" => Helper::decrypt($id)
-                ];
+        $valores = [
+          "name_role" => $roles,
+          "id_role" => Helper::decrypt($id)
+        ];
+>>>>>>> grupo_7
 
         $this->model->updateRole($valores);
 

@@ -130,6 +130,8 @@ class Model
 
     $sql = "SELECT * FROM $tabla WHERE $filtro LIKE '%$busqueda%' ";
     $stm = $this->connection->prepare($sql);
+
+    // Ejecuta la consulta SQL.
     $stm->execute();
     //return $sql;
     return $stm->fetchAll();
@@ -191,33 +193,23 @@ class Model
     // Construye la consulta SQL final.
     $sql = "SELECT * FROM $tabla WHERE $columns = $params";
 
-    // Prepara la consulta SQL.
-    $stm = $this->connection->prepare($sql);
-
-    // Ejecuta la consulta SQL.
-    $stm->execute();
-
-    // Retorna los resultados obtenidos.
-    return $stm->fetch();
-}
-
-/**
-     * Método para obtener todos los registros que coincidan con una condición en una tabla de la base de datos.
-     *
-     * @param string $tabla El nombre de la tabla a consultar.
-     * @param array $columnas Un array asociativo que especifica la columna y el valor a buscar.
-     *
-     * @return array Retorna un array de registros que coinciden con la condición.
-     */
-    public function getRowsById($tabla = "", $columnas = [])
-    {
-        $columns = "";
-        $params = "";
-        foreach ($columnas as $key => $value) {
-            $columns = $key;
-            $params = $value;
-        }
-        $sql = "SELECT * FROM $tabla WHERE $columns = $params";
+  /**
+   * Método para obtener todos los registros que coincidan con una condición en una tabla de la base de datos.
+   *
+   * @param string $tabla El nombre de la tabla a consultar.
+   * @param array $columnas Un array asociativo que especifica la columna y el valor a buscar.
+   *
+   * @return array Retorna un array de registros que coinciden con la condición.
+   */
+  public function getRowById($tabla = "", $columnas = [])
+  {
+    $columns = "";
+    $params = "";
+    foreach ($columnas as $key => $value) {
+      $columns = $key;
+      $params = $value;
+    }
+    $sql = "SELECT * FROM $tabla WHERE $columns = $params";
 
         $stm = $this->connection->prepare($sql);
         $stm->execute();
