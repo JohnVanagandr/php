@@ -3,6 +3,7 @@
 namespace Adso\libs;
 
 use Adso\libs\Database;
+use Adso\libs\Session;
 use Adso\model\Permisson_RoleModel;
 use Adso\model\PermissonModel;
 use Adso\model\RoleModel;
@@ -27,6 +28,7 @@ class Permisson {
    * @return object de la clase Session
    */
   function __construct() {
+
     $this->sesion = new Session();
     $this->model = new RoleModel();
     $this->model2 = new PermissonModel;
@@ -89,7 +91,6 @@ class Permisson {
 
     $role = $this->sesion->getUser()["id_role_fk"];
 
-
     /**Usa el metodo getPermisson de PermissonModel que a su vez usa el metodo select de 
      * Model que obtiene todos los datos de una tabla en especifico
      */
@@ -123,8 +124,6 @@ class Permisson {
     $role = $this->sesion->getUser()["id_role_fk"];
 
     $permit = $this->model2->getPermisson();
-
-    print_r($role);
 
     $permit_role = $this->model3->selectPermits(["id_role_fk" => $role]);
     $permit = $this->model2->getPermisson();

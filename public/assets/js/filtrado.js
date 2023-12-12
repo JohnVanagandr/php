@@ -1,4 +1,4 @@
-const url = "http://localhost/citas";
+const url = "http://localhost/phpFinal";
 const actual = location.href;
 console.log(actual)
 

@@ -45,24 +45,29 @@ function index()
       "titulo" => "Registro",          // Título de la página.
       "subtitulo" => "Formulario de registro" // Subtítulo o descripción de la página.
     ];
-
+    
     // Carga la vista "register" y pasa los datos y el contexto 'auth'.
     $this->view('register', $data, 'auth');
-}
-
-/**
- * Esta función maneja la validación de datos para registrar un nuevo usuario en el sistema.
- *
- * Verifica si se ha recibido una solicitud POST y realiza una serie de validaciones en los datos proporcionados.
- * Si los datos son válidos, registra al usuario; de lo contrario, muestra errores en la página de registro.
- *
- * @return void No devuelve un valor explícito, pero registra un nuevo usuario o muestra errores en la página de registro.
- */
-function validate()
-{
+  }
+  
+  /**
+   * Esta función maneja la validación de datos para registrar un nuevo usuario en el sistema.
+   *
+   * Verifica si se ha recibido una solicitud POST y realiza una serie de validaciones en los datos proporcionados.
+   * Si los datos son válidos, registra al usuario; de lo contrario, muestra errores en la página de registro.
+   *
+   * @return void No devuelve un valor explícito, pero registra un nuevo usuario o muestra errores en la página de registro.
+   */
+  function validate()
+  {
+    
+    
     if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-        // Inicializa un arreglo de errores.
-        $errores = [];
+
+
+
+      // Inicializa un arreglo de errores.
+      $errores = [];
 
       // Obtiene los datos del formulario.
       $name = $_POST['first_name'] ?? '';
@@ -154,6 +159,7 @@ function validate()
       }
 
       $correoResult = $this->model->getEmail($email);
+
       if (is_array($correoResult)) {
 
         $correo = $correoResult['email'];
@@ -162,13 +168,16 @@ function validate()
         }
       }
 
+      
       $userResult = $this->model->getUsuario($user_name);
+
       if (is_array($userResult)) {
         $user = $userResult['user_name'];
 
         if (isset($user) && $user === $user_name) {
           $errores['user_duplicate'] = "El usuario ya existe";
         }
+      } 
 
         if (empty($errores)) {
           // Si no hay errores, crea un arreglo con los valores del usuario y perfil.
@@ -198,7 +207,6 @@ function validate()
         }
       }
     }
-
 
     /**
      * Esta función maneja solicitudes relacionadas con la validación de direcciones de correo electrónico.
@@ -288,4 +296,4 @@ function validate()
       }
     }
 }
-}
+

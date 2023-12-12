@@ -6,6 +6,7 @@ use Adso\Libs\controller;
 use Adso\libs\Helper;
 use Adso\libs\DateHelper;
 use Adso\libs\Permisson;
+use Adso\servicios\Transacciones;
 
 class RolesController extends Controller
 {
@@ -13,6 +14,7 @@ class RolesController extends Controller
   protected $model;
   protected $model2;
   protected $model3;
+  protected $servicio;
   protected $permission;
   protected $permit;
 
@@ -28,12 +30,13 @@ class RolesController extends Controller
       $this->model = $this->model("Role");
       $this->model2 = $this->model("Permisson");
       $this->model3 = $this->model("Permisson_Role");
+      $this->servicio = new Transacciones();
 
       
     } else {
       header("Location: " . URL . "/admin/error403");
 
-    }
+  }
 
   }
 
@@ -42,9 +45,6 @@ class RolesController extends Controller
     $roles = $this->model->getRoles();
 
     $permisos = $this->permission->permissionbool();
-
-    // print_r($permisos);
-    // die();
 
     $data = [
       "titulo" => "Roles",
@@ -114,10 +114,13 @@ class RolesController extends Controller
   function create()
   {
 
+    $permit = $this->model2->getPermisson();
+
     $data = [
       "titulo" => "Roles",
-      "subtitulo" => "Creacion de roles",
-      "menu" => true
+      "subtitulo" => "Creación de roles",
+      "menu" => true,
+      "permisos" => $permit
     ];
 
 
@@ -131,10 +134,16 @@ class RolesController extends Controller
     if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
       $errores = [];
-      $roles = $_POST['rol_name'];
+      $roles = $_POST['rol_name']; // Obtener el nombre del rol desde el formulario
+      $permits = isset($_POST['permisos']) ? $_POST['permisos'] : [];
+
+      // $permits = $_POST['permisos'];
 
       if ($roles == "") {
-        $errores["rol_error"] = "El rol esta vacio";
+        $errores["rol_error"] = "El rol está vacío";
+      }
+      if (empty($permits)) {
+        $errores["rol_error"] = "Debes escoger al menos un permiso";
       }
       if (strlen($roles) > 50) {
         $errores["rol_error"] = "El rol supera el limite de caracteres";
@@ -143,18 +152,37 @@ class RolesController extends Controller
       if (empty($errores)) {
 
         $valores = [
-          "name_role" => $roles
+          "role" => [
+            "name_role" => $roles
+          ],
+          "Permisson_Role" => [
+            "id_permisson_fk" => $permits,
+            "id_role_fk" => null
+          ]
         ];
 
-        $this->model->storage($valores);
+        // Realiza una transacción de registro a través del servicio.
+        print_r("fdgdfg");
+        $transaccion = $this->servicio->trsRegistro($valores);
 
-        header("Location: " . URL . "/roles");
+        // $valores = [
+        //   "name_role" => $roles
+        // ];
+
+        // $this->model->storage($valores); // Almacenar el nuevo rol en la base de datos
+
+        header("Location: " . URL . "/roles"); // Redireccionar a la lista de roles
+
       } else {
+
+        $permit = $this->model2->getPermisson();
+
         $data = [
           "titulo" => "Roles",
           "subtitulo" => "Creacion de roles",
           "menu" => true,
-          "errors" => $errores
+          "errors" => $errores,
+          "permisos" => $permit
         ];
 
         $this->view("rol/create", $data, "app");
@@ -166,14 +194,16 @@ class RolesController extends Controller
   function editar($id)
   {
 
-    $save = $this->model->getRole(["id_role" => Helper::decrypt($id)]);
+    $save = $this->model->getRole(["id_role" => Helper::decrypt($id)]); // Obtener detalles del rol a editar
+    $permit = $this->model2->getPermisson();
 
     $data = [
       "titulo" => "Roles",
       "subtitulo" => "Actualizacion de roles",
       "menu" => true,
       "data" => $save,
-      "id" => $id
+      "id" => $id,
+      "permisos" => $permit
     ];
 
     $this->view("rol/update", $data, "app"); // Renderizar la vista de actualización de roles
@@ -185,27 +215,27 @@ class RolesController extends Controller
    * @param string $id El ID del rol a editar.
    */
 
-  function update($id)
-  {
+    function update($id)
+    {
 
-    if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+        if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
-      $errores = [];
-      $roles = $_POST['rol_name'];
+            $errores = [];
+            $roles = $_POST['rol_name'];
 
-      if ($roles == "") {
-        $errores["rol_error"] = "El rol esta vacio";
-      }
-      if (strlen($roles) > 50) {
-        $errores["rol_error"] = "El rol supera el limite de caracteres";
-      }
+            if ($roles == "") {
+                $errores["rol_error"] = "El rol esta vacio";
+            }
+            if (strlen($roles) > 50) {
+                $errores["rol_error"] = "El rol supera el limite de caracteres";
+            }
 
-      if (empty($errores)) {
+            if (empty($errores)) {
 
-        $valores = [
-          "name_role" => $roles,
-          "id_role" => Helper::decrypt($id)
-        ];
+                $valores = [
+                    "name_role" => $roles,
+                    "id_role" => Helper::decrypt($id)
+                ];
 
         $this->model->updateRole($valores);
 

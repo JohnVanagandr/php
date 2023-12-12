@@ -53,12 +53,17 @@ class PermissonController extends Controller
   {
     //$permisos = $this->model->getPermisson();
     $permisos = $this->model->getPermissonPage();
+    $permisos2 = $this->permission->permissionbool();
+
+    // print_r($permisos2);
+    // die();
 
     $data = [
       "titulo" => "permisos",
       "subtitulo" => "Lista de permisos",
       "menu" => true,
       "permisos" => $permisos,
+      "permisos2" => $permisos2
     ];
 
     $this->view("permisson/index", $data, "app");
@@ -68,12 +73,14 @@ class PermissonController extends Controller
   function paginarPermisos($numPagina)
   {
     $permisos = $this->model->getPermissonPage($numPagina);
+    $permisos2 = $this->permission->permissionbool();
 
     $data = [
       "titulo" => "permisos",
       "subtitulo" => "Lista de permisos",
       "menu" => true,
       "permisos" => $permisos,
+      "permisos2" => $permisos2
     ];
 
     $this->view('permisson/index', $data, 'app');
@@ -164,19 +171,41 @@ class PermissonController extends Controller
     if ($_SERVER['REQUEST_METHOD'] == 'POST') {
       $errors = array();
       $permiso = $_POST['per_name'];
+      $modulo = $_POST['slug'];
+      $slug = "";
+      $descripcion = "";
+
+      if($permiso  == "Visualizar") {
+        $slug = $modulo.".index";
+      }elseif($permiso  == "Crear"){
+        $slug = $modulo.".storage";
+      }elseif($permiso == "Actualizar"){
+        $slug = $modulo.".update";
+      } elseif ($permiso == "Eliminar") {
+        $slug = $modulo.".delete";
+      }
+                        
 
       if ($permiso == "") {
         $errors['per_error'] = "el campo esta vacio";
       }
 
-      if (strlen($permiso) > 50) {
-        $errors['per_error'] = "el permiso supera el limite de caracteres";
+      if ($modulo == "") {
+        $errors['per_error'] = "el campo  slug esta vacio";
+      }
+
+      if ($modulo == "permisson") {
+        $descripcion = $permiso." permisos";
+      }else{
+        $descripcion = $permiso." roles";
       }
 
       if (empty($errors)) {
 
         $valores = [
-          "name_permisson" => $permiso
+          "name_permisson" => $permiso,
+          "slug" => $slug,
+          "description" => $descripcion,
         ];
 
         $this->model2->storage($valores);
@@ -229,26 +258,48 @@ class PermissonController extends Controller
     if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
       $errores = [];
-      $roles = $_POST['per_name'];
+      $permiso = $_POST['per_name'];
+      $modulo = $_POST['slug'];
+      $slug = "";
+      $descripcion = "";
 
-      if ($roles == "") {
+      if($permiso  == "Visualizar") {
+        $slug = $modulo.".index";
+      }elseif($permiso  == "Crear"){
+        $slug = $modulo.".storage";
+      }elseif($permiso == "Actualizar"){
+        $slug = $modulo.".update";
+      } elseif ($permiso == "Eliminar") {
+        $slug = $modulo.".delete";
+      }
+
+      if ($permiso == "") {
         $errores["per_error"] = "el rol esta vacio";
       }
-      if (strlen($roles) > 50) {
-        $errores["per_error"] = "el rol supera el limite de caracteres";
+
+      if ($modulo == "") {
+        $errors['per_error'] = "el campo  slug esta vacio";
+      }
+
+      if ($modulo == "permisson") {
+        $descripcion = $permiso." permisos";
+      }else{
+        $descripcion = $permiso." roles";
       }
 
       if (empty($errores)) {
 
         $valores = [
-          "name_permisson" => $roles,
+          "name_permisson" => $permiso,
+          "slug" => $slug,
+          "description" => $descripcion,
           "id_permission" => Helper::decrypt($id)
         ];
 
         $this->model2->updatePermisson($valores);
 
-
         header("location:" . URL . "/permisson");
+        
       } else {
         $data = [
           "titulo" => "Roles",

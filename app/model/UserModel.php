@@ -52,11 +52,17 @@ class UserModel extends Model
      */
     function getEmail($correo)
     {
+        $this->connection = $this->db->getConnection(); 
+
         $sql = "SELECT email FROM users WHERE email = :correo";
         $stm = $this->connection->prepare($sql);
         $stm->bindValue(":correo", $correo);
         $stm->execute();
-        return $stm->fetch();
+        $data = $stm->fetch();
+
+        $this->connection = $this->db->closConnection();
+
+        return $data;
     }
 
     /**
@@ -72,11 +78,16 @@ class UserModel extends Model
      */
     function getUsuario($usuario)
     {
+        $this->connection = $this->db->getConnection(); 
+
         $sql = "SELECT user_name FROM users WHERE BINARY user_name = :user";
         $stm = $this->connection->prepare($sql);
         $stm->bindValue(":user", $usuario);
         $stm->execute();
-        return $stm->fetch();
+        $data = $stm->fetch();
+
+        $this->connection = $this->db->closConnection();
+        return $data;
     }
 
     /**
@@ -226,8 +237,11 @@ class UserModel extends Model
         } else {
             $this->connection = $this->db->getConnection();
         }
-        // $this->connection = $this->db->closConnection();
-        return $this->insert("users", $valores);
+        $data = $this->insert("users", $valores);
+
+        $this->connection = $this->db->closConnection();
+
+        return $data;
     }
     
 }

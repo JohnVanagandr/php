@@ -33,7 +33,7 @@ class RoleModel extends Model
     {
         $this->connection = $this->db->getConnection();
         $table = "permissions";
-        $columns = ['id_permission', 'name_permisson', 'created_at', 'updated_at'];
+        $columns = ['*'];
         $data = $this->selectLimit($table, $columns, $numPagina);
         $this->connection = $this->db->closConnection();
         return $data;
@@ -78,11 +78,18 @@ class RoleModel extends Model
    * @access protected
    * @param array $roles
    */
-  function storage($roles)
+  function storage($roles, $comm = "")
   {
-    $this->connection = $this->db->getConnection(); // Establecemos una conexión con la base de datos.
-    $data = $this->insert($this->tabla, $roles); // Insertamos los datos contenidos en el parámetro $roles en la tabla correspondiente.
+
+    if ($comm != "") {
+      $this->connection = $comm;
+    } else {
+      $this->connection = $this->db->getConnection(); // Establecemos una conexión con la base de datos.
+    }
+
+    $data = $this->insert($this->tabla, $roles);     // Insertamos los datos contenidos en el parámetro $roles en la tabla correspondiente.
     $this->connection = $this->db->closConnection(); // Cerramos la conexión a la base de datos.
+    return $data;
   }
 
   /**

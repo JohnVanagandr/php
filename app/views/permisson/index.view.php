@@ -1,3 +1,6 @@
+
+
+
 <section class="content-table">
   <div class="table-header">
     <div class="tittle-table">
@@ -21,8 +24,11 @@
     <thead>
       <tr>
         <th>Nombre</th>
+                <th>Descripción</th>
         <th>Fecha de creado</th>
         <th>Fecha de modificacion</th>
+                
+
         <th>Acciones</th>
       </tr>
     </thead>
@@ -30,6 +36,7 @@
       <?php
       use Adso\libs\DateHelper;
       use Adso\libs\Helper;
+    
 
       foreach($data['permisos']['data'] as $value) {
         ?>
@@ -37,21 +44,28 @@
           <td>
             <?= $value['name_permisson'] ?>
           </td>
+
+                    <td>
+                        <?= $value['description'] ?>
+                    </td>
           <td>
             <?= DateHelper::shortDate($value['created_at']) ?>
           </td>
           <td>
             <?= DateHelper::shortDate($value['updated_at']) ?>
           </td>
+                
           <td>
-          <?php
-            if(in_array('permisson.editar', $data['permisos'])) {
+              <?php
+
+              if(in_array('permisson.editar' , $data['permisos2'])){
+                
               ?>
               <button><a
                 href="<?= URL ?>/permisson/editar/<?= Helper::encrypt($value['id_permission']) ?>">editar</a></button>
-              <?php
+                  <?php
             }
-            if(in_array('permisson.delete', $data['permisos'])) {
+            if(in_array('permisson.delete', $data['permisos2'])) {
             ?>
             <button><a
                 href="<?= URL ?>/permisson/delete/<?= Helper::encrypt($value['id_permission']) ?>">eliminar</a></button>
