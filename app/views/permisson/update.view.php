@@ -1,8 +1,7 @@
-<<<<<<< HEAD
 <section class="card-content">
   <form class="form-role" action="<?= URL ?>/permisson/update/<?= $data["id"] ?>" method="post">
     <h1 class="titulo">Actualizar Permiso</h1>
-    
+
     <div class="form-group">
       <label for="per_name" class="form-label">Selecciona una acción</label>
       <select name="per_name" id="per_name" class="input-text">
@@ -27,7 +26,7 @@
           </span>
       <?php
         }
-      } 
+      }
       ?>
     </div>
     <button class="btn-create">Actualizar</button>

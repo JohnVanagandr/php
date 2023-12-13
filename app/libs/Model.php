@@ -344,4 +344,34 @@ class Model
     // tiene éxito o lanzar una excepción en caso de error.
     return $stm->fetch();
   }
+
+  public function deleteCheckout($tabla = "", $columnas = [], $params = "")
+  {
+    $columns = "";
+
+    // var_dump("Tabla ".$tabla);
+    // var_dump("Columnas ".$columns);
+    // var_dump("Parámetros ".$params);
+    // die();
+
+    // Construye la cláusula WHERE de la consulta SQL en base a las columnas y valores especificados.
+    foreach ($columnas as $key => $value) {
+      $columns = $key;
+    }
+
+    // Construye la consulta SQL final.
+    $sql = "DELETE FROM $tabla WHERE id_role_fk = $params";
+
+    // Prepara la consulta SQL.
+    $stm = $this->connection->prepare($sql);
+
+    // Ejecuta la consulta SQL.
+    $stm->execute();
+
+    // Esta función devuelve un valor si se obtienen resultados de la consulta.
+    // Sin embargo, dado que se trata de una operación de eliminación, es poco común
+    // devolver resultados. En su lugar, se podría considerar devolver `true` si la eliminación
+    // tiene éxito o lanzar una excepción en caso de error.
+    return $stm->fetch();
+  }
 }
