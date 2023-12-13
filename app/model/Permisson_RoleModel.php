@@ -27,14 +27,24 @@ class Permisson_RoleModel extends Model
     $idRol = $permisos["id_role_fk"];
     $params = $idRol;
 
+    $indice = 0;
     foreach ($permisos["id_permisson_fk"] as $value) {
+
+
+
       $valores = [
         "id_role_fk" => $idRol,
         "id_permisson_fk" => $value
       ];
-
-      $data = $this->deleteCheckout($this->tabla, $valores, $params);
+      // print_r($permisos["id_permisson_fk"]);
+      // die();
+      if ($indice == 0) {
+        $data = $this->deleteCheckout($this->tabla, $valores, $params);
+        $indice++;
+      }
       $data = $this->insert($this->tabla, $valores);
+
+      print_r($indice);
     }
     $this->connection = $this->db->closConnection();
   }
