@@ -6,8 +6,8 @@ use Adso\libs\Database;
 
 class Model
 {
-    protected $db;// Una propiedad protegida llamada $db en una clase
-    protected $connection;// Otra propiedad protegida $connection en otra clase 
+  protected $db; // Una propiedad protegida llamada $db en una clase
+  protected $connection; // Otra propiedad protegida $connection en otra clase 
 
   /**
    * Constructor de la clase Model que inicializa la conexión a la base de datos.
@@ -17,7 +17,7 @@ class Model
     // Crear una nueva instancia de la clase Database
     $this->db = new Database();
     // $this->connection = $this->db->getConnection();
-    
+
   }
   /**
    * Método para insertar registros en la base de datos.
@@ -33,82 +33,74 @@ class Model
     $columns = "";
     $params = "";
 
-        // Recorrer el array asociativo de columnas y valores
-        foreach ($columnas as $key => $value) {
-            // Agregar el nombre de la columna a la cadena de columnas
-            $columns .= $key . ",";
+    // Recorrer el array asociativo de columnas y valores
+    foreach ($columnas as $key => $value) {
+      // Agregar el nombre de la columna a la cadena de columnas
+      $columns .= $key . ",";
 
-            // Agregar el marcador de parámetro a la cadena de parámetros
-            $params .= ":" . $key . ",";
-        }
-
-        // Eliminar la última coma de las cadenas de columnas y parámetros
-        $columns = rtrim($columns, ',');
-        $params = rtrim($params, ',');
-
-
-        if($tabla =="permissions"){
-
-            // Consulta para verificar si el slug ya existe
-            $sqlSlugCheck = "SELECT COUNT(*) FROM $tabla WHERE slug = :slug";
-            $stmSlugCheck = $this->connection->prepare($sqlSlugCheck);
-            $stmSlugCheck->bindValue(":slug", $columnas['slug']);
-            $stmSlugCheck->execute();
-
-            // Verificar si el slug ya existe
-            if ($stmSlugCheck->fetchColumn() > 0) {
-                return "El slug ya existe en la base de datos.";
-            }
-
-            // Construir la consulta SQL de inserción utilizando las cadenas formadas
-            $sqlInsert = "INSERT INTO $tabla ($columns) VALUES ($params)";
-
-            // Preparar la consulta SQL de inserción
-            $stmInsert = $this->connection->prepare($sqlInsert);
-
-            // Asignar valores a los parámetros utilizando enlaces de parámetros
-            foreach ($columnas as $key => $value) {
-                $stmInsert->bindValue(":" . $key, $value);
-            }
-
-            // Ejecutar la consulta preparada y retornar el resultado
-            if ($stmInsert->execute()) {
-                return $this->connection->lastInsertId();
-            } else {
-                return $this->connection->errorInfo();
-            }
-
-
-        }else{
-  
-          // Construir la consulta SQL de inserción utilizando las cadenas formadas
-          $sql = "INSERT INTO $tabla ($columns) VALUES ($params)";
-  
-          // Preparar la consulta SQL
-          $stm = $this->connection->prepare($sql);
-  
-          // Asignar valores a los parámetros utilizando enlaces de parámetros
-          foreach ($columnas as $key => $value) {
-              $stm->bindValue(":" . $key, $value);
-          }
-  
-          /**Ejecutar la consulta preparada y retornarla */ 
-          
-          if ($stm->execute()) {
-             
-              return $this->connection->lastInsertId();
-             
-          } else {
-              return $this->connection->errorInfo();
-          }
-        }
-
+      // Agregar el marcador de parámetro a la cadena de parámetros
+      $params .= ":" . $key . ",";
     }
 
-    $stm->execute();
+    // Eliminar la última coma de las cadenas de columnas y parámetros
+    $columns = rtrim($columns, ',');
+    $params = rtrim($params, ',');
 
-    return $stm->fetchAll();
+
+    if ($tabla == "permissions") {
+
+      // Consulta para verificar si el slug ya existe
+      $sqlSlugCheck = "SELECT COUNT(*) FROM $tabla WHERE slug = :slug";
+      $stmSlugCheck = $this->connection->prepare($sqlSlugCheck);
+      $stmSlugCheck->bindValue(":slug", $columnas['slug']);
+      $stmSlugCheck->execute();
+
+      // Verificar si el slug ya existe
+      if ($stmSlugCheck->fetchColumn() > 0) {
+        return "El slug ya existe en la base de datos.";
+      }
+
+      // Construir la consulta SQL de inserción utilizando las cadenas formadas
+      $sqlInsert = "INSERT INTO $tabla ($columns) VALUES ($params)";
+
+      // Preparar la consulta SQL de inserción
+      $stmInsert = $this->connection->prepare($sqlInsert);
+
+      // Asignar valores a los parámetros utilizando enlaces de parámetros
+      foreach ($columnas as $key => $value) {
+        $stmInsert->bindValue(":" . $key, $value);
+      }
+
+      // Ejecutar la consulta preparada y retornar el resultado
+      if ($stmInsert->execute()) {
+        return $this->connection->lastInsertId();
+      } else {
+        return $this->connection->errorInfo();
+      }
+    } else {
+
+      // Construir la consulta SQL de inserción utilizando las cadenas formadas
+      $sql = "INSERT INTO $tabla ($columns) VALUES ($params)";
+
+      // Preparar la consulta SQL
+      $stm = $this->connection->prepare($sql);
+
+      // Asignar valores a los parámetros utilizando enlaces de parámetros
+      foreach ($columnas as $key => $value) {
+        $stm->bindValue(":" . $key, $value);
+      }
+
+      /**Ejecutar la consulta preparada y retornarla */
+
+      if ($stm->execute()) {
+
+        return $this->connection->lastInsertId();
+      } else {
+        return $this->connection->errorInfo();
+      }
+    }
   }
+
   /**
    * Obtiene datos de una tabla en la base de datos filtrados por columna(s) y valor(es) específicos.
    *
@@ -118,7 +110,7 @@ class Model
    * @return array Retorna un array de todos los registros seleccionados.
    **/
 
- public function select($tabla = "")
+  public function select($tabla = "")
   {
 
     $sql = "SELECT * FROM $tabla";
@@ -150,9 +142,9 @@ class Model
 
     $limit = 12;
     $id = "id_permission";
-    
+
     $pagina = $numPagina != 0 ? $numPagina : 0;
-    
+
     if (!$pagina) {
       $inicio = 0;
       $pagina = 1;
@@ -194,13 +186,18 @@ class Model
 
     // Construye la cláusula WHERE de la consulta SQL en base a las columnas y valores especificados.
     foreach ($columnas as $key => $value) {
-        $columns = $key;
-        $params = $value;
+      $columns = $key;
+      $params = $value;
     }
 
     // Construye la consulta SQL final.
     $sql = "SELECT * FROM $tabla WHERE $columns = $params";
 
+    $stm = $this->connection->prepare($sql);
+    $stm->execute();
+
+    return $stm->fetch();
+  }
   /**
    * Método para obtener todos los registros que coincidan con una condición en una tabla de la base de datos.
    *
@@ -219,90 +216,102 @@ class Model
     }
     $sql = "SELECT * FROM $tabla WHERE $columns = $params";
 
-        $stm = $this->connection->prepare($sql);
-        $stm->execute();
+    $stm = $this->connection->prepare($sql);
+    $stm->execute();
 
-        return $stm->fetchAll();
+    return $stm->fetchAll();
+  }
+
+  public function getRowsById($tabla = "", $columnas = [])
+  {
+    $columns = "";
+    $params = "";
+    foreach ($columnas as $key => $value) {
+      $columns = $key;
+      $params = $value;
+    }
+    $sql = "SELECT * FROM $tabla WHERE $columns = $params";
+
+    $stm = $this->connection->prepare($sql);
+    $stm->execute();
+
+    return $stm->fetchAll();
+  }
+
+
+  public function update($tabla = "", $columnas = [])
+  {
+
+    $columns = "";
+
+    $clave = array_key_last($columnas);
+    $valor = array_pop($columnas);
+
+    foreach ($columnas as $key => $value) {
+      // Agregar el nombre de la columna a la cadena de columnas
+      $columns .= $key . " = :" . $key . ",";
     }
 
-    public function update($tabla = "", $columnas = [] ){
+    // Eliminar la última coma de las cadenas de columnas y parámetros
+    $columns = rtrim($columns, ',');
 
-        $columns = "";
+    if ($tabla == "permissions") {
 
-        $clave = array_key_last($columnas);
-        $valor = array_pop($columnas);
+      // Consulta para verificar si el slug ya existe
+      $sqlSlugCheck = "SELECT COUNT(*) FROM $tabla WHERE slug = :slug";
+      $stmSlugCheck = $this->connection->prepare($sqlSlugCheck);
+      $stmSlugCheck->bindValue(":slug", $columnas['slug']);
+      $stmSlugCheck->execute();
 
-        foreach ($columnas as $key => $value) {
-            // Agregar el nombre de la columna a la cadena de columnas
-            $columns .= $key . " = :" . $key . ",";
-          
-        }
+      // Verificar si el slug ya existe
+      if ($stmSlugCheck->fetchColumn() > 0) {
+        return "El slug ya existe en la base de datos.";
+      }
 
-        // Eliminar la última coma de las cadenas de columnas y parámetros
-        $columns = rtrim($columns, ',');
+      // Construir la consulta SQL de inserción utilizando las cadenas formadas
+      $sql = "UPDATE $tabla SET $columns WHERE $clave = $valor";
 
-        if($tabla =="permissions"){
+      // Preparar la consulta SQL
+      $stm = $this->connection->prepare($sql);
+      // Asignar valores a los parámetros utilizando enlaces de parámetros
+      foreach ($columnas as $key => $value) {
+        $stm->bindValue(":" . $key, $value);
+      }
+      // Ejecutar la consulta preparada
 
-            // Consulta para verificar si el slug ya existe
-            $sqlSlugCheck = "SELECT COUNT(*) FROM $tabla WHERE slug = :slug";
-            $stmSlugCheck = $this->connection->prepare($sqlSlugCheck);
-            $stmSlugCheck->bindValue(":slug", $columnas['slug']);
-            $stmSlugCheck->execute();
+      print_r($stm);
+      // die();
 
-            // Verificar si el slug ya existe
-            if ($stmSlugCheck->fetchColumn() > 0) {
-                return "El slug ya existe en la base de datos.";
-            }
+      if ($stm->execute()) {
 
-            // Construir la consulta SQL de inserción utilizando las cadenas formadas
-            $sql = "UPDATE $tabla SET $columns WHERE $clave = $valor";
+        return $this->connection->lastInsertId();
+      } else {
+        return $this->connection->errorInfo();
+      }
+    } else {
 
-            // Preparar la consulta SQL
-            $stm = $this->connection->prepare($sql);
-            // Asignar valores a los parámetros utilizando enlaces de parámetros
-            foreach ($columnas as $key => $value) {
-                $stm->bindValue(":" . $key, $value);
-            }
-            // Ejecutar la consulta preparada
+      // Construir la consulta SQL de inserción utilizando las cadenas formadas
+      $sql = "UPDATE $tabla SET $columns WHERE $clave = $valor";
 
-            print_r($stm);
-            // die();
-            
-            if ($stm->execute()) {
-              
-                return $this->connection->lastInsertId();
-              
-            } else {
-                return $this->connection->errorInfo();
-            }
+      // Preparar la consulta SQL
+      $stm = $this->connection->prepare($sql);
+      // Asignar valores a los parámetros utilizando enlaces de parámetros
+      foreach ($columnas as $key => $value) {
+        $stm->bindValue(":" . $key, $value);
+      }
+      // Ejecutar la consulta preparada
 
+      print_r($stm);
+      // die();
 
-        }else{
+      if ($stm->execute()) {
 
-          // Construir la consulta SQL de inserción utilizando las cadenas formadas
-          $sql = "UPDATE $tabla SET $columns WHERE $clave = $valor";
-
-          // Preparar la consulta SQL
-          $stm = $this->connection->prepare($sql);
-          // Asignar valores a los parámetros utilizando enlaces de parámetros
-          foreach ($columnas as $key => $value) {
-              $stm->bindValue(":" . $key, $value);
-          }
-          // Ejecutar la consulta preparada
-
-          print_r($stm);
-          // die();
-          
-          if ($stm->execute()) {
-            
-              return $this->connection->lastInsertId();
-            
-          } else {
-              return $this->connection->errorInfo();
-          }
-
+        return $this->connection->lastInsertId();
+      } else {
+        return $this->connection->errorInfo();
       }
     }
+  }
 
   function delete($tabla = "", $columnas = [])
   {
@@ -313,8 +322,8 @@ class Model
 
     // Construye la cláusula WHERE de la consulta SQL en base a las columnas y valores especificados.
     foreach ($columnas as $key => $value) {
-        $columns = $key;
-        $params = $value;
+      $columns = $key;
+      $params = $value;
     }
 
     // Construye la consulta SQL final.
@@ -334,6 +343,5 @@ class Model
     // devolver resultados. En su lugar, se podría considerar devolver `true` si la eliminación
     // tiene éxito o lanzar una excepción en caso de error.
     return $stm->fetch();
-}
-
+  }
 }

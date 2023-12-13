@@ -34,13 +34,10 @@ class RolesController extends Controller
       $this->model2 = $this->model("Permisson");
       $this->model3 = $this->model("Permisson_Role");
       $this->servicio = new Transacciones();
-
-      
     } else {
       header("Location: " . URL . "/admin/error403");
-
+    }
   }
-
   function index()
   {
     $roles = $this->model->getRoles();
@@ -106,7 +103,6 @@ class RolesController extends Controller
 
       // Codifica la respuesta como JSON y establece el código de respuesta HTTP.
       echo json_encode($response, http_response_code($response['status']));
-
     }
   }
   /**
@@ -126,7 +122,6 @@ class RolesController extends Controller
 
 
     $this->view("rol/create", $data, "app");
-
   }
 
   function storage()
@@ -236,7 +231,6 @@ class RolesController extends Controller
           "name_role" => $roles,
           "id_role" => Helper::decrypt($id)
         ];
->>>>>>> grupo_7
 
         $this->model->updateRole($valores);
 
@@ -267,7 +261,6 @@ class RolesController extends Controller
       "id" => $id
     ];
     header("Location: " . URL . "/roles");
-
   }
 
   /**
@@ -283,6 +276,7 @@ class RolesController extends Controller
     de Model que obtiene una fila por id
     */
     $role = $this->model->getRole(["id_role" => Helper::decrypt($id)]);
+
     /**Usa el metodo getPermisson de PermissonModel que a su vez usa el metodo select de 
      * Model que obtiene todos los datos de una tabla en especifico
      */
@@ -302,8 +296,6 @@ class RolesController extends Controller
     ];
 
     $this->view("rol/manage", $data, "app");
-
-
   }
   /**
    * Este metodo es para asignarle los permisos a cada rol

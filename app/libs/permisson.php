@@ -13,10 +13,10 @@ use Adso\model\RoleModel;
  * @package libs
  * @author Jhonatan David Motta Medina
  */
-class Permisson {
+class Permisson
+{
 
   private $sesion;
-<<<<<<< HEAD
   protected $model;
   protected $model2;
   protected $model3;
@@ -27,15 +27,13 @@ class Permisson {
    *
    * @return object de la clase Session
    */
-  function __construct() {
+  function __construct()
+  {
 
     $this->sesion = new Session();
     $this->model = new RoleModel();
     $this->model2 = new PermissonModel;
     $this->model3 = new Permisson_RoleModel();
-
-
-
   }
 
   /**
@@ -44,12 +42,13 @@ class Permisson {
    *
    * @return void
    */
-  function getRoles() {
+  function getRoles()
+  {
     /*
      * Verifica si la el metodo getLogin de la clase Session devulve true o false dependiendo
      * si la session se ha iniciado o no
      */
-    if($this->sesion->getLogin()) {
+    if ($this->sesion->getLogin()) {
       /*
        * Le asigna a la variable $role el id_role_fk usando el metodo getUser que devuelve 
        * la session que es un array asociativo
@@ -60,16 +59,16 @@ class Permisson {
        * y si $role es igual al $valor del array lo lleva a la vista ya sea de admin o user
        * de lo contrario devuel al login 
        */
-      foreach(constant('ROLES') as $key => $valor) {
-        if($role == $valor) {
-          header('location:'.URL.'/'.$key);
+      foreach (constant('ROLES') as $key => $valor) {
+        if ($role == $valor) {
+          header('location:' . URL . '/' . $key);
         }
       }
       /*
        * Devuelve el usuario al login si no posee uno de los dos roles existentes (admin o user)
        */
     } else {
-      header('location:'.URL.'/login');
+      header('location:' . URL . '/login');
     }
   }
 
@@ -79,13 +78,14 @@ class Permisson {
    * @param int $id del rol para verificar que permisos tiene relacionados dichol rol
    * @return boolean devuelve true si tiene permiso, false si no posee el permiso
    */
-  public function ifpermisson($prefijo) {
+  public function ifpermisson($prefijo)
+  {
     $respuesta = false;
 
     $url = Url::getUrl();
     $method = "index";
 
-    if(isset($url[1])) {
+    if (isset($url[1])) {
       $method = $url[1];
     }
 
@@ -101,16 +101,16 @@ class Permisson {
 
     $permit_role = $this->model3->selectPermits(["id_role_fk" => $role]);
 
-    foreach($permit as $value) {
+    foreach ($permit as $value) {
 
       $p = explode('.', $value["slug"]);
 
-      if(ucwords($p[0]) == $prefijo) {
-        foreach($permit_role as $value_role) {
+      if (ucwords($p[0]) == $prefijo) {
+        foreach ($permit_role as $value_role) {
 
-          if($value_role['id_permisson_fk'] == $value['id_permission']) {
+          if ($value_role['id_permisson_fk'] == $value['id_permission']) {
 
-            if($value['name_permisson'] == $method) {
+            if ($value['name_permisson'] == $method) {
               $respuesta = true;
             }
           }
@@ -120,7 +120,8 @@ class Permisson {
     return $respuesta;
   }
 
-  public function permissionbool() {
+  public function permissionbool()
+  {
     $role = $this->sesion->getUser()["id_role_fk"];
 
     $permit = $this->model2->getPermisson();
@@ -130,21 +131,16 @@ class Permisson {
 
     $permisos = [];
 
-    foreach($permit as $value) {
+    foreach ($permit as $value) {
 
-      foreach($permit_role as $value_role) {
-        if($value_role['id_permisson_fk'] == $value['id_permission']) {
+      foreach ($permit_role as $value_role) {
+        if ($value_role['id_permisson_fk'] == $value['id_permission']) {
 
           array_push($permisos, $value['slug']);
-          
         }
       }
     }
 
-     return $permisos;
-
-    return $respuesta;
+    return $permisos;
   }
->>>>>>> grupo_8
 }
-

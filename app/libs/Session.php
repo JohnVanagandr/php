@@ -70,7 +70,7 @@ class Session
 
   function loginStar($user)
   {
-        
+
     if ($user) {
       $this->user = $_SESSION['user'] = $user;
       $this->login = true;
@@ -128,7 +128,5 @@ class Session
       header("Location: " . URL . "/login");
       exit();
     }
-  }
-}
   }
 }

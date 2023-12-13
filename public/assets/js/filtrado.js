@@ -1,6 +1,6 @@
-const url = "http://localhost/phpFinal";
+const url = "http://localhost/citas";
 const actual = location.href;
-console.log(actual)
+console.log(actual);
 
 function ocultarMostrarElemento() {
   if (actual.includes(url + "/roles")) {
@@ -33,7 +33,6 @@ buscar.addEventListener("input", function () {
   if (actual.includes(url + "/roles")) {
     var filters = document.querySelector("#filtros input[type=radio]:checked");
     var envio = "/roles/search";
-
   } else if (actual.includes(url + "/permisson")) {
     var filters = document.querySelector(
       "#filtrosPer input[type=radio]:checked"
@@ -71,11 +70,13 @@ buscar.addEventListener("input", function () {
                 </td>
                 <td>
                     <button><a
-                            href="${url}/${data.accion}/editar/${item.id_permission != null ? item.id_permission : item.id_role
-          }">editar</a></button>
+                            href="${url}/${data.accion}/editar/${
+          item.id_permission != null ? item.id_permission : item.id_role
+        }">editar</a></button>
                     <button><a
-                            href="${url}/${data.accion}/delete/${item.id_permission != null ? item.id_permission : item.id_role
-          }">eliminar</a></button>
+                            href="${url}/${data.accion}/delete/${
+          item.id_permission != null ? item.id_permission : item.id_role
+        }">eliminar</a></button>
                 </td>
                 `;
 

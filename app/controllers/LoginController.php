@@ -16,37 +16,34 @@ use Adso\libs\DateHelper; // Importa la clase DateHelper del espacio de nombres 
  */
 class LoginController extends Controller
 {
-    /**
-     * @access protected
-     */
-    protected $model;
-    protected $Session;
-    /**
-     * Método contructor de la clase
-     *
-     * Metodo contructor, primera funcion que se ejecuta en la clase, en ella inicializamos la variable protegida $model 
-     * instanciamos el modelo de usuario en esta variable y lo asignamos.
-     *
-     * @return void No retorna ningún valor.
-     */
-    function __construct()
-    {
+  /**
+   * @access protected
+   */
+  protected $model;
+  protected $Session;
+  /**
+   * Método contructor de la clase
+   *
+   * Metodo contructor, primera funcion que se ejecuta en la clase, en ella inicializamos la variable protegida $model 
+   * instanciamos el modelo de usuario en esta variable y lo asignamos.
+   *
+   * @return void No retorna ningún valor.
+   */
+  function __construct()
+  {
 
-        
-        $this->Session = new Session();
-        
-        if($this->Session->getLogin()){ 
 
-            header("Location: " . URL . "/admin");
+    $this->Session = new Session();
 
-        }
-        else{
+    if ($this->Session->getLogin()) {
 
-            $this->model = $this->model("User"); // Crea una instancia del modelo "User"
-            
-        }
+      header("Location: " . URL . "/admin");
+    } else {
+
+      $this->model = $this->model("User"); // Crea una instancia del modelo "User"
 
     }
+  }
 
 
   /**
@@ -84,10 +81,10 @@ class LoginController extends Controller
     ];
 
     // Carga la vista 'login' con los datos proporcionados y el contexto 'auth'
-        
 
 
-        
+
+
     $this->view('login', $data, 'auth');
   }
 
@@ -151,12 +148,12 @@ class LoginController extends Controller
           ];
           $this->view('login', $data, 'auth'); // Muestra el formulario de inicio de sesión con errores
 
-                } else {
-                    //Tomamos el resultado de la consulta
-                    // $session = new Session();
-                    $this -> Session->loginStar($data);
+        } else {
+          //Tomamos el resultado de la consulta
+          // $session = new Session();
+          $this->Session->loginStar($data);
 
-                    
+
 
           header('Location: ' . URL . '/admin'); //Redireccionamiento de 
 
@@ -195,21 +192,6 @@ class LoginController extends Controller
     $this->view('forget', $data, 'auth');
   }
 
-<<<<<<< HEAD
-    /**
-     * Método para validar el formulario de inicio de sesión 
-     *
-     * Esta funcion se encarga de validar si llegan datos por el metodo post para realizar la autenticacion 
-     * del usuario y la contraseña para llevar a cabo la autenticacion y iniciar una session tambien hacemos el redireccionamiento según sea 
-     * su rol y permiso.
-     *
-     * @return void No retorna ningún valor.
-     */
-    function validate()
-    {
-        if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-            // Verifica si la solicitud se realizó utilizando el método POST
-=======
 
   /**
    * Funcion timeStamp para simular token
@@ -221,7 +203,6 @@ class LoginController extends Controller
   function timestamp($email, $id_user, $userModel)
   {
     $correo = new Email();
->>>>>>> grupo_8
 
     $correo->sendEmail($email, Helper::encrypt($id_user));
 
@@ -400,5 +381,12 @@ class LoginController extends Controller
       ];
       $this->view('update', $data, 'auth');
     }
+  }
+
+  function closslogin()
+  {
+    $sesion = new Session();
+    $sesion->loginDestroy();
+    header("Location:" . URL);
   }
 }
