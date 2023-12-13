@@ -345,18 +345,24 @@ class Model
     return $stm->fetch();
   }
 
-  public function deleteCheckout($tabla = "", $columnas = [], $params = "")
-  {
+ /**
+ * Elimina registros de una tabla específica según ciertos criterios.
+ *
+ * Este método elimina registros de una tabla específica en la base de datos,
+ * utilizando el ID de un rol como criterio de eliminación.
+ *
+ * @param string $tabla El nombre de la tabla de la base de datos.
+ * @param array $columnas Un array asociativo de columnas y valores (no utilizado en la consulta actual).
+ * @param mixed $params El parámetro utilizado como criterio para la eliminación (por ejemplo, el ID del rol).
+ * @return mixed Devuelve un posible resultado de la consulta (poco común en operaciones de eliminación).
+ *               Podría devolver `true` si la eliminación tiene éxito o lanzar una excepción en caso de error.
+ */
+public function deleteCheckout($tabla = "", $columnas = [], $params = "")
+{
     $columns = "";
 
-    // var_dump("Tabla ".$tabla);
-    // var_dump("Columnas ".$columns);
-    // var_dump("Parámetros ".$params);
-    // die();
-
-    // Construye la cláusula WHERE de la consulta SQL en base a las columnas y valores especificados.
     foreach ($columnas as $key => $value) {
-      $columns = $key;
+        $columns = $key; // Esto parece estar sobrescribiendo la variable en cada iteración.
     }
 
     // Construye la consulta SQL final.
@@ -373,5 +379,6 @@ class Model
     // devolver resultados. En su lugar, se podría considerar devolver `true` si la eliminación
     // tiene éxito o lanzar una excepción en caso de error.
     return $stm->fetch();
-  }
+}
+
 }

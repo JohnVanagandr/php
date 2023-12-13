@@ -50,25 +50,39 @@ class AdminController extends Controller
     */
 
 
-    function index()
-    {
+   /**
+ * Método de controlador que muestra la página principal.
+ *
+ * Muestra la página principal con un saludo del sistema.
+ *
+ * @return void
+ */
+function index()
+{
+    $data = [
+        "titulo"    => "Home",
+        "subtitulo" => "Saludo del sistema",
+        "menu" => true
+    ];
 
-        $data = [
-            "titulo"    => "Home",
-            "subtitulo" => "Saludo del sistema",
-            "menu" => true
-        ];
+    /** Se llama al método "view" en la instancia actual para renderizar una vista */
+    $this->view("admin", $data, 'app');
+}
 
-        /** Se llama al método "view" en la instancia actual para renderizar una vista*/
-        $this->view("admin", $data, 'app');
-    }
+/**
+ * Método de controlador que muestra la página de error 403.
+ *
+ * Muestra la página de error 403 con un mensaje predeterminado.
+ *
+ * @return void
+ */
+function error403(){
+    $data = [
+        "titulo"    => "Home",
+        "subtitulo" => "Saludo del sistema",
+        "menu" => true
+    ];
+    $this->view('403', $data , 'app');
+}
 
-    function error403(){
-        $data = [
-            "titulo"    => "Home",
-            "subtitulo" => "Saludo del sistema",
-            "menu" => true
-        ];
-        $this->view('403', $data , 'app');
-    }
 }

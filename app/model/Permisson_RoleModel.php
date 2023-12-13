@@ -42,8 +42,7 @@ class Permisson_RoleModel extends Model
         "id_role_fk" => $idRol,
         "id_permisson_fk" => $value
       ];
-      // print_r($permisos["id_permisson_fk"]);
-      // die();
+     
       if ($indice == 0) {
         $data = $this->deleteCheckout($this->tabla, $valores, $params);
         $indice++;
@@ -56,13 +55,26 @@ class Permisson_RoleModel extends Model
     $this->connection = $this->db->closConnection();
   }
 
-  function selectPermits($id_role)
-  {
-
+  /**
+ * Obtiene los permisos asociados a un determinado rol.
+ *
+ * Este método busca y devuelve los permisos relacionados con el ID del rol proporcionado.
+ *
+ * @param int $id_role El ID del rol para el cual se desean obtener los permisos.
+ * @return array Los datos de los permisos asociados al rol.
+ */
+function selectPermits($id_role)
+{
+    // Establece la conexión a la base de datos
     $this->connection = $this->db->getConnection();
+
+    // Obtiene los datos de los permisos por ID de rol
     $data = $this->getRowsById($this->tabla, $id_role);
+
+    // Cierra la conexión a la base de datos
     $this->connection = $this->db->closConnection();
 
-    return $data;
-  }
+    return $data; // Retorna los datos de los permisos asociados al rol
+}
+
 }

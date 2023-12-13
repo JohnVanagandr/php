@@ -315,19 +315,28 @@ class PermissonController extends Controller
     } else {
     }
   }
-  function delete($id)
-  {
+ /**
+ * Elimina un permiso.
+ *
+ * Este método elimina un permiso identificado por el ID proporcionado.
+ *
+ * @param string $id El ID del permiso a eliminar.
+ * @return void
+ */
+function delete($id)
+{
+    // Llama a un método en model2 para eliminar el permiso
+    $this->model2->deletePermisson(["id_permission" => Helper::decrypt($id)]);
 
-      $this->model2->deletePermisson(["id_permission" => Helper::decrypt($id)]);
-      //print_r($id);
-      // die($id);
-      $data = [
+    // Datos para renderizar una vista o proporcionar información (no utilizado en el código)
+    $data = [
         "titulo" => "permisos",
         "subtitulo" => "editar un permisos",
         "menu" => true
-      ];
+    ];
 
-      header("Location: " . URL . "/permisson");
+    // Redirecciona a una URL específica
+    header("Location: " . URL . "/permisson");
+}
 
-  }
 }
