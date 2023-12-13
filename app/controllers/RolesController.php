@@ -11,39 +11,49 @@ use Adso\libs\Session;
 
 class RolesController extends Controller
 {
-
+  // Propiedades del controlador
   protected $model;
   protected $model2;
   protected $model3;
   protected $servicio;
   protected $permission;
   protected $permit;
-
-  const PREFIJO = 'Roles';
-
   protected $session;
 
+  // Constante para el prefijo de permisos
+  const PREFIJO = 'Roles';
+
+  // Constructor del controlador
   function __construct()
   {
-
+    // Instancia de la clase Permisson para gestionar permisos
     $this->permission = new Permisson();
+    // Comprueba si el usuario tiene permisos para acceder a las funciones del controlador
     $this->permit = $this->permission->ifpermisson(self::PREFIJO);
 
+    // Si el usuario tiene permisos
     if ($this->permit) {
+      // Instancia de los modelos y servicios necesarios
       $this->model = $this->model("Role");
       $this->model2 = $this->model("Permisson");
       $this->model3 = $this->model("Permisson_Role");
       $this->servicio = new Transacciones();
     } else {
+      // Si el usuario no tiene permisos, redirige a la página de error 403
       header("Location: " . URL . "/admin/error403");
     }
   }
+
+  // Método para mostrar la lista de roles
   function index()
   {
+    // Obtiene la lista de roles desde el modelo
     $roles = $this->model->getRoles();
 
+    // Obtiene los permisos del usuario
     $permisos = $this->permission->permissionbool();
 
+    // Datos para pasar a la vista
     $data = [
       "titulo" => "Roles",
       "subtitulo" => "Lista de roles",
@@ -52,8 +62,11 @@ class RolesController extends Controller
       "permisos" => $permisos,
     ];
 
+    // Carga la vista de la lista de roles
     $this->view('rol/index', $data, 'app');
   }
+
+  // Método para realizar una búsqueda (incompleto en el código proporcionado)
   function search()
   {
     $response = array(
@@ -210,58 +223,75 @@ class RolesController extends Controller
    * @param string $id El ID del rol a editar.
    */
 
-  function update($id)
-  {
-
-    if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-
-      $errores = [];
-      $roles = $_POST['rol_name'];
-
-      if ($roles == "") {
-        $errores["rol_error"] = "El rol esta vacio";
-      }
-      if (strlen($roles) > 50) {
-        $errores["rol_error"] = "El rol supera el limite de caracteres";
-      }
-
-      if (empty($errores)) {
-
-        $valores = [
-          "name_role" => $roles,
-          "id_role" => Helper::decrypt($id)
-        ];
-
-        $this->model->updateRole($valores);
-
-        header("location:" . URL . "/roles");
-      } else {
-        $data = [
-          "titulo" => "Roles",
-          "subtitulo" => "Creacion de roles",
-          "menu" => true,
-          "errors" => $errores
-        ];
-
-        $this->view("rol/update", $data, "app");
-      }
-    } else {
-    }
-  }
-
-  function delete($id)
-  {
-    $this->model->deleteRole(["id_role" => Helper::decrypt($id)]);
-    header("Location: " . URL . "/roles");
-
-    $data = [
-      "titulo" => "Roles",
-      "subtitulo" => "Eliminación de roles",
-      "menu" => true,
-      "id" => $id
-    ];
-    header("Location: " . URL . "/roles");
-  }
+   function update($id)
+   {
+       // Verifica si la solicitud es de tipo POST
+       if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+   
+           // Inicializa un array para almacenar errores de validación
+           $errores = [];
+           // Obtiene el valor del rol desde la solicitud POST
+           $roles = $_POST['rol_name'];
+   
+           // Realiza validaciones en el valor del rol
+           if ($roles == "") {
+               $errores["rol_error"] = "El rol está vacío";
+           }
+           if (strlen($roles) > 50) {
+               $errores["rol_error"] = "El rol supera el límite de caracteres";
+           }
+   
+           // Si no hay errores de validación
+           if (empty($errores)) {
+   
+               // Prepara un array con los valores a actualizar en la base de datos
+               $valores = [
+                   "name_role" => $roles,
+                   "id_role" => Helper::decrypt($id)
+               ];
+   
+               // Llama al método updateRole del modelo para actualizar el rol en la base de datos
+               $this->model->updateRole($valores);
+   
+               // Redirecciona a la página de roles después de la actualización
+               header("location:" . URL . "/roles");
+           } else {
+               // Si hay errores de validación, prepara datos para la vista
+               $data = [
+                   "titulo" => "Roles",
+                   "subtitulo" => "Creación de roles",
+                   "menu" => true,
+                   "errors" => $errores
+               ];
+   
+               // Carga la vista de actualización con los datos y errores
+               $this->view("rol/update", $data, "app");
+           }
+       } else {
+           // El código aquí no realiza ninguna acción si la solicitud no es de tipo POST
+       }
+   }
+   
+   function delete($id)
+   {
+       // Llama al método deleteRole del modelo para eliminar el rol de la base de datos
+       $this->model->deleteRole(["id_role" => Helper::decrypt($id)]);
+   
+       // Redirecciona a la página de roles después de la eliminación
+       header("Location: " . URL . "/roles");
+   
+       // Prepara datos para la vista (aunque no se usan ya que hay una redirección anterior)
+       $data = [
+           "titulo" => "Roles",
+           "subtitulo" => "Eliminación de roles",
+           "menu" => true,
+           "id" => $id
+       ];
+   
+       // Realiza otra redirección a la página de roles (se ejecutará solo si no hay un exit anterior)
+       header("Location: " . URL . "/roles");
+   }
+   
 
   /**
    * Este metodo es para administrar y asignar los permisos a cada rol
